@@ -1,0 +1,782 @@
+s_no,district,station_name,address,latitude,longitude
+1,Ahmedabad City,Airport,"Airport Terminal 2, Sardarnagar",23.07709,72.62411
+2,Ahmedabad City,Amraiwadi,"Amraiwadi gam near jognimata temple, Ahemedabad",23.006784,72.624875
+3,Ahmedabad City,Anandnagar,"Near stachu of jhashi ki rani shivranjani char rasta nehrunagar, Ahemedabad",23.023643,72.533132
+4,Ahmedabad City,Bapunagar,"Opp Siddhivinayak ganesh temple ,bapunagar ,Ahemedabad",23.032368,72.631265
+5,Ahmedabad City,Bodakdev,,23.0371,72.5163
+6,Ahmedabad City,Chandkheda,"Bun.1813,1814, IOC ROAD CHANDKHEDA AHMEDABAD",23.114827,72.580982
+7,Ahmedabad City,Danilimda,"Near danilimada char rasta danilimada, Ahemedabad",22.997681,72.579784
+8,Ahmedabad City,Dariapur,"Near pashupalan hospital prem darwaja,dariyapur, Ahemedabad",23.034894,72.59608
+9,Ahmedabad City,Ellisbridge,"Opp townholl.ellisbrige, Ahemedabad",23.022748,72.571615
+10,Ahmedabad City,Gaikwad Haveli,"Near Ga.haveli po.line jamalpur, Ahemedabad",23.0162,72.579745
+11,Ahmedabad City,Ghatlodia,"Aakash Ganga Flats, Sola Road, Ghatlodia, Ahemedabad",23.057609,72.543398
+12,Ahmedabad City,Gomtipur,"Opp Patel Mill, gomatipur, Ahemedabad",23.020979,72.612347
+13,Ahmedabad City,Gujarat University,"Director house-2 guj. uni campus, Ahemedabad",23.035199,72.539732
+14,Ahmedabad City,Isanpur,"Opp,Kharikat Canal, Gohodasar, Isanpura, Ahmedabad",22.993028,72.596394
+15,Ahmedabad City,Kagadapith,"Opp new cloth market gate-3,raipur,Ahemedabad",23.018172,72.598078
+16,Ahmedabad City,Kalupur,"Nr, GULABBAI HOSPITAL, NR. KALUPUR TOWER, RELIEF ROAD,AHMEDABAD PIN
+CODE :- 3 8 0 0 0 1",23.028196,72.593864
+17,Ahmedabad City,Karanj,"Karanj bhavan bhadra laldarwaja, Ahemedabad",23.024495,72.582065
+18,Ahmedabad City,Khadia,"Near Raipur darawaja ,Raipur,Ahemedabad",23.01728,72.594299
+19,Ahmedabad City,Khokhara,"Opp. Babavaad na Chapra, Near Lalbhai Center, Bhaipura Road, khokhra,
+Ahmedabad city - 380008",22.994263,72.620871
+20,Ahmedabad City,Krishnanagar,"Old naroda police station,Ahemedabad",23.074538,72.654785
+21,Ahmedabad City,Madhavpura,"Near ramdevpir temple mehdikuwa, Ahemedabad",23.042969,72.582208
+22,Ahmedabad City,Mahila West,"Swayambhu Shivani Rd Panjara Pol, Ambawadi Ahmedabad, Gujarat 380015",23.029157,72.541364
+23,Ahmedabad City,Mahila East,Near Shahibaug Police Station,23.054855,72.594845
+24,Ahmedabad City,Maninagar,"Rambag, Maninagar",22.998686,72.602183
+25,Ahmedabad City,Meghaninagar,"Blok no-141 near meghaninagar bas stand,Ahemedabad",23.057766,72.617678
+26,Ahmedabad City,Naranpura,"Near Nirnaynagar Over Bridge, 132 Feet Ring Road, Vijaynagar, Naranpura,
+Ahmedabad, Gujarat 380031",23.063415,72.566202
+27,Ahmedabad City,Naroda,"Near Amts bas stand naroda,Ahemedabad",23.078327,72.656366
+28,Ahmedabad City,Navrangpura,"Near navarangpura relway crossing navarangpura, Ahemedabad",23.034954,72.567247
+29,Ahmedabad City,Nikol,Vrundavan farm nikol Ahemedabad,23.044163,72.677122
+30,Ahmedabad City,Odhav,"Sardar Patel Ring Road, Odhav, Ahmedabad",23.026285,72.67386
+31,Ahmedabad City,Paldi,"Near anjali char rasta gu.gram hat bhavan, paldi,Ahemedabad",23.005157,72.552633
+32,Ahmedabad City,Rakhial,"Opp monogram mill rakhiyal char rasta, Ahemedabad",23.021605,72.622932
+33,Ahmedabad City,Ramol,"Mahadev esatate opp khanvadi ramol, Ahemedabad",22.989346,72.642314
+34,Ahmedabad City,Ranip,"Opp. Bakra Mandi, Maganpura, Ranip, Ahmedabad",23.080446,72.577928
+35,Ahmedabad City,Sabarmati,"Near old toltax ramnagar, sabar mati, Ahemedabad",23.085374,72.591766
+36,Ahmedabad City,Sardarnagar,Abavadi circle saradarnagar Ahemedabad,23.084298,72.637306
+37,Ahmedabad City,Satellite,"Near ramdevnagar char rasta satellite, Ahemedabad",23.027524,72.511017
+38,Ahmedabad City,Shahibag,"Near satirani temple shahibag, Ahemedabad",23.054993,72.593131
+39,Ahmedabad City,Shahpur,"Shapur bahai centre shahpur,Ahemedabad",23.035118,72.579419
+40,Ahmedabad City,Sherkotada,"End of kalupurbrige itavada circle saraspur, Ahemedabad",23.031431,72.602782
+41,Ahmedabad City,Sola High Court,"Opp guj.high court s.g highway ,Ahemedabad",23.08743,72.529597
+42,Ahmedabad City,Vadaj,"Near Manglam Sadi Center,Ahead of Mojni Sadan Bulding, New Wadaj,
+Ahmedabad",23.063425,72.566201
+43,Ahmedabad City,Vastrapur,"Opp sola hospital vastrapur, Ahemedabad",23.049225,72.523463
+44,Ahmedabad City,Vatva,"Near golden cinema,vatva, Ahemedabad",22.961094,72.617764
+45,Ahmedabad City,Vatva GIDC,"Opp Bombay conductor gidc vatva, Ahemedabad",22.971389,72.627637
+46,Ahmedabad City,Vejalpur,"Near a.p.m.c market vasna Tolnaka, Ahemedabad",22.996842,72.537017
+47,Ahmedabad City,Sarkhej,"Dhodka Circle, Babla Road, Srakhej, Ahmedabad",22.987249,72.502865
+48,Ahmedabad City,abarmati Riverfront Ea,"Subhasbridge Corner, River Front park Get No-3, Shop No-3, A’bad",23.054264,72.57998
+49,Ahmedabad City a,barmati Riverfront We,"Near nid brige, paldi, Ahemedabad",23.011596,72.571502
+50,Ahmedabad City,A-Traffic,"Opp.Sola Bhagwat, Inf.Vadna Hotel, Super Marbal Gali, S.G.Higway, Sola,
+Ahmedabad-380060",23.087411,72.5296
+51,Ahmedabad City,B-Traffic,"Mithakali Six road, Trafffic Branch",23.031595,72.56378
+52,Ahmedabad City,C-Traffic,"Roopali chowki, Laldarwaja",23.027306,72.57983
+53,Ahmedabad City,D-Traffic,Old Gomtipur Police Station Buidlibng,23.02095,72.61235
+54,Ahmedabad City,E-Traffic,New Gayakwad Haveli Police Station,23.016204,72.579743
+55,Ahmedabad City,F-Traffic,"Old Shahibaugh Police Station Shahibaugh, ahmedabasd",23.055086,72.593147
+56,Ahmedabad City,G-Traffic,"Old Sharadarnagar Police Station, Hansol, Ahmedabad city",23.081476,72.632683
+57,Ahmedabad City,H-Traffic,"Near Ajit Mill circle, Ajit mill chowki, ahmedabad city",23.01996,72.632897
+58,Ahmedabad City,I-Traffic,"Opp. Ramol Police Station, Near Ghodasar Canal, Ramol, Ahmedabad.",22.989303,72.640766
+59,Ahmedabad City,J-Traffic,Isanpur Police Station Amhedabad City,22.989303,72.640766
+60,Ahmedabad City,K-Traffic,"Danilimada Police Station, Ahmedabad City",22.997665,72.579782
+61,Ahmedabad City,L-Traffic,"Old Ranip Police Station, Shubhasbridge",23.066467,72.582415
+62,Ahmedabad City,M-Traffic,"Old LCB Office, Sarkhej, Ahmedabad",22.987191,72.50297
+63,Ahmedabad City,N-Traffic,"Satellite Police Station, Ahmedabad City",23.027531,72.511014
+64,Ahmedabad City,Narol,"Narol Old Court, Narol Aslali Road, Ahmedabad City",22.960061,72.591042
+65,Ahmedabad City,Vasna,"Vasna Police Station, Near G B Shah College, Vasna Gam, Ahmedabad",22.999224,72.545659
+66,Ahmedabad City,DCB,"Near Gaykwad Haveli Police, Jamalpur, Ahmedabad City",23.0162,72.579741
+67,Ahmedabad Rural,Aslali,"Office Of The Police Inspector, Aslali, Ta- Dascroi, Dist-Ahmedabad (New
+Address)",22.920428,72.594267
+68,Ahmedabad Rural,Bagodara,"Office Of The Police Sub Inspector, Bagodra Nr. Dhandhuka Three Cross Road,
+Ta- Bavla, Dist-Ahmedabad",22.639236,72.196058
+69,Ahmedabad Rural,Bavla,"Office Of The Police Sub Inspector, Bavla Bavla-Dholka Road, Nr. Railway
+Crossing, Ta- Bavla, Dist-Ahmedabad",22.827816,72.368722
+70,Ahmedabad Rural,Bopal,"Office Of the Police Inspector, Bopal Police Station. Plot No.389, Gala Gymkhana
+Road, Opp:-Sharnam County Bunglows, South Bopal, Ahmedabad.",23.024587,72.470379
+71,Ahmedabad Rural,Changodar,"Office Of the Police Inspector, Changodar Police Station. Nr.Ramdev Masala
+Factory, Bavla-Bagodara Road, Changodar. Ahmedabad",22.930121,72.448175
+72,Ahmedabad Rural,Detroj,"Office Of The Police Sub Inspector Detroj, Nr. Mamlatadar Office, Ta-Detroj,
+Dist-Ahmedabad",23.332903,72.18516
+73,Ahmedabad Rural,Dhandhuka,"Office Of The Police Inspector, Dhandhuka , Opp:- Shyamghat Primary School,
+Ambapura, Dhandhuka Di.Ahmedabad",22.383003,71.98218
+74,Ahmedabad Rural,Dholera,"Office Of The Police Sub Inspector, Dholera, Bhavnagar Highway
+Road,Opp.Chandni Hotel, Ta- Dhandhuka, Dist-Ahmedabad (New Address)",22.249789,72.189502
+75,Ahmedabad Rural,Dholka,"Office Of The Police Inspector Dholka, Compound Of Mamlatadar Office & Sub
+Divisional Office, Ta- Dholka, Dist-Ahmedabad",22.735305,72.436589
+76,Ahmedabad Rural,Kanbha,"Office Of The Police Sub Inspector, Kanbha, Ta- Dascroi, Dist-Ahmedabad",23.014699,72.715161
+77,Ahmedabad Rural,Koth,"Office Of The Police Sub Inspector Koth, Nr. Koth Bus Stop. Nr. D.J.Vaghela High
+School, Post Office Near, Ta- Dholka, Dist-Ahmedabad",22.638612,72.302465
+78,Ahmedabad Rural,Mahila,"Office Of the Police Inspector, Mahila Police Station. Plot No.389, Gala
+Gymkhana Road, Opp:-Sharnam County Bunglows, South Bopal, Ahmedabad.",23.024587,72.470379
+79,Ahmedabad Rural,Mandal,"Office Of The Police Sub Inspector Mandal, At-Mandal, Dist-Ahmedabad",23.285996,71.91792
+80,Ahmedabad Rural,Sanand,"Office Of The Police Inspector, Sanand Ahmedabad-Viramgam Highway Road,
+Nr. Mamlatdar Office, Ta- Sanand, Dist-Ahmedabad",22.987924,72.386184
+81,Ahmedabad Rural,Sanand GIDC,"Office Of The Police Sub Inspector, Sanand GIDC , Nr. Khoda Gam Patiya Ta:-
+Sanand Dist:- Ahmedabad.",23.031335,72.294655
+82,Ahmedabad Rural,Viramgam Rural,"Office Of The Police Sub Inspector Viramgam Rural, Nr.Reliance petrol Pump,
+Hashalpur Cross Road, Ta- Viramgam , Dist-Ahmedabad (New Address)",23.098078,72.069367
+83,Ahmedabad Rural,Viramgam Town,"Office Of The Police Inspector, Viramgam Town Compaund Of Mamlatadar
+Office, Nr. Tower, Ta-Viramgam, Dist-Ahmedabad",23.122165,72.048922
+84,Ahmedabad Rural,Vitthalapur,"Office Of The Police Sub Inspector Vitthalapur, Nr. Mahadev Temple, Ta-
+Mandal, Dist-Ahmedabad",23.36581,72.053368
+85,Ahmedabad Rural,Vivekanand Nagar,"Office Of The Police Inspector, Vivekanandnagar Police Station, Sector-1, Opp:-
+Khodiyar mata Mandir, Hathijan, Vivekanandnagar Ta:- Daskroi Dist:-
+Ahmedabad.",22.932292,72.663621
+86,Ahmedabad Rural,Dholka Rural,"Office Of The Police Inspector Dholka Rural, Compound Of Mamlatadar Office
+& Sub Divisional Office, Ta- Dholka, Dist-Ahmedabad",22.728131,72.441582
+87,Amreli,Amreli City,"Amreli city police station, Rajmahel compound, Distt.Amreli",21.603177,71.222083
+88,Amreli,Amreli Rural,"Amreli Rural police station, Near ST bus Stop,Distt.Amreli",21.604809,71.223862
+89,Amreli,Babra,"Babara Police Station, Near Mamlatdar Office, Ta.Babara,Distt.Amreli",21.849674,71.305331
+90,Amreli,Bagasara,"Bagasara Police Station Jetpur Road,Near Bhutnath Mandir Bagsara,Amreli",21.481471,70.950535
+91,Amreli,Chalala,"Chalala Police Station,Near Bus Station,Amreli",21.409197,71.162863
+92,Amreli,Damnagar,"Damnagar Police Station Savarkundla Gariyadhar Road,",21.692803,71.520309
+93,Amreli,Dhari,"Dhari Police Station, Opp. Bus Stand Ta.Dhari,Distt.Amreli",21.326649,71.025257
+94,Amreli,Jafarabad,"Jafarabad Police Station, Opp SBI Band Ta.Jafarabad,Distt.Amreli",20.867771,71.364635
+95,Amreli,Jafarabad Marin,"Near Court Building, Jafarabad Police Station Dist.Amreli",20.869318,71.363078
+96,Amreli,Khambha,"Khambha Police Station, Beside Mamaldar Office Ta.khambha,Distt.Amreli.",21.14118,71.253206
+97,Amreli,Lathi,"Lathi Police Station, Ta.Lathi,Distt.Amreli.",21.728388,71.391583
+98,Amreli,Liliya,"Liliya Police Station, Near Bus Station Ta.Liliya,Distt.Amreli",21.538252,71.36386
+99,Amreli,Mahila,"Mahila Police Station,chital road amreli, Distt.Amreli",21.609724,71.217548
+100,Amreli,Nageshri,"Nageshri Police Station, Ta.Jafarabad, Distt,Amreli",20.929078,71.345701
+101,Amreli,Pipavav Marin,"Marin (Pipavav ) Police Station,Ta.Rajula, Distt,Amreli",20.923152,71.501319
+102,Amreli,Rajula,"Rajula Police Station, Ta.Rajaula,Distt, Amereli",21.038188,71.442973
+103,Amreli,Savarkundla Rural,"Savarkundala Rural Police Station,Ta.Savarkundala, Distt.Amreli",21.33722,71.313821
+104,Amreli,Savarkundla Town,"Savarkundala Town Police Station,Ta.Savarkundala,Distt.Amreli",21.33722,71.313821
+105,Amreli,Vadia,"Vadiya Police Station, Ta.Vadiya,Distt Amreli .",21.68946,72.81652
+106,Amreli,Vanda,"Vanda Police Station, Ta.Savarkundala,Distt.Amreli",21.383901,71.471536
+107,Amreli,Dungar,"Dungar Police Station, Near Wotertank Dungar, Ta.Rajula, Distt.Amreli",21.06771,71.566894
+108,Anand,Anand Rural,"Anand Rural PSTN, Near Railway Godi, Opp. Emri Hospital, Station Road, Anand.",22.558222,72.967818
+109,Anand,Anand Town,"Anand Town PSTN, Near Railway Godi, Opp. Emri Hospital, Station Road, Anand.",22.557424,72.968397
+110,Anand,Anklav,"Anklav PSTN, Anklav Asodar Road, Dist. Anand",22.383283,72.996774
+111,Anand,Bhadran,"Bhadran PSTN, Near Bharan Bus Stand., Dist. Anand",22.359939,72.903831
+112,Anand,Borsad City,"Borsad PSTN,Near JD Patel High School, Borsad Police Line, Ta. Borsad, Dist.
+Anand",22.407689,72.903062
+113,Anand,Borsad Rural,"Borsad PSTN,Near JD Patel High School, Borsad Police Line, Ta. Borsad, Dist.
+Anand",22.40752,72.903281
+114,Anand,Khambhat City,"Khambhat City PSTN, Court Compound, Near Mamlatdar Office., Tal. Khambhat,
+Dist. Anand",22.311744,72.617776
+115,Anand,Khambhat Rural,"Khambhat Rural PSTN, Court Compound, Near Mamlatdar Office., Tal.
+Khambhat, Dist. Anand",22.327973,72.632855
+116,Anand,Khambholaj,"Khambholaj PSTN, Near Milk Dairy, Ta. & Dist. Anand",22.57264,73.084453
+117,Anand,Mahelav,"Mahelav PSTN, Opp. Bus Stop, Near BSNL Tower, mahelav., Ta. Petlad, Dist.
+Anand",22.476,72.799
+118,Anand,Mahila,"Anand Mahila PSTN, Near Railway Godi, Opp. Emri Hospital, Station Road, Ta.
+Petlad, Dist. Anand.",22.558222,72.967818
+119,Anand,Petlad Rural,"Petlad Rural PSTN, Petlad Court Compound, Ta. Petlad, Dist. Anand",22.480265,72.802268
+120,Anand,Petlad Town,"Petlad Town PSTN, Petlad Court Compound, Ta. Petlad, Dist. Anand",22.48126,72.802211
+121,Anand,Sojitra,"Sojitra PSTN, Court Compound, Near Mamlatdar Office, Ta. Sojitra. Dist. Anand",22.543406,72.720247
+122,Anand,Tarapur,"Tarapur PSTN, Opp. Milk Dairy, Tarpur, Ta. Tarapur. Dist. Anand",22.485803,72.662484
+123,Anand,Umreth,"Umreth PSTN, Umreth Court Compound, Ta. Umreth. Dist. Anand",22.705564,73.116855
+124,Anand,Vasad,"Vasad PSTN, Near Vasad Bus Stand, Ta. Anand, Dist. Anand.",22.452187,73.063323
+125,Anand,Vidyanagar,"Vidyanagar PSTN, Near Manish Corner, Vidyanagar. Ta. & Dist. Anand",22.549667,72.931964
+126,Anand,Virsad,"Virsad PSTN, Near Bus Statnd, Virsad, Ta. Borsad, Dist. Anand",22.386478,72.778061
+127,Anand,Bhalej,"Bhalej PSTN Near Bus Stand, Ta. & Dist. Anand",22.634026,73.028771
+128,Arvalli,Ambaliara,"AMBALIYARA POLICE STATION, TA-BAYAD, Distrcit-ARVALLI",23.216594,73.036839
+129,Arvalli,Bayad,"BAYAD POLICE STATION, BAYAD Distrcit-ARVALLI",23.21979,73.214347
+130,Arvalli,Bhiloda,Opp.GEB subsation Collage road Dist. Arvalli,23.769695,73.240579
+131,Arvalli,Dhansura,"DHANSURA POLICE STATION , DHANSURA Distrcit-ARVALLI",23.355648,73.212786
+132,Arvalli,Isari,"ISARI POLICE STATION, Ta-Meghraj District-ARVALLI",23.645794,73.457756
+133,Arvalli,Malpur,Modasa Lunava Highway Malpur,23.363623,73.468154
+134,Arvalli,Meghraj,"MEGHRAJ POLICE STATION,MAMLATDAR OFFICE COMPUND, Meghraj DIST-
+Arvalli",23.500657,73.513344
+135,Arvalli,Modasa Rural,"MODASA RURAL POLICE STATION , Opp. SABALPUR Court Ta-Modasa District-
+Arvalli",23.468618,73.28665
+136,Arvalli,Modasa Town,Opp.BSNL office Tal. Modasa Dist. Arvalli,23.464603,73.296647
+137,Arvalli,Samalaji,"SHAMLAJI POLICE STATION , TA-BHILODA Distrcit-ARVALLI",23.691082,73.388006
+138,Arvalli,Sathamba,Nr.Bus Stand Tal.Bayad,23.172262,73.328094
+139,Arvalli,Mahila,Opp.BSNL office Tal. Modasa Dist. Arvalli,23.464603,73.301339
+140,Banaskantha,Agathala,"Aagthala Police Station,Deesa Tharad National Highway,Aagthala.Ta-Deesa.",24.299063,71.883637
+141,Banaskantha,Ambaji,"Ambaji Police Station,Opp-Tv Kendra,Hadad Road,Ambaji.Ta-Danta",24.330751,72.851361
+142,Banaskantha,Amirgadh,"Amirgadh Police Station,Nr.Amirgadh Railway Station,Amirgadh.Ta-Amirgadh",24.399749,72.645526
+143,Banaskantha,Bhabhar,"Bhabhar Police Station,Old Bus Stand Road,Bhabhar.Ta-Bhabhat",24.067173,71.599585
+144,Banaskantha,Bhildi,"Bhildi Police Station,B/H Bus Stand,Bhildi.Ta-Deesa",24.191328,72.010501
+145,Banaskantha,Chhapi,"Chhapi Police Station,Nr.Railway Fatak,Chhapi.Ta-Vadgam",24.029719,72.400285
+146,Banaskantha,Danta,"Danta Police Station,Palanpur-Ambaji Road,Danta.Ta-Danta",24.185403,72.76124
+147,Banaskantha,Deesa Rural,"Deesa Rural Police Station,Near Jalaram Temple,Opp.Deesa Bus Station,
+Deesa.Tal-Deesa",24.262024,72.184818
+148,Banaskantha,Deesa South,"Deesa City South Police Sta(cid:415)on,Main Bazaar,Deesa.Ta-Deesa",24.256059,72.176041
+149,Banaskantha,Deodar,"Deodar Police Sta(cid:415)on,Nr.Post Office,Deodar.Tal-Deodar",24.109036,71.775579
+150,Banaskantha,Dhanera,"Dhanera Police Station,Nr.Mamlatdar Office,Dhanera.Ta-Dhanera",24.512542,72.022368
+151,Banaskantha,Gadh,"Gadh Police Station,Nr.Iirigation Colony,Gadh.Ta-Palanpur",24.128435,72.270665
+152,Banaskantha,Hadad,"Hadad Police Station,Main Bazar,Hadad .Ta-Danta Pin-",24.269636,72.979741
+153,Banaskantha,Mahila,"Mahila Police Station, Nr. DySP Office, DilKhusal Baugh, Palanpur",24.17641,72.443572
+154,Banaskantha,Mavsari,"Mavsari Police Statoin,Mavsari.Ta-Vav Pin-",24.617525,71.372308
+155,Banaskantha,Palanpur Taluka,"Palanpur Taluka Police Station,A'Bad-Delhi National Highway,Nr.Rto
+Office,Palanpur.Ta-Palanpur",24.193231,72.437216
+156,Banaskantha,Palanpur West,"Palanpur(West)Police Station,A'Bad-Delhi National Highway,Nr.Rto
+Office,Palanpur.Ta-Palanpur",24.19351,72.437495
+157,Banaskantha,Panthawada,"Panthavada Police Sta(cid:415)on,At & Po-Panthavada.Ta-Dan(cid:415)vada",24.494065,72.300994
+158,Banaskantha,Shihori,"Shihori Police Station,Bus Stand Road,Shihori.Ta-Kankrej",24.039701,71.940812
+159,Banaskantha,Suigam,"Suigam Police Station,Custom Road,Suigam,Ta-Vav",24.156295,71.35506
+160,Banaskantha,Thara,"Thara Police Station,Opp.Petrol Pump,Palanpur Radhanpur National
+Highway,Thara.Ta-Kankrej.",23.970524,71.827758
+161,Banaskantha,Tharad,"Tharad Police Station,Opp.Post Office,Tharad.Ta-Tharad",24.392869,71.626202
+162,Banaskantha,Vadgam,"Vadgam Police Station,Opp.Mamlatdar Office,At&Po.Vadgam.Ta-Vadgam",24.085433,72.488508
+163,Banaskantha,Vav,"Vav Police Station,Tharad-Suigam National Highway,Vav.Ta-Vav",24.360157,71.517013
+164,Banaskantha,Deesa North,"Deesa City(North) Police Station,Old Mamlatdar Office Building,Nr.Deesa Bus
+Stand,Deesa.Ta-Deesa",24.258694,72.183886
+165,Banaskantha,Dantiwada,old hospital building government hospital. Dantiwada Ta- Dantiwada,24.352247,72.328586
+166,Banaskantha,Palanpur East,"Palanpur City(East) Police Station, Dilkhushal Bag,Kamalpura,Palanpur.Ta-
+Palanpur",24.176685,72.443808
+167,Bharuch,Amod,Amod Police Station,21.988995,72.86884
+168,Bharuch,Ankleshwar City,"Chauta Bajar, Near Nagarpalika Dispencery",21.634222,72.987853
+169,Bharuch,Ankleshwar GIDC,"Ankleshwar GIDC Police Station, Behind Lions School, Nr. Centre Point,
+Ankleshwar GIDC",21.61014,73.022077
+170,Bharuch,Ankleshwar Rural,"Ankleshwar Rular police ,Station near civil court , B/H S. A. Moters Ankleshwar
+393002",21.628084,73.008747
+171,Bharuch,Bharuch Rural,"Makatamput Zadeshwar Road, Near G.E.B. Bharuch",21.708727,73.008611
+172,Bharuch,City A Div.,"Soneri Mahel ""A' Division Police station Bharuch",21.697072,72.987131
+173,Bharuch,City B Div.,"Limdi Chok, Bharuch",21.6917,72.9746
+174,Bharuch,City C Div.,Makatampur Zadeshwar Road Near GEB Bharuch,21.706718,73.008045
+175,Bharuch,Dahej,"Near Harsiddhi Mata Mandir , Dahej",21.714024,72.583167
+176,Bharuch,Dahej Marin,AT-POST- LUVARA TA-VAGRA DI-BHARUCH,21.676969,72.54901
+177,Bharuch,Hansot,"HANSOT POLICE STATION, KANTIYAJAL TRAN RASTA NEAR, SURAT ROAD TA.
+HANSOT dIST- BHARUCH",21.586558,72.810452
+178,Bharuch,Jambusar,Cort Darvaja Near Jambusar Police Station Ta.Jambusar Dist.Bharuch,22.053258,72.801325
+179,Bharuch,Kavi,AT&PO-KAVI TA-JAMBUSAR PIN.NO-392170,22.195321,72.636124
+180,Bharuch,Mahila,Soneri Mahel Mahila Police station Bharuch,21.697068,72.986932
+181,Bharuch,Nabipur,NABIPUR POLICESTATION AT & PO. NABIPUR TA. & DI. BHARUCH,21.811417,73.032454
+182,Bharuch,Netrang,NETRANG POLICE STATION,21.638245,73.365131
+183,Bharuch,Palej,"N/H - 8 ,Near Palej over bridge, Palej Police Station",21.922379,73.080551
+184,Bharuch,Umalla,"Umalla Police Station, Nava Faliya, Umalla",21.792986,73.298427
+185,Bharuch,Vagara,vagra police station near.gaytree tempal ta.vagra dis.bharuch,21.842817,72.843578
+186,Bharuch,Valiya,VALIAYA,21.568687,73.157758
+187,Bharuch,Vedach,At post VEDACH Ta Jambusar dist Bharuch,22.143878,72.835831
+188,Bharuch,Zaghadiya,sultanpura jhagadiy police station,21.71609,73.15261
+189,Bharuch,Rajpardi,"Khadi faliyu,Rajpardi police station",21.77499,73.219386
+190,Bhavnagar,A Div.(Nilambaug),Jail road Bhavnagar,21.76611,72.13921
+191,Bhavnagar,Alang,Alang Trapaj Road Gitanjali Chokdi,21.417144,72.160412
+192,Bhavnagar,Alang Marin,Manhar Trapaj Road Gitanjali Chokdi,21.683491,72.282077
+193,Bhavnagar,B Div.(Ghogha Road),Ghogha Road Bhavnagar,21.77227,72.150091
+194,Bhavnagar,Bagdana,At.Bagdana Dist.Bhavnagar,21.321307,71.827538
+195,Bhavnagar,Bhavnagar Port,Nava Banadra Bhavnagar,21.7716,72.1458
+196,Bhavnagar,C Div. (Gangajaliya),Nr. SP Ofc Navapara Bhavnagar,21.77284,72.150492
+197,Bhavnagar,D Div. (Bortalav),Nr RTO Ofc Gadhechi Vadla Bortalav Bhavnagar,21.764522,72.152016
+198,Bhavnagar,Datha,Vi. Datha,21.192915,71.957134
+199,Bhavnagar,Gariadhar,Vi. Gariyadhar,21.441551,71.576854
+200,Bhavnagar,Ghogha,Vi. Ghogha,21.687114,72.27221
+201,Bhavnagar,Jesar,Savarkundla Jesar Highway,21.368179,71.666779
+202,Bhavnagar,Khuntwada,Vi. Khuntvada,21.190679,71.647378
+203,Bhavnagar,Mahila,Nr Juni Police Line Navapara Bhavnagar,21.77221,72.149986
+204,Bhavnagar,Mahuva,Bagicha chok Mahuva,21.092316,71.769242
+205,Bhavnagar,Palitana Rural,Hathiyadhar Palitana,21.531152,71.831271
+206,Bhavnagar,Palitana Town,Hathiyadhar Palitana,21.529378,71.830013
+207,Bhavnagar,Shihor,Vadla Chowk Bhavnagar rajkot Highway Sihor,21.716516,71.958777
+208,Bhavnagar,Songadh,Palitana Road Songadh,21.707963,71.885565
+209,Bhavnagar,Talaja,Sartanpar Road Talaja,21.351239,72.039657
+210,Bhavnagar,Umarala,"Opp, Bus Stand Umrala",21.845217,71.802107
+211,Bhavnagar,Vallabhipur,Dhandhuka Vallbhipur Highway Hariom Nagar,21.891328,71.878588
+212,Bhavnagar,Vartej,"Vartej Bhavnagar Highway Road,Bhavnagar",21.741922,72.063006
+213,Bhavnagar,Velavadar Bhal,At.Velavadar Bhal Dist.Bhavnagar,22.041151,72.015528
+214,Bhavnagar,Bharatnagar,Nr. Shak-Market Bharatnagar,21.7595,72.157953
+215,Botad,Barvala,"Bhavnagar Road,Khodiyar Mandir Near,Barwala",22.154982,71.896618
+216,Botad,Botad,"Sarkari High School Same ,Station Road,Botad",22.174813,71.665669
+217,Botad,Dhasa,"Dasha Gam Char Rasta,Gadhada Road,Dasha",21.806367,71.51452
+218,Botad,Gadhada,"M.M. Highs School, Char Rasta,Gadhada",21.96989,71.577971
+219,Botad,Paliyad,"Babarkot Chokadi ,Ranpur Road,Paliyad",22.262757,71.571231
+220,Botad,Ranpur,"Meghaninagar,Maldhari Chock,Modan Complex Same,Ranpur",22.353325,71.714517
+221,Botad,Mahila,"Sarkari High School Same,Station Road,Botad",22.174429,71.663534
+222,Chhotaudepur,Bodeli,BODELI PO.STN MAIN BAJAAR,22.27145,73.71652
+223,Chhotaudepur,Chhotaudepur,CHOTA UDEPUR P.STN CHOTA UDEPUR TOWN,22.312403,74.013466
+224,Chhotaudepur,Jetpurpavi,JETPUR PO. STN OPPOSITE TIN BATTI MATAJINA MANDIR,22.344856,73.84263
+225,Chhotaudepur,Kadwal,KADVAL P.STN . NEAR BAALMANDIR,22.486115,73.767225
+226,Chhotaudepur,Karali,KARALI P. STN KARALI TOWN UNDVA FALIYU,22.204939,73.846053
+227,Chhotaudepur,Kwant,KAWANT P . STN KAWANT TOWN,22.090664,74.056177
+228,Chhotaudepur,Naswadi,NASVADI P. STN Nr GOVT HOSPITAL,22.048824,73.732083
+229,Chhotaudepur,Rangpur,RANGPUR P.STN RANGPUR TOWN,22.37534,74.16787
+230,Chhotaudepur,Sankheda,SANKHEDA P. STN OPP OLD MAMLATDAR OFFICE,22.16923,73.576689
+231,Chhotaudepur,Panvad,PANVAD P . STN PANVAD VILLAGE,22.207941,74.035102
+232,Chhotaudepur,Mahila,"Old Town Police Station, Nr.Lake, Chhotaudepur",22.303689,74.016097
+233,Dahod,Dahod Rural,Godhara Road Rabdal Dahod,22.831293,74.22799
+234,Dahod,Dahod Town,PHQ Dahod,22.83898,74.25941
+235,Dahod,Devgadh Baria,Behind Bus Satand Opp. Court Devgadh Bariya,22.70101,73.91569
+236,Dahod,Dhanpur,Nr. Mamaldar Office Dhanpur,22.63629,74.098563
+237,Dahod,Fatepura,Nr. Bank Of Baroda Patvel Road Fatepura,23.2593,74.0395
+238,Dahod,Garbada,Main Bajar Garbada,22.68541,74.31117
+239,Dahod,Katvara,"At. Bhitodi, Ta. Dahod, Dist. Dahod",22.778645,74.351729
+240,Dahod,Limdi,Opp.Grampanchayat Limdi,23.009786,74.158296
+241,Dahod,Limkheda,"Dhanpur Road, Palli, Limkheda",22.828219,73.988998
+242,Dahod,Mahila,Police Head Quarter Dahod,22.83804,74.25914
+243,Dahod,Randhikpur,Chundadi Road Front Telephone Office Randhikpur,22.962309,73.961615
+244,Dahod,Sanjeli,Front Of Nagrik Co-Bank Sanjeli,23.05835,73.96957
+245,Dahod,Sukhsar,Main Bajar Sukhasar,23.14962,74.02634
+246,Dahod,Zalod,"Opp Jmfcourt, Banswada Road Jhalod",23.104288,74.158163
+247,Dahod,Jesavada,At.jesavada Ta.Garbada Dist. Dahod,22.7401,74.1984
+248,Dahod,Sagtala,At. Sagtala ta.devgadh bariya dist. Dahod,22.567095,73.90803
+249,Dang,Ahwa,"Main road,Ahwa-Dist.dang",20.757438,73.687774
+250,Dang,Mahila,Police Bhavan Main Road Ahwa Dang,20.757981,73.688698
+251,Dang,Saputara,"Suryoday colony,International english midiam school Road,Saputara,Dis.Dang",20.579314,73.751993
+252,Dang,Subir,"Navapur road,Subir,Dist.Dang",20.932294,73.775893
+253,Dang,Vaghai,"Duth Sitkendra,Dungarda Road,Waghai,Dist.Dang-",20.773123,73.497343
+254,Devbhumi Dwarka,Bhanwad,Bhanvad PSTN Near Darbargadh,21.930606,69.779722
+255,Devbhumi Dwarka,Dwarka,Dwarka PSTN. Near Sanatan Aashram,22.243854,68.973147
+256,Devbhumi Dwarka,Kalyanpur,"Kalyanpur PSTN., Near kalyanpur Court, Kalyanpur",22.004991,69.398067
+257,Devbhumi Dwarka,Khambhalia,Khambhalia PSTN. Opp. Lohana Kanya Chhatralay,22.203111,69.650595
+258,Devbhumi Dwarka,Okha (Mithapur),"Nr. Jalaram Mandir, Dwarka-Okha High Road, Surajkaradi",22.412981,69.01065
+259,Devbhumi Dwarka,Okha Marin,"At. Port Colony, Okha Port",22.473826,69.078224
+260,Devbhumi Dwarka,Salaya Marin,Salaya Marine PSTN. Salaya,22.307418,69.597442
+261,Devbhumi Dwarka,Vadinar Marin,"Vadinar Marin PSTN., Vadinar",22.394229,69.716944
+262,Devbhumi Dwarka,Mahila,"Milan Char Rasta, Jamkhambhaliya",22.211768,69.649823
+263,Gandhinagar,Adalaj,"S G Raod, Near Maharaja Hotal,",23.16872,72.572805
+264,Gandhinagar,Chiloda,"Near Chilada Circle, Ahmedabad to Himmatnagar Hig..",23.227795,72.730186
+265,Gandhinagar,Dabhoda,"Near Mantal Hospital, Dabhoda village",23.175963,72.746114
+266,Gandhinagar,Dahegam,"Near Sat Garnada Raad, eidga Masjid ni same",23.169908,72.816566
+267,Gandhinagar,InfoCity,"Near Patel Vadi , Sector-7",23.211555,72.639591
+268,Gandhinagar,Kalol City,"Near Matva Kuva, Mamlat Dar Office,",23.248216,72.494512
+269,Gandhinagar,Kalol Taluka,Amdavad to Mehsana Hig..Near ITI School…,23.235221,72.497492
+270,Gandhinagar,Mahila,"Near Patnagar Yojna Bhavan, Sector-16",23.23103,72.647326
+271,Gandhinagar,Mansa,"Near S T Depo, Mamlat Dar Office,",23.42884,72.6529
+272,Gandhinagar,Pethapur,"Near S T Bas Stop,",23.264267,72.671527
+273,Gandhinagar,Rakhiyal,"Amdavad to Modasa, Rakhiyal Gam",23.251223,72.90323
+274,Gandhinagar,Sector-21,"Near Jumma Masjid, Takedar Ayog Same,",23.227464,72.663219
+275,Gandhinagar,Sector-7,"Near Apna Bajar,Sector-06",23.21239,72.63638
+276,Gandhinagar,Traffic,"Near Ayurvedik Hospital, Sector -22",23.23747,72.655209
+277,Gandhinagar,Satej,"Santej Gam,",23.107579,72.472952
+278,Gir Somnath,Girgadhada,"Gir Gadhada Police Station, Near St.Stand.",20.921731,70.916711
+279,Gir Somnath,Kodinar,Near Pani Geat Kodinar,20.796155,70.700949
+280,Gir Somnath,Navabandar Marin,Near Bander Road Navabandar,20.741091,71.078849
+281,Gir Somnath,Prabhas Patan,"somnath triveni sangam road nr hamirji sercol somnath prabhash patan ta,,
+veraval",20.886768,70.406782
+282,Gir Somnath,Somnath Marin,"Near hajipir dargah, sonata marin",20.895517,70.393504
+283,Gir Somnath,Sutrapada,Near Rajput Chowk East Bradi Area,20.842625,70.486266
+284,Gir Somnath,Talala,"NEAR SBI BANK, RAMRECHI ROAD, TALALA, GIR SOMNATH",21.057357,70.531977
+285,Gir Somnath,Una,"Near Tower chok, UNA",20.821759,71.042079
+286,Gir Somnath,Veraval City,"near-patan gate,Veraval",20.905874,70.371014
+287,Gir Somnath,Mahila,Mahila Police Station Gir Somnath,20.886768,70.406782
+288,Jamnagar,Bedi Marin,"Valsura Road,Jamnagar",22.478188,70.046688
+289,Jamnagar,City A Div.,CITY A DIVISON PO.ST.DARBARGARH,22.4643,70.079955
+290,Jamnagar,City B Div.,CITY B DIVISON PO.ST.OPP. GUJARAT AYURVEDIC UNIVERCITY,22.475341,70.065204
+291,Jamnagar,City C Div.,CITY C DIVISON PO.ST.SHARU SECTION ROAD POLICE HEAD QUARTER,22.478188,70.046688
+292,Jamnagar,Dhrol,DHROL PO.ST DHROL,22.563809,70.414489
+293,Jamnagar,Jamjodhpur,Nr.Gaushala Jam-Jodhpur,21.900906,70.034903
+294,Jamnagar,Jodiya,JODIYA PO.ST,22.693426,70.314906
+295,Jamnagar,Kalawad Town,"Dhoraji Road,KalaVad",22.209389,70.380697
+296,Jamnagar,Lalpur,"Bhanvad Road,Lalpur",22.191922,69.962676
+297,Jamnagar,Mahila,Opp.Ayurvad University Jamnagar,22.470702,70.05773
+298,Jamnagar,Meghpar(Padana),Khambhalia High way Nr.Jogvad Lalpur,22.350038,69.815234
+299,Jamnagar,Panch A Div.,"Nr.Village Dhuvav Rajkot Road,Jamnagar",22.482079,70.126385
+300,Jamnagar,Panch B Div.,PANCH B DIV. PO.ST DARED JAMNAGAR,22.424251,70.057523
+301,Jamnagar,Shethvadala,"Samana Road,Jam-Jodhpur",21.830588,69.938361
+302,Jamnagar,Kalawad Rural,"Dhoraji Road,KalaVad",22.209389,70.380697
+303,Jamnagar,Sikka,"Nr.D.D.C. Company Sikka,Jamnagar",22.428155,69.842427
+304,Junagadh,Bantwa,NearPolice line,21.492392,70.075861
+305,Junagadh,Bhesan,Near mamlatdar office,21.550589,70.705487
+306,Junagadh,Bilkha,"visavadar road, Nr Gram Panchayat highschool",21.438743,70.595192
+307,Junagadh,Chorwad,"veraval porbandar costal highway, chorwad",21.032656,70.236004
+308,Junagadh,City A Div.,Near azad chowk,21.519701,70.461047
+309,Junagadh,City B Div.,"near old bus-station, court road",21.529458,70.461336
+310,Junagadh,City C Div.,"opp post office, gandhigram",21.505594,70.458011
+311,Junagadh,Junagadh Taluka,"Tar bunglow, near water tank",21.574583,70.470921
+312,Junagadh,Keshod,"near navgurga temple, four cross road",21.302148,70.249203
+313,Junagadh,Mahila,opp kalwa chowk,21.513903,70.463182
+314,Junagadh,Malia Hathina,"behind govt high school, maliya",21.160918,70.305802
+315,Junagadh,Manavadar,"jail road, near court",21.496971,70.138146
+316,Junagadh,Mangrol,Near mamlatdar office,21.123116,70.116149
+317,Junagadh,Mangrol Marin,"porbandar highway road, near loage village",21.123116,70.116149
+318,Junagadh,Mendarda,"court compound, mendarda",21.321553,70.443835
+319,Junagadh,Shil,near primary school,21.173092,70.060378
+320,Junagadh,Vanthali,"court compound, vanthli",21.475708,70.333314
+321,Junagadh,Visavadar,opp bus-station,21.342463,70.749918
+322,Junagadh,Bhavnath,near vadli chowk,21.527556,70.499656
+323,chchh East(Gandhidha,Samkhiyali,"Next To Toll tex , samakhiyari rod,samakhiyari",23.307886,70.496396
+324,chchh East(Gandhidha,Adipur,"Near Rambag Hospital, Adipur Ta.Gandhidham Dist.Kutch",23.074423,70.097728
+325,chchh East(Gandhidha,Anjar,Opp. S.T. Bus Station Anjar Ta.Anjar Dist. Kutch,23.110054,70.034374
+326,chchh East(Gandhidha,Bhachau,"N.H.8A, Near Paswa sity, Bhachau Ta.Bhachau Dist.Kutch",23.288273,70.344069
+327,chchh East(Gandhidha,Adesar,"Sanva four road, Highway Road, Adesar",23.563763,70.984748
+328,chchh East(Gandhidha,Gandhidham A Div.,"DC-2, Near Pandit Din Dayal Hall, Gurukul Aria",23.074339,70.116525
+329,chchh East(Gandhidha,Gandhidham B Div.,"Sector-1, Near Oslo Circle, Gandhidham Tal.Gandhidham Dist.Kutch",23.063371,70.128277
+330,chchh East(Gandhidha,Kandala Marin,"Sarva Bus Station, Near CISF Camp, Nava Kandla Ta.Gandhidham",23.019755,70.205778
+331,chchh East(Gandhidha,Balasar,Balasar Police Station,23.817123,70.654279
+332,chchh East(Gandhidha,Khadir,Gadhada Ta.Bhachau Dist.Kutch,23.866265,70.373206
+333,chchh East(Gandhidha,Lakadiya,"Opp.LakdiyaDham, Lakadiya Ta.Bhachau Dist.Kutch",23.343183,70.578526
+334,chchh East(Gandhidha,Mahila,"Near Adipur Police Station, Rambag Hospital Rod, Adipur Ta.Gandhidham",23.074642,70.098071
+335,chchh East(Gandhidha,Rapar,"Near Nagarpalika, Rapar Dist.Kutch",23.570887,70.646561
+336,chchh East(Gandhidha,Dudhai,"Indraprath, Sadar Bajar, New Dudhai Ta.Anjar",23.3266,70.140863
+337,Kachchh West(Bhuj),Bhuj City A Div,OPP SWAMINARAYAN TEMPLE BHUJ A DIVION POLICE STATION,23.2469,69.666
+338,Kachchh West(Bhuj),Bhuj City B Div,NEAR SUB JAIL SARPAT GATE AT BHUJ,23.2587,69.6704
+339,Kachchh West(Bhuj),Dayapar,DAYAPAR POLICE STATION AT DAYAPAR TA. LAKHPAT,23.630377,68.903385
+340,Kachchh West(Bhuj),Gadhsisha,GADHSISA POLICE STATION AT. GADHSHISHA TA- MANDVI,23.088745,69.343893
+341,Kachchh West(Bhuj),Jakhau,JAKHAU POLICE STATION AT JAKHAU TA.ABDASA,23.2162,68.7132
+342,Kachchh West(Bhuj),Jakhau Marin,"JAKHAU MARINE POLICE STATION AT JAKHAU VILLEGE TA.,ABDASA",23.215418,68.713554
+343,Kachchh West(Bhuj),Khawada,KHAWDA POLICE STATION AT- KHAWDA TA- BHUJ,23.841702,69.731363
+344,Kachchh West(Bhuj),Kothara,KOTHARA POLICE STATION AT KOTHARA TA- ABDASA,23.1307,68.9413
+345,Kachchh West(Bhuj),Mahila,"BEHIND BHUJ CITY A DIVISION POLICE STATION MAHILA POLICE STATION TA
+BHUJ",23.246815,69.666403
+346,Kachchh West(Bhuj),Mandvi,MANDAVI POLICE STATION AT MANDAVI TA.MANDAVI,22.8376,69.3417
+347,Kachchh West(Bhuj),Mandvi Marin,MANDVI MARINE POLICE STATION BANDAR ROAD MANDVI,22.8347,69.3511
+348,Kachchh West(Bhuj),Mandvi Water,MANDVI MARINE POLICE STATION BANDAR ROAD MANDVI,22.8347,69.3511
+349,Kachchh West(Bhuj),Mankuva,MANKUVA POLICE STATION AT- KHADIYA VISTAR MANKUVA TA- BHUJ,23.210944,69.569334
+350,Kachchh West(Bhuj),Mundra,MUNDRA POLICE STATION TA-MUNDRA,22.840418,69.723464
+351,Kachchh West(Bhuj),Mundra Marin(Coastal,)MUNDRA MARINE POLICE STATION PORT RAOD AT MUNDRA TA MUNDRA,22.821213,69.723678
+352,Kachchh West(Bhuj),Nakhatrana,NAKHTRANA POLICE STATION AT- NAKHTRANA TA- NAKHTRANA,23.344415,69.270989
+353,Kachchh West(Bhuj),Naliya,NALIYA POLICE STATION AT NALIYA TA- ABDASA,23.256806,68.835983
+354,Kachchh West(Bhuj),Nara,NARA POLICE STATION AT NARA VILLAGE TA LAKHPAT,23.64961,69.1234
+355,Kachchh West(Bhuj),Narayan Sarovar,NARAYAN SAROVAR POLICE STATION,23.676994,68.540616
+356,Kachchh West(Bhuj),Vayor,VAYOR POLICE STATION TA- ABDASA,23.415073,68.694818
+357,Kachchh West(Bhuj),Padhdhar,PADHDHAR POLICE STATION At PADHDHAR TA.BHUJ,23.242478,69.817478
+358,Kachchh West(Bhuj),Nirona,Nirona Police Station,23.465486,69.521659
+359,Kheda,Antarsumba,"New Atarsumba Police Station, Opp.Nr.Primary Health Center, Atarsumba.",23.054252,72.969185
+360,Kheda,Chaklashi,"Chaklasi Police Station, Nr.Vaghela Colony, Chaklasi.",22.650993,72.950032
+361,Kheda,Dakor,"New Building Dakor Police Station, Bus Stand Road, Nr.Sansthan High School,
+Dakor.",22.752904,73.151425
+362,Kheda,Kapadwanj Rural,"Kapadwanj Rural Police Station, Nr.Nani Ratnakar Mata Temple, Kapadwanj",23.002432,73.078152
+363,Kheda,Kapadwanj Town,"Kapadwanj Town Police Station, Nr. Taluka Seva Sadan, Mahmad Ali Chowk,
+Kapadwanj.",23.026784,73.068879
+364,Kheda,Kathlal,"Kathlal Police Station, Opp. Mamlatdar Office, Kathlal.",22.893045,72.986848
+365,Kheda,Kheda Town,"Kheda Town Police Station, Opp.State Bank Of India, Kheda.",22.750068,72.685927
+366,Kheda,Limbasi,"Limbasi Police Station, Opp.Navchetan High School, Limbasi.",22.613013,72.622717
+367,Kheda,Mahemdavad,"Mahemdavad Police Station, Nr.Dhal Jakatnaka, Opp.Court Mahemdavad,",22.820274,72.757512
+368,Kheda,Mahila,"Mahila Police Station, Nadiad Rural Police Station Camps Opp.Santram Moti
+Shak Market, Nadiad.",22.68916,72.860948
+369,Kheda,Mahudha,"Mahudha Police Station, Nr.Primary Health Center, Mahudha.",22.820355,72.938242
+370,Kheda,Matar,"Matar Police Station, Opp. Mamlatdar Office, Nr.Bus Stand, Matar.",22.709311,72.664537
+371,Kheda,Nadiad Rural,"Nadiad Rural Police Station, Opp.Santram Moti Shak Market, Nadiad.",22.70926,72.664632
+372,Kheda,Nadiad Town,"Nadiad Town Police Station, Nr. Old Mamlatdar Office, Railway Station Road,
+Nadiad.",22.694356,72.858499
+373,Kheda,Nadiad West,"Nadiad West Police Station, Opp.Gayatri Society, Nr.Jain Derasar, Nadiad.",22.690572,72.855273
+374,Kheda,Thasra,"Thasra Police Station, Nr.Old Mamlatdar Office, Opp.Aashapuri Temple, Thasra.",22.796033,73.212945
+375,Kheda,Vaso,"Vaso Police Station, Opp.Venipura, Nr.Bus Stand, Vaso.",22.665432,72.755591
+376,Kheda,Sevaliya,"Sevaliya Police Station, In New Taluka Mamlatdar Office Opp. Civil Court,
+Sevaliya",22.808427,73.34412
+377,Mahisagar,Bakor,"Bakor Police Station, near Bakor Bus Station, Ta: Khanpur, Dist. Mahasagar",23.345469,73.604136
+378,Mahisagar,Balasinor,"Balasinor Police station, Kathlal Road Balasinor ta-Balasinor Dist-mahisagar",22.947489,73.330233
+379,Mahisagar,Ditwas,"Ditwas Police Station , Ta- Kadana, Dist- Maisagar",23.418979,73.753388
+380,Mahisagar,Kadana,"Kadana Police station, near taluka panchayat Kadana Ta-kadana, Diat -
+Mahisagar",23.2842,73.83907
+381,Mahisagar,Kothamba,Kothmba police station ta-lunawada Dist-mahisagar,23.014711,73.522397
+382,Mahisagar,Mahila,"Lunawada-Santrampur Road, New Police Head Quarter Ground",23.125225,73.605737
+383,Mahisagar,Lunawada,"Lunawada Police station, Fuwara chok, lunawada ta-lunawada dist- mahisagar",23.12615,73.60972
+384,Mahisagar,Santrampur,"Santrampur Police station, Near SBI BANK, santrampur, Ta-Santrampur, Dist-
+Mahisagar",23.194472,73.894388
+385,Mahisagar,Virpur,"Virpur Police Station, Near Bus Station Virpur, Ta- Virpur Dist - Mahisagar",23.187207,73.474587
+386,Mehsana,Bavalu,"BAVLU POLICE STATION, BAVLU, TA-KADI, DIST-MEHSANA",23.158294,72.310959
+387,Mehsana,Becharaji,"BECHARAJI POLICE STATION, BECHARAJI, TA-BECHARAJI, DIST-MEHSANA",23.498453,72.044721
+388,Mehsana,Kadi,"KADI POLICE STATION, KADI, TA-KADI, DIST-MEHSANA",23.296545,72.327584
+389,Mehsana,Kheralu,"KHERALU POLICE STATION, KHERALU, TA-KHERALU, DIST-MEHSANA",23.88328,72.6225
+390,Mehsana,Langhanaj,"LANGHNAJ POLICE STATION, LANGHANJ, TA-MEHSANA, DIST-MEHSANA",23.446663,72.491069
+391,Mehsana,Mahila,"MAHILA POLICE STATION, POLICE HEAD QUARTER, MEHSANA, TA-DIST-
+MEHSANA",23.611357,72.39194
+392,Mehsana,Mehsana City A Divi,"MEHSANA CITY A DIVISION POLICE STATION, NEAR NAGARPALIKA, MEHSANA,
+TA-DIST-MEHSANA",23.603329,72.392185
+393,Mehsana,Mehsana City B Divi,"MEHSANA CITY B DIVISION POLICE STATION, UMIYA SHOPING CENTRE,
+MEHSANA, TA-DIST-MEHSANA",23.598906,72.378827
+394,Mehsana,Mehsana Taluka,"MEHSANA TALUKA POLICE STATION, NEAR AZAD CHOWK, MEHSANA, TA-DIST-
+MEHSANA",23.602326,72.393549
+395,Mehsana,Nandasan,"NANDASAN POLICE STATION, NANDASAN, TA-KADI, DIST-MEHSANA",23.380031,72.407766
+396,Mehsana,Santhal,"SANTHAL POLICE STATION, SANTHAL, TA-DIST-MEHSANA",23.485046,72.256055
+397,Mehsana,Satlasana,"SATLASANA POLICE STATION, SATLASANA, TA-SATLASANA, DIST-MEHSANA",24.024538,72.791924
+398,Mehsana,Unjha,"UNJHA POLICE STATION, UNJHA, TA-UNJHA, DIST-MEHSANA",23.809701,72.395669
+399,Mehsana,Vadnagar,"VADNAGAR POLICE STATION, VADNAGAR, TA-VADNAGAR, DIST-MEHSANA",23.784397,72.630121
+400,Mehsana,Vasai,"VASAI POLICE STATION, VASAI, TA-VIJAPUR, DIST-MEHSANA",23.543102,72.55726
+401,Mehsana,Vijapur,"VIJAPUR POLICE STATION, VIJAPUR, LADOL RAOD, TA-VIJAPUR, DIST-MEHSANA",23.566751,72.748662
+402,Mehsana,Visnagar City,"VISNAGAR CITY POLICE STATION, VISNAGAR, TA-VISNAGAR, DIST-MEHSANA",23.699524,72.546083
+403,Mehsana,Visnagar Taluka,"VISNAGAR TALUKA POLICE STATION, VISNAGAR, TA-VISNAGAR, DIST-MEHSANA",23.69603,72.551859
+404,Mehsana,Modhera,"MODHERA POLICE STATION, MODHERA, TA-BECHARAJI, DIST-MEHSANA",23.58253,72.13927
+405,Mehsana,Unava,"UNAVA POLICE STATION, UNAVA, TA-UNJHA, DIST-MEHSANA",23.76198,72.35921
+406,Mehsana,Ladol,"LADOL POLICE STATION, LADOL, TA-VIJAPUR, DIST-MEHSANA",23.623695,72.734729
+407,Morbi,Halvad,HALVAD POLICE STATION NEAR MAMLATDAR OFFICE,23.013253,71.203349
+408,Morbi,Maliya Miyana,TO MALIYA MIYANA TA.MALIYA MIYANA DI.MORBI,23.09319,70.758656
+409,Morbi,Morbi City A Div,JAIL ROAD MORBI,22.813643,70.83575
+410,Morbi,Morbi City B Div,"NEAR MALIYA FATAK CHAR RASTA ,MAHENDRANAGAR ROAD ,MORBI - 2",22.835104,70.851885
+411,Morbi,Morbi Taluka,Morbi Taluka,22.824289,70.847223
+412,Morbi,Tankara,rajkot morbi highway road opp.mamlatar office tankata,22.657841,70.746783
+413,Morbi,Wankaner City,"Nr.Laxmi Para,Plice Line,Wankaner",22.608533,70.949482
+414,Morbi,Wankaner Taluka,"Nr.Laxmi Para,Plice Line,Wankaner",22.608537,70.950373
+415,Morbi,Mahila,JAIL ROAD MORBI,22.811912,70.837362
+416,Narmada,Dediapada,"Dediyapada Police Station, Near Mamlatdar Kacheri, Dediyapada.",21.627533,73.588349
+417,Narmada,Garudeshwar,"Garudeshawar Police Station, Opp.Police Line, Garudeshwar.",21.889793,73.654606
+418,Narmada,Kevadiya,"Kevadiya Police Station, Pathika Tran Rasta, Narmada.",21.883678,73.693208
+419,Narmada,Mahila,"Nr. Govt. High School, Rajpipla, Ta. Nandod, Dist. Narmada",21.872969,73.503633
+420,Narmada,Rajpipla(Nandod),"Rajpipla Police Station, Near Government School, Rajpipla.",21.872969,73.503633
+421,Narmada,Sagbara,"Sagbara Police Station, Highway Road, Sagbara Town, Narmada.",21.544011,73.79122
+422,Narmada,Tilakwada,"Tilakvada Police Station, Tilakvada Town, Narmada.",21.950267,73.589666
+423,Narmada,Amletha,"Amletha Pstn, Near Amletha bus stand, ta. Nandod",21.838976,73.422808
+424,Navsari,Bilimora,"Bilimora Police Station, Bangiya Falia, Bilimora Ta. Gandevi",20.766484,72.963401
+425,Navsari,Chikhli,"Chikhali Police Station, Near Teausery office, Chikhali.",20.758311,73.062499
+426,Navsari,Dholai Marin,"Dholai, Dholai Port Ta. Gandevi, Dist. Navsari",20.737839,72.899625
+427,Navsari,Gandevi,"Gandevi Pstn , Old Mamlatdar Kacheri Compund, Gandevi Dist.Navsari",20.81135,72.99621
+428,Navsari,Jalalpore,"Jalalpor Police Station, Near Zanda Chowk, Jalalpor Road, Jalalpore Ta. Jalalpore
+Dist. Navsari",20.949338,72.902033
+429,Navsari,Khergam,"Khergam Out post building, Near Praimary School , Khergam",20.63472,73.09355
+430,Navsari,Mahila,"Mahila Pstn, Navsari Town Police Station Second Floor, Motabazar Navsari",20.954141,72.92958
+431,Navsari,Navsari Rural,"Navsari Rural police station, C/o Mukundbhai Naik, Desai Street, At. Amadpore,
+Near N.H.No.8 ,",20.954563,72.928746
+432,Navsari,Navsari Town,"Navsari town police station,Motabazar, near Tower, Navsari",20.954141,72.92958
+433,Navsari,Vansda,"Vansda Police Station,Opp.New Circuit House ,ta . Vansda dist. Navsari",20.762018,73.362198
+434,Navsari,Vijalpor,"Vijalpor police station, Sahkari Dudh Mandli ltd. Maneklal Road, Navsari -2 ,
+Vijalpore Ta. Jalalpor, Navsari",20.94626,72.917542
+435,Navsari,Maroli,"Maroli, Out Post, Ta.Jalalpore",21.025559,72.88443
+436,Panchmahal,Godhra A Div.,"Godhra A Division Poste,Behind Mamlatdar Office,Godhra",22.774022,73.617458
+437,Panchmahal,Godhra B Div.,"Godhra B Division Poste,Near Head Post Office,Railway Station Road,Godhra",22.776849,73.61239
+438,Panchmahal,Godhra Taluka,"Godhra taluka Poste,Marketing yard Road,Opposite ST Bus Stand,Godhra",22.778756,73.621131
+439,Panchmahal,Halol Town,"Halol Police Station,Near Mamalatdar Office,Halol",22.501308,73.474671
+440,Panchmahal,Jambughoda,"Jambughoda Police Station,Near Taluka Panchayat Office,Jambughoda",22.370064,73.729605
+441,Panchmahal,Kalol,"Kalol Police Station,Near Mamlatdar Office,Godhra-Baroda Highway,Kalol",22.605708,73.459543
+442,Panchmahal,Mahila,"Range IG Office Campus,Near SP Office,Godhra",22.766932,73.620228
+443,Panchmahal,Morva,"Morva(Hadaf) Police Station,Near Bus Stand,Morva(Hadaf)",22.917454,73.8415
+444,Panchmahal,Pavagadh,"Pavagadh Poste,Near Kansara Dhramshala,Chapaner Village,Pavagadh",22.484589,73.534505
+445,Panchmahal,Rajgadh,"Rajgadh Police Station,Ghoghamba",22.570349,73.652174
+446,Panchmahal,Shehra,"Shahera Police Stataiopn,B/H Bus Stop,Shahera",22.947567,73.632715
+447,Panchmahal,Vejalpur,"Vejalpur Police Station,Main Bazar Road,Vejalpur",22.690711,73.559095
+448,Panchmahal,Damavav,"Damavav Police station,Near Damavav Chokadi,Damavav",22.703604,73.758236
+449,Panchmahal,Halol Rural,"Halol Rural Poste,Halol-Pavagadh Road,Halol",22.502823,73.480915
+450,Panchmahal,Kankanpur,Kankanpur Police Station,22.837782,73.482829
+451,Patan,Balisana,Balisana Police Station Near Gram Panchayat,23.817658,72.256479
+452,Patan,Chanasma,Chanasma Police Station Gauravpat Road4 Near Bus Station Chanasma,23.716571,72.109352
+453,Patan,Harij,Harij Police Station Near Mamltdar Office Harij,23.693225,71.907451
+454,Patan,Kakoshi,"Near Sagar Hotel,Kakoshi Police Station",24.003792,72.303678
+455,Patan,Mahila,"Mahila Police Station Near, Sidhapur Char Rasta, Sp Office Compound",23.851775,72.135528
+456,Patan,Patan City A Div,Patan City A Division Police Station Near New Mamlatdar Office Patan,23.847195,72.111999
+457,Patan,Patan City B Div,"Near Siddhpur Char Rasta, Patan City B Divi. Police Station,Patan",23.853024,72.139589
+458,Patan,Patan Taluka,Patan Taluka Police Station At.Golapur,23.822127,72.124661
+459,Patan,Radhanpur,Radhnapur Police Station Near S.T. Depo Radhanpur,23.828875,71.614436
+460,Patan,Sami,Shankheswar Road Sami Police Station Sami,23.682381,71.770613
+461,Patan,Sankheshwer,Near Halari Dhramsala Sankheswar Police Station,23.501658,71.784789
+462,Patan,Santalpur,Behind Sarkari Hospital Santalpur Santalpur Police Stanion,23.759446,71.169514
+463,Patan,Sidhpur,"Siddhpur New Court Behind, Siddhpur Police Station",23.919221,72.366579
+464,Patan,Vagdod,Vagdod Police Station Near Mazid Vagdod Ta-Saraswati Dist-Patan,23.988112,72.150948
+465,Patan,Varahi,Behind Varahi Taluka Panchayat Varahi Police Station,23.797311,71.447161
+466,Porbandar,Bagvadar,Bagvadar village behind Post office,21.791244,69.591017
+467,Porbandar,Kamalabag,Near Kamlanaheru garden Porbandar,21.639157,69.623221
+468,Porbandar,Kirtimandir,"Near birthplace of mahatma gandhi, kirtimandir",21.642337,69.600874
+469,Porbandar,Kutiyana,"Nr. New Court Building, Thepdazapa, Kutiyana",21.624072,69.991587
+470,Porbandar,Madhavpur,"Nr. Sheth N.D.R. Highschool, Ganesh society Madhavpur",21.258386,69.966447
+471,Porbandar,Mahila,"Bhojeshvarplot, Porbandar",21.641142,69.619133
+472,Porbandar,Miyani Marin,"Porbandar-Dwarka Highway Road, Opp. Vachhraj Parotha House, Miyani village",21.826627,69.394612
+473,Porbandar,Navi Bandar Marin,Near Navibandar village,21.446464,69.790087
+474,Porbandar,Ranawav,"Near bus stop, Ranavav town",21.682169,69.743401
+475,Porbandar,Udyognagar,Aashapura chowk U.nagar,21.649887,69.636044
+476,Porbandar,Harbar Marin,"Old Subhashnagar Chowky, Jety Road, subhashnagar",21.642019,69.587289
+477,Rajkot City,A Div.,Trikon Bagpase Dheber Road Rajkot,22.295879,70.802618
+478,Rajkot City,Aaji Dem,"Kothariya Main Road, Near Ranuja Temple, Rakot",22.247859,70.818682
+479,Rajkot City,B Div.,Ramnath Para Rajkot,22.291987,70.813196
+480,Rajkot City,Bhaktinagar,Kothariya Main Road Rakot,22.277052,70.811399
+481,Rajkot City,Gandhigram,150 fit Ring Road Modi School Near Rajkot,22.297534,70.769492
+482,Rajkot City,Gandhigram-2,"150 Fit Ring Road, Opp Stearling Hospital, Rajkot.",22.306871,70.768424
+483,Rajkot City,Kuwadava Road,Navagam Near Ahemdabad Haiwe Rajkot,22.314005,70.834873
+484,Rajkot City,Mahila,PHQ Near Reshcos Ring Road Rajkot,22.307771,70.789924
+485,Rajkot City,Malaviyanagar,Mavdi Main Road Rajkot,22.26995,70.788832
+486,Rajkot City,Pradumannagar,Dharam cinema Opp. Rajkot,22.30065,70.79698
+487,Rajkot City,Rajkot Taluka,Jamtaver Near Jamnagar Road Rajkot,22.27006,70.74728
+488,Rajkot City,Thorala,Chunaravad Chok Bhavnagar Road Rajkot,22.29,70.82
+489,Rajkot City,DCB,"Police Bhavan Near galaxy Cinema, Jilla Panchayat chowk, Race Course Ring
+Road rajkot",22.299082,70.792109
+490,Rajkot Rural,Bhadla,"Bhadla Police Sta(cid:415)on , Rajkot Road Ta.-Jasdan , Dist-Rajkot-360080",22.183153,71.096317
+491,Rajkot Rural,Bhayavadar,"Bhayavadar Police Station,Station Road, Bhayavadar-360450",21.850242,70.237017
+492,Rajkot Rural,Dhoraji,"Dhoraji Police Station , Near Patel Chhatralaya , Dhoraji , Rajkot-360050",21.730032,70.450891
+493,Rajkot Rural,Gondal City,"Gondal City Police Station, Bhagvatpara Gondal Dist-Rajkot-360311",21.967955,70.807703
+494,Rajkot Rural,Gondal Taluka,"Gondal Taluka Police Station Nr.Santoshi Mata Temple, Jetpur Highway Dist-
+Rajkot-360311",21.950126,70.778445
+495,Rajkot Rural,Jam Kandorana,"Jamkandorana Police Station,Nr.Taluka Panchayat, Jamkandorana-360405",21.89238,70.495555
+496,Rajkot Rural,Jasdan,"Jasdan Police Station,Vajsurpara Jasdan, Dist-Rajkot-360050",22.043872,71.208417
+497,Rajkot Rural,Jetpur City,"Jetpur City Police Station Main Bazar, Jetpur,Dist-Rajkot-360370",21.752683,70.616678
+498,Rajkot Rural,Jetpur Taluka,"Jetpur Taluka Police Station Junagadh Road Jetpur, Dist-Rajkot-360370",21.752644,70.616673
+499,Rajkot Rural,Kotada Sangani,"Kotda Sangani Police Station ,Bhadva Road ,Dist-Rajkot-360030",22.049741,70.869198
+500,Rajkot Rural,Lodhika,"Lodhika Police Station Nr.Bus Station,Lodhika-360035",22.134467,70.632833
+501,Rajkot Rural,Mahila,"Mahila Police Sta(cid:415)on Kotda Sangani Road,Gondal, Dist-Rajkot-360311",21.977914,70.811635
+502,Rajkot Rural,Paddhari,"Padadhari Police Station, Nr.Mamlatdar Office, Padadhari, Dist-Rajkot-360110",22.436105,70.602801
+503,Rajkot Rural,Patanvav,"Patanvav,Police Sta(cid:415)on Tal,Upleta Rajkot-360430",21.643408,70.262053
+504,Rajkot Rural,Upleta,"Upleta Police Station, Kolki Road, Dist-Rajkot-360490",21.747462,70.27541
+505,Rajkot Rural,Vinchhiya,"Vinchhiya Police Sta(cid:415)on Modhuka Road, Dist-Rajkot-360050",22.205614,71.383919
+506,Rajkot Rural,Virpur,"Virpur Police Station, Near BSNL Office, Taluka - Jetpur, Rajkot-360380",21.843527,70.694272
+507,Rajkot Rural,Shapar Veraval,"Shapar-Veraval Police Station,Shapar, Rajkot-Gondal High Way,Ta.Kotda
+Sangani,Dist.Rajkot-360024",22.157114,70.791996
+508,Rajkot Rural,Atkot,"Near Bus Stand, Bhavnagar - Rajkot Rd, Atkot, Gujarat",22.011666,71.146102
+509,Sabarkantha,Gambhoi,Gambhoi police station Bhiloda Road,23.602207,73.097772
+510,Sabarkantha,Himatnagar Rural,"Himatnagar Rural police Station At&post -Savghadh Rto kacheri ni pase ider
+baypass Road Himatnagar",23.620642,72.942841
+511,Sabarkantha,Himatnagar A Div.,Himatnagar A Div. Police Station Himatnagar,23.59639,72.967044
+512,Sabarkantha,Himatnagar B Div.,Himatnagar B Div. Police Station Himatnagar,23.597028,72.958525
+513,Sabarkantha,Idar,Idar Police Station Highway Road Idar Dist -Sabarkantha,23.837663,73.004429
+514,Sabarkantha,Jadar,Jadar Police Station Ta-Idar Dist -Sabarkantha,23.745771,72.935984
+515,Sabarkantha,Khedbrahma,Khedbrahma Police Station Highway Road,24.024858,73.045784
+516,Sabarkantha,Kheroj,Kheroj Police Station Ta- Khedbrahma Dist -Sabarkantha,24.229329,73.009835
+517,Sabarkantha,Mahila,Women Police Station Opposite to sp Office Himatnagar,23.596769,72.958513
+518,Sabarkantha,Poshina,Poshina Police Station Ta- Khedbrahma Dist -Sabarkantha,24.367321,73.030962
+519,Sabarkantha,Prantij,Prantij Police Station Highway Road,23.443977,72.853419
+520,Sabarkantha,Talod,Talod police station Talod,23.935734,73.038302
+521,Sabarkantha,Vadali,Vadali police station Vadali,23.937952,73.038589
+522,Sabarkantha,Vijaynagar,Vijaynagari police station sabarkantha,24.005753,73.3617
+523,Sabarkantha,Chithoda,Chidhoda Police Station Ta-Vijaynagar Dist -Sabarkantha,23.907153,73.324513
+524,Surat City,Adajan,"Bh. Gangeshwar Mahadev Mandir, Adajan, Surat",21.198697,72.790226
+525,Surat City,Amroli,"Community Hall Ganeshpura. Sayan Road, Amroli, Surat",21.24747,72.85179
+526,Surat City,Athwalines,"SMC Museum Building, Opp.Gandhi Bagh, Chowkbazar. Surat.",21.195623,72.819921
+527,Surat City,Chowk Bazar,"Primary School No.77, Parsiwad, Ranitalao, Surat.",21.204058,72.827428
+528,Surat City,Dindoli,"Near Sai Baba Mandir, Jamai Mahollo, Dindoli, Surat.",21.155065,72.869293
+529,Surat City,Dumas,"Nr. Post Office, Dumas Gam, Surat",21.094225,72.70772
+530,Surat City,Hajira,"Near Essar, Hazira Road, Surat.",21.146819,72.660512
+531,Surat City,Ichchhapor,"Near Kawas Village Bus Stand, Hajira Road, Surat.",21.18594,72.710221
+532,Surat City,Jahangirpura,"Mora Bhagal Police Choki Building, Morabhagal, Jahangirpura, Surat.",21.222434,72.791534
+533,Surat City,Kapodra,"Opp. Dharookavala College, Varachha Road,Surat",21.220585,72.875537
+534,Surat City,Katargam,"Opp. Ramji Mandir, Katargam, Surat",21.223198,72.83314
+535,Surat City,Khatodara,"Near Joganimata Mandir, Udhna Magdalla Road, Khatodara. Surat",21.176563,72.831728
+536,Surat City,Limbayat,Near Maruti Nagar Char Rasta Limbayat. Surat,21.175978,72.857099
+537,Surat City,Mahidharpura,"Near Mahidharapura Post Office, Tower Road. Surat",21.198336,72.833811
+538,Surat City,Mahila,"Umra Police Station Building, Behind Police Pared Ground, Athawalines, Surat.",21.179095,72.803725
+539,Surat City,Marin (Hajira),"Near Haziragam, Haziragam Road, Surat.",21.096536,72.650794
+540,Surat City,Pandesara,"Opp. Batliboy Company, Pandesara GIDC Main Road, Pandesara. Surat",21.141909,72.840005
+541,Surat City,Puna,"Near Bhaktidham Mandir, Puna Kumbharia Road, Surat.",21.189214,72.872036
+542,Surat City,Rander,"Rander Town, Opp. Rander Bus Stand, Rander. Surat.",21.218406,72.79461
+543,Surat City,Sachin,"Surat-Navsari Main Road, Sachin, Surat",21.086989,72.881619
+544,Surat City,Sachin GIDC,"Old P&E Office, Near Sachin GIDC Naka, Surat",21.10048,72.864941
+545,Surat City,Salabatpura,"Salabatpura Main Road, Salabatpura, Surat.",21.191099,72.836508
+546,Surat City,Sarthana,"Vraj Chowk, Simada Road, Sarthana, Surat.",21.22222,72.903402
+547,Surat City,Udhana,"Udhana Road No.0, Udhana, Surat.",21.165471,72.850854
+548,Surat City,Umara,"Behind Police Pared Ground, Athavalines, Surat.",21.179095,72.803725
+549,Surat City,Varachha,"Suraksha Bhavan, Varachha Main Road, Varachha, Surat.",21.20935,72.849568
+550,Surat City,Lalget,"School No.144, Bhagatalao, Surat.",21.198397,72.822799
+551,Surat City,DCB,"Near Dhanraj Petrol Pump, Furja, Chowkbazar, Surat",21.198249,72.819321
+552,Surat Rural,Bardoli,"Bardoli Police Station, Limda Chawk, Nr.Treasury Office, Bardoli Ta.Bardoli
+Dist.Surat Pin 394601",21.116751,73.111782
+553,Surat Rural,Kadodara GIDC,"Kadodara GIDC Police Station, Nr.Naher Khata Office, N.H.No.8 Ta.Palsana
+Dist.Surat Pin 394305",21.171001,72.963062
+554,Surat Rural,Kamrej,"Kamrej Police Station, Kamrej Village, Opp.CHC Kamrej Ta.Kamrej Dist.Surat Pin
+394180",21.269395,72.958234
+555,Surat Rural,Kosamba,"Kosamba Police Station, Kosamba, Nr.Railway Station Ta.Mangrol Dist.Surat Pin
+394120",21.463833,72.953977
+556,Surat Rural,Mahila,"Mahila Police Station, SP Surat Rural Office, Nr.Surat City Police Head Quarters
+Athwalines Surat 395001",21.182541,72.804464
+557,Surat Rural,Mahuva,"Mahuva Police Station, Near Old Mahuva Malatdar Office, Mahuva Ta.Mahuva
+Dist.Surat Pin 394250",21.092233,71.769245
+558,Surat Rural,Mandvi,"Mandvi Police Station, Opp.Mandvi Mamlatdar Office, Ta.Mandvi Dist.Surat
+Pin 394160",21.250174,73.300941
+559,Surat Rural,Mangrol,"Mangrol Police Station Opp. Mangrol Post Office, Near Mangrol Court At.
+Mosali Ta.Mangrol Dist.Surat Pin 394421",21.125054,70.120404
+560,Surat Rural,Olpad,"Olpad Police Station, Near Old Mamlatdar Office, Ta.Olpad Dist.Surat Pin
+394540",21.337289,72.75125
+561,Surat Rural,Palsana,"Palsana Police Station, Near Old Mamlatdar Office, Ta.Palsana Dist.Surat Pin
+394315",21.086292,72.98781
+562,Surat Rural,Umarpada,"Umarpada Police Station, Near Old Umarpada Court, Juna Umarpada
+Faliyu,Ta.Umarpada Dist.Surat Pin 394445",21.448775,73.491392
+563,Surat Rural,Kim,"Kim Police Station Opp. Kim Panchayat Office Ta.Olpad Dist Surat Rural Pin
+394110",21.401534,72.923786
+564,Surendranagar,Dhajala,"Old post Office, Dhajala",22.372536,71.413533
+565,Surendranagar,Chotila,"Office of Police sub Inspector,Police Station,Chotila Village, Chotila",22.42374,71.20077
+566,Surendranagar,Chuda,"Office of Police Sub Inspector,Police Station,Chuda",22.484396,71.697012
+567,Surendranagar,Dasada,"Office of Police Sub Inspector,Shankheshwar Road, Three Roads,Dasada",23.32108,71.82385
+568,Surendranagar,Dhrangadhra City,"Office of Police Inspector ,Mochivad na Nake Haripar Road,d hrangadhra",22.996338,71.470498
+569,Surendranagar,Dhrangadhra Taluka,"Office of Police Sub Inspector,Kumbharpara Nake,Dhrangadhra",22.996521,71.469708
+570,Surendranagar,Joravarnagar,"Office Of Police Sub Inspector,Joravaranagar Police Station,End of Morbi
+Bridge,Joravaranagar",22.719091,71.62834
+571,Surendranagar,Lakhtar,"Office of Police Sub Inspector,Railway Station Road,Lakhtar",22.859968,71.78264
+572,Surendranagar,Limbdi,"Office of Police Sub Inspector,Office of Deputy Police Superintendent,Near New
+Circuit House,Near Avantika Hotel,Limbadi",22.571213,71.799262
+573,Surendranagar,Mahila,"Office of Police Inspector,Police Head Quarter, Near Jawahar
+Ground,Surendranagar",22.729697,71.621024
+574,Surendranagar,Muli,"Office of Police Sub Inspector,Near Office of Mamlatadar,Muli",22.636378,71.460917
+575,Surendranagar,Panshina,"Office of Police Sub Inspector,Panshina",22.548351,71.970676
+576,Surendranagar,Patadi,"Office of Police Sub Inspector,Near Mamalatadar Office,Patadi",23.188971,71.795475
+577,Surendranagar,Sayla,"Office of Police Sub Inspector,Police Station,National Highway,Sayla",22.537408,71.480899
+578,Surendranagar,Thangadh,"Office of Police Inspector,Police Station,Near Office of G.E.B.,Thangadh",22.571608,71.198235
+579,Surendranagar,Vadhwan,"Office of Police Sub Inspector,Opp. Dajiraj High school,Wadhwan",22.70527,71.675963
+580,Surendranagar,Zinzuwada,"Office of Police Sub Inspector,Zinzuwada",23.350015,71.655478
+581,Surendranagar,urendranagar City A Di,"Office of Police Inspector,Near Ajaramar Tower,Jail Chowk,Surendranagar",22.725309,71.62844
+582,Surendranagar,urendranagar City B Di,"Office of Police Sub Inspector , Roll Smooth Alignment, Plot No.34, GIDC,
+Wadhwan",22.719152,71.660197
+583,Surendranagar,Bajana,"Office of Police Sub Inspector,bajana police station, at-malvan tal-patdi",23.063494,71.750475
+584,Surendranagar,Nani Moldi,"Office of Police Inspector,at-bamanbor, tal-chotila",22.414258,71.12837
+585,Tapi,Kakrapar,"Kakrapar Police Station,Anumala (Towanship), uchamada",21.201859,73.416176
+586,Tapi,Mahila,"Mahila Police Station,near sayaji groud, Vyara polstn compaund",21.109639,73.387033
+587,Tapi,Nizar,"Nizar Police Station, near bus stand, Nizar",21.477363,74.194996
+588,Tapi,Songadh,"Songadh Police Station, near bus stand, songadh, Tapi.",21.167554,73.561611
+589,Tapi,Uchchhal,"Uchchhal Police Station, near bus stand, Uchchhal, Tapi",21.168481,73.769238
+590,Tapi,Ukai,"Ukai Police Station, near patharda coloni sector-2 ,Ukai.",21.234079,73.578029
+591,Tapi,Valod,"Valod Police Station, near mamlatdar office Valod, Tapi.",21.048052,73.262319
+592,Tapi,Vyara,"Vyara Police Station, near sayaji groud, Vyara, Tapi.",21.109672,73.387302
+593,Tapi,Dolvan,"Dolvan Police Station, naka faliya , Dolvan, Tapi.",20.901673,73.334223
+594,Vadodara City,Chhani,"Chhani Gam, Vadodara City-",22.364566,73.167328
+595,Vadodara City,City,"Opp. Jamnabai Hospital, Lilo Banglo, Vadodara City -",22.300283,73.213712
+596,Vadodara City,Fategunj,"Chhani Road, Navayard, NR Suzuki Showroom ,Vadodara City -",22.335599,73.173589
+597,Vadodara City,Gorwa,"Nr. Bapuni Dargah, Gorwa Vadodara City -",22.333619,73.156307
+598,Vadodara City,Gotri,"Opp.Geri Compund, Near Imperia Building, Gotri Bhayli Road, Vadodara",22.310708,73.139178
+599,Vadodara City,J P Road,"J.P.Raod Tandalja Road, Patrakar Charrasta, Vadodara-",22.288293,73.15289
+600,Vadodara City,Jawaharnagar,"Jawaharnagar, Near Ranoli Bridge, Vadodara -",22.392239,73.121554
+601,Vadodara City,Karelibaug,"Karelibaug NR Bhutdi Jampa, Vadodara City-",22.30719,73.204553
+602,Vadodara City,Bapod,"Ajwa Waghodia Ring Road, Nr. Bapod Talav, Vadodara",22.305512,73.239188
+603,Vadodara City,Mahila,"Opp.Hujarat pagar road, Bhutdijapa police line Karelibaug, Vadodara City -",22.30623,73.204884
+604,Vadodara City,Makarpura,"Makarpura NR Bhavans School, Makarpura Road-",22.270577,73.203201
+605,Vadodara City,Manjalpur,"Rain Basera, G.I.D.C., Makarpura, Vadodara",22.256277,73.180688
+606,Vadodara City,Navapura,"Navapura NR Reliance Fresh Shop, R.V.Desai Road, Navapura-",22.289338,73.205434
+607,Vadodara City,Panigate,"Panigate NR Pani Gate Dharwaja, Panigate, Vadodara -",22.299719,73.215529
+608,Vadodara City,Ravpura,"Raopura Main Road, Near Khadi Gramodhyog Opp Mam'S Poll, Vadodara City -",22.303867,73.196553
+609,Vadodara City,Sama,"D/1-1 & 1/2, B/H Narmada Vasahat Colony, Nr. Chhani Jakatnaka, Vadodara",22.346193,73.177298
+610,Vadodara City,Sayajigunj,"Sayajigunj, Near Vadodara Rly Station, Vadodara City-",22.30975,73.182949
+611,Vadodara City,Vadi,"Wadi NR Gendi Gate, Vadodara.",22.296535,73.210444
+612,Vadodara City,Laxmipura,"Laxmipura, Nr. Samta Flat, Gorva Road, Vadodara",22.327575,73.140111
+613,Vadodara City,Harni,"Near Harni talav, beside Damar Palant, Harni Town, vadodara",22.339413,73.22037
+614,Vadodara City,Varasiya,"Old RTO Office Varasiya, Vadodara",22.309012,73.219112
+615,Vadodara City,Nandesari,"Nandesari p_stn Nr. MGVCL Office Nr. Dipak Nitrate Company, Vadodara",22.414603,73.093576
+616,Vadodara City,DCB,"Bhadra Kacheri, Panigate, Vadodara",22.3025,73.2142
+617,Vadodara Rural,Bhadarwa,"Bhadarava Police Station, Rayan vagha, Bhadarwa Savli Road, Bhadarwa, Tal.
+Savli,",22.515646,73.129781
+618,Vadodara Rural,Chanod,"Chanod Police Station, Near Chanod Rly Station,Tal- Dabhoi, Dist- Vadodara.",21.98528,73.45534
+619,Vadodara Rural,Dabhoi,"Dabhoi Police Station, Nr Kadiyavad, Dadhoi, Tal. Dabhoi, Dist. Vadodara",22.1309,73.426
+620,Vadodara Rural,Desar,"Desar Police Station, Talav Bhagol, At Desar, Ta. Savali, Dist.Vadopdara",22.7172,73.2907
+621,Vadodara Rural,Karjan,"Karjan Police Station, Nava Bazzar, Karjan, Tal. Karjan, Dist. Vadodara Rural,",22.05363,73.11297
+622,Vadodara Rural,Mahila,"Mahila Police Station Room No.927, Kuberbhavan Roupura, 9th floor,
+Vadodara",22.30245,73.19486
+623,Vadodara Rural,Padara,"Padra Police Station, Near Mamlatdar Office, Ta.Padra Dist. Vadodara",22.241916,73.084204
+624,Vadodara Rural,Savli,"Savali Police Station, Giridharnagar Chokdi, Savali, tal. Savli, Distt. Vadodara",22.55751,73.22227
+625,Vadodara Rural,Shinor,"Shinor Police Station, Near Ramji Mandir, Shinor, Tal. Shinor. Distt Vadodara.",21.9108,73.34212
+626,Vadodara Rural,Vadodara Taluka,"Vadodara Taluka police Station, bhadra kacheri, Panigate Dist. Vadodara",22.29585,73.20346
+627,Vadodara Rural,Vadugam,Vadugam near vetnari hospital vadu,22.218248,72.981617
+628,Vadodara Rural,Vaghodia,"Waghodiya Police Station, Mamlatdar Kacheri Compund, Tal- Waghodiya, Dist-
+Vadodara.",22.3039,73.403711
+629,Vadodara Rural,Varnama,"Varnama Police Station, Beside Panchayat office , Tal - Dist- Vadodara.",22.18146,73.1819
+630,Valsad,Dharampur,"Dharampur Pstn., Opp. S.T. Depo, Dharampur.Ta. Dharampur",20.537831,73.171474
+631,Valsad,Dungri,"Dungri Police Station, Near Railway Station, Dungri. Ta.Valsad",20.690528,72.949167
+632,Valsad,Kaprada,"GJ SH 67,Near Baroda Bank,Kaparada",20.3435,73.219167
+633,Valsad,Mahila,"Mahila Police Station, in Valsad Town Police Station, Opp. Jalaram Mandir,
+Valsad. Ta.& Di. Valsad",20.606722,72.928611
+634,Valsad,Pardi,"Near Pardi Court,Ta-Pardi Dist-Valsad",20.517444,72.95
+635,Valsad,Umargam,"Near M.M. High School,Umargam",20.193694,72.749722
+636,Valsad,Umargam Marin,Marin Police Station Near Nargol Bus Station Ta.Umargam,20.215893,72.750332
+637,Valsad,Valsad Rural,"Valsad Rural Police Station, Near Kalyan Bag, Valsad. Ta.Valsad",20.609389,72.93
+638,Valsad,Valsad Town,"Valsad Town Police Station, Opp. Jalaram Mandir, Valsad. Ta.& Di. Valsad",20.606722,72.928611
+639,Valsad,Vapi GIDC,"Vapi GIDC Police Station, Vapi Ta.Vapi Dist. Valsad",20.363139,72.921944
+640,Valsad,Vapi Town,"Vapi Town Police Station, Near Nagarapalika Ta.Vapi Dist.Valsad",20.373333,72.906389
+641,Valsad,Dungara,"Dungra Police Station, Hariyapark Ta. Vapi Dist. Valsad",20.335889,72.941667
+642,Valsad,Nanapondha,"Nanapondha Police Station Ta. Kaparada, Di.Valsad.",20.414496,73.126383
+643,Valsad,Bhilad,"Zaroli Bhilad Road,Gulshan Nagar,Bhilad",20.268398,72.886257
+658,Western Rly Vadodara,Anand Rly,Office Of The P.S.I. Annad Reilway police station,22.5617,72.9663
+659,Western Rly Vadodara,Bharuch Rly,Office Of The P.S.I. Bhruch Reilway police station,21.7042,72.9994
+660,Western Rly Vadodara,Dabhoi Rly,Office Of The P.S.I. Dabhoi Reilway police station,22.137586,73.415591
+661,Western Rly Vadodara,Godhra Rly,Office Of The P.S.I.Godhara Reilway police station,22.7768,73.6062
+662,Western Rly Vadodara,Nadiad Rly,Office Of The P.S.I.Nadiad Reilway police station,22.693681,72.857255
+663,Western Rly Vadodara,Surat Rly,Office Of The P.I.Surat Reilway police station,21.2049,72.8408
+664,Western Rly Vadodara,Vadodara Rly,Office Of The P.I. Vadodara Reilway police station,22.3108,73.1809
+665,Western Rly Vadodara,Valsad Rly,Office Of The P.S.I.Valsad Reilway police station,20.6079,72.9336
+666,Western Rly Vadodara,Dahod Rly,Office Of The P.S.I.Dahod Reilway police station,22.843928,74.251505
+667,Western Rly Vadodara,Vapi Rly,Office Of The P.S.I.Vapi Reilway police station,20.371354,72.909328
+668,ACB,AHMEDABAD City ACB,"Transferry Hostel Room No.11, B/S Shilalekh Bldg. Shubhashbridge Ahmedabad",23.062965,72.599053
+669,ACB,AHMEDABAD Rural AC,"BTransferry Hostel Room No.11, B/S Shilalekh Bldg. Shubhashbridge Ahmedabad",23.062965,72.599053
+670,ACB,AMRELI ACB,"Bahumali bhavan,sevasadn-2, block no-A/7, Rajmahel compound,amreli",21.60603,71.21789
+671,ACB,ANAND ACB,"Opp. Jaganath Mahadev Temple, Khetiwadi Road, At - Anand, Ta & Dist - Anand",22.54155,72.962471
+672,ACB,ARVALLI ACB,"Meshwo Colony,B/H behra Munga School, Nr. Collector Office, Modasa",23.4649,73.2965
+673,ACB,BHARUCH ACB,"Opp. Ex. megistrate office, near district court, kanabiwaga . Bharuch",21.708656,72.991342
+674,ACB,BHAVNAGAR ACB,"Nr. Mahilaa Collage, Muni Deri Chowk, Airport Road, Bhavnagar",21.76795,72.1607
+675,ACB,BOTAD ACB,"Taluka sewadan, 2nd floor, Room No. S/B-3,4,5 Paliyad Road, Botad",22.1026,71.3939
+676,ACB,CHHOTAUDEPUR ACB,"Zoz road, behind vishram gruh, chhotaudepur",22.308494,74.011999
+677,ACB,DAHOD ACB,Juni prant kacheri burhani Soc. Dahod,22.842747,74.251879
+678,ACB,V-BHOOMI DWARKA A,"Vinayak Society,Nr. Railway atak,Khambhaliya, Disst. Devbhumi Dwarka",22.221353,69.66163
+679,ACB,Jamnagar ACB,"Near Khambhaliya Gate, Outside khojanaka, Old post office Bulding, Jamnagar",22.458509,70.074036
+680,ACB,GANDHINAGAR ACB,"Sahyog sankul, GH Rd, Sector 11, Opp. Civil Hospital, Sector 11, Gandhinagar,
+Gujarat 382007",23.218624,72.643047
+681,ACB,GIR SOMNATH ACB,P.W.D. CAMPUS AGAINST PUBLIC LAI BRARY BANDAR ROAD VERAVAL,20.907506,70.365382
+682,ACB,JUNAGADH ACB,"Talav gate, opp. Street no.1, Junagadh",21.51873,70.45968
+683,ACB,KHEDA (nadiyad) ACB,"Block No. D 12-13, Sardar Patel Bhavan, Station Road, Nadiad, Dist. Kheda",22.699292,72.856783
+684,ACB,MAHESANA ACB,"Azad chowk, Opp. Mahesana taluka police station, mahesana",23.60185,72.39178
+685,ACB,MAHISAGAR ACB,"84/18 Ganesh society,Barotwada, vardhari road, Lunawada",23.122984,73.599994
+686,ACB,MORBI ACB,"Visi Para, BH. Sankar Ashram, Morbi",22.823786,70.836168
+687,ACB,PALANPUR ACB,"Near Old RTO Check Post, Abu Highway Palanpur",24.193224,72.437096
+688,ACB,PANCHAMAHAL ACB,"Panchmahal ACB Police Station behind District Panchayat Office Panchmahal
+Godhra",22.774035,73.617995
+689,ACB,RAJKOT CITY ACB,"Nr. Trikon Bag, BH. SBI Bank, Bhavnagar Utaro, Rajkot",22.296404,70.801806
+690,ACB,RAJKOT RURAL ACB,"Nr. Trikon Bag, BH. SBI Bank, Bhavnagar Utaro, Rajkot",22.296404,70.801806
+691,ACB,SABARKANTHA ACB,"Collector office Compound, Opp. District Treasury office, Himmatnagar,
+Sabarkantha",23.602807,72.961688
+692,ACB,SURAT CITY ACB,"Old Police Cammissioner Building, 1 floor, Bahubali Building, Nanpur",21.188242,72.810743
+693,ACB,SURAT RURAL ACB,"Old Police Cammissioner Building, 1 floor, Bahubali Building, Nanpur",21.188242,72.810743
+694,ACB,SUREDRANAGAR ACB,"Bhind District Udhiyog Center, Near T.V. Station, Surendranagar",22.723657,71.622142
+695,ACB,TAPI ACB,"New bus station near, talav road vyara",21.114449,73.386589
+696,ACB,VADODARA city ACB,"Narmada Bhavan, C Block, 7 floor, Room No- 727, Jail Road, Vadodara",22.307159,73.181219
+697,ACB,VADODARA Rural ACB,"Narmada Bhavan, C Block, 7 flor,Room No- 726, Jail Road, Vadodara",22.307159,73.181219
+698,ACB,VALASAD DANG ACB,Jilla seva sadan No.2 second floor Ththal Road valsad Di. Valsad,20.606492,72.929248
+699,ACB,KUTCH(WEST) ACB,"Patvadi Naku, Naniba Sanskrut Pathsala Bhuj-Kutch",23.25512,69.66547
+700,ACB,NAVASARI ACB,"Navsari ACB PS, Talati No Choro, Kumbhar Wad, Navsari",20.950785,72.930218
+701,ACB,NARMADA ACB,"Rajapipala Tekara Faliya, Ta.Nandod, Dist. Narmada",21.8815,73.5031
+702,ACB,PATAN ACB,"ACB Police Station Hansapur Tran Rasta,Ujha, Rod Patan",23.850704,72.139854
+703,ACB,PORBANDAR ACB,"Behind New Court Building Sandipani Road, Porbandar",21.639223,69.668932
+704,ACB,KUTCH(EAST) ACB,"400 Quarter, Gurudawara near, collector Road, Gandhidham kutch",23.072744,70.138884
+705,CID Crime,Ahmedabad Zone,"Meghaninagar, New Mental Compound, Ahmedabad",23.055397,72.613055
+706,CID Crime,Border Zone Kutch,"O/o the Dysp, In PWD Office Compound, Bhuj",23.242,69.66693
+707,CID Crime,Gandhinagar Zone,"O/o the Dysp, Sector-30, B.No.199, Gandhinagar",23.238928,72.672433
+708,CID Crime,Rajkot Zone,"B/h Collector Office, Opp.Jam Tower,Shrof Road, Rajkot",22.305839,70.795605
+709,CID Crime,Surat Zone,"O/o the Dysp, Udhognagar Police Chowky, Nr.Divyabhaskar Press, Surat",21.188271,72.810927
+710,CID Crime,Vadodara Zone,"Block-C 8th Floor, Room No.810,812, Narmda Bhavan, Vadodara",22.301906,73.192619
+711,ATS,"ATS, Ahmedabad","Near Nirma University, Chharodi, S.G.High Way, Ahmadabad.",23.126755,72.54091

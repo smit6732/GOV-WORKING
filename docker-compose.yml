@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: cctv_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cctv
+      POSTGRES_PASSWORD: cctv_pass
+      POSTGRES_DB: cctv_registry
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cctv -d cctv_registry"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: cctv_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://cctv:cctv_pass@db:5432/cctv_registry
+      JWT_SECRET: change-this-secret-in-production
+      DATA_DIR: /app/data
+    volumes:
+      - ./data:/app/data:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    container_name: cctv_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+volumes:
+  pgdata:
