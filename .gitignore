@@ -1,6 +1,8 @@
 backend/.venv/
 backend/**/__pycache__/
 backend/**/*.pyc
+anpr_standalone/**/__pycache__/
+anpr_standalone/**/*.pyc
 frontend/node_modules/
 frontend/dist/
 .env
