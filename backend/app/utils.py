@@ -38,6 +38,24 @@ def camera_is_ageing(install_year: Optional[int]) -> bool:
     return age >= settings.expected_service_life_years
 
 
+def user_department_scope(user: models.User) -> Optional[str]:
+    """Read-side counterpart to can_edit_camera: returns the department a
+    department_admin is restricted to, or None for unrestricted
+    (super_admin/viewer) — callers filter queries by this when not None."""
+    if user.role == models.UserRole.department_admin:
+        return user.department
+    return None
+
+
+def normalize_plate(plate_no: Optional[str]) -> Optional[str]:
+    """Same normalization ANPR_Standalone's own OCR cleanup applies
+    (uppercase, no spaces/dashes/underscores) so tag matching is exact
+    without re-implementing its detection logic."""
+    if not plate_no:
+        return None
+    return plate_no.strip().upper().replace(" ", "").replace("-", "").replace("_", "")
+
+
 def write_audit_log(
     db: Session,
     user: Optional[models.User],

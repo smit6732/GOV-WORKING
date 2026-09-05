@@ -11,6 +11,10 @@ const ALL_TABS = [
   { to: '/health', label: 'Health', roles: ['super_admin', 'department_admin', 'viewer'] },
   { to: '/coverage', label: 'Coverage & Gap Analysis', roles: ['super_admin', 'department_admin', 'viewer'] },
   { to: '/audit-logs', label: 'Audit Logs', roles: ['super_admin', 'department_admin'] },
+  { to: '/video-wall', label: 'Video Wall', roles: ['super_admin', 'department_admin', 'viewer'] },
+  { to: '/vehicle-search', label: 'Vehicle Search', roles: ['super_admin', 'department_admin', 'viewer'] },
+  { to: '/tags', label: 'Tags', roles: ['super_admin', 'department_admin'] },
+  { to: '/alerts', label: 'Alerts', roles: ['super_admin', 'department_admin', 'viewer'] },
 ]
 
 const ROLE_LABELS = {

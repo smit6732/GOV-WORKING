@@ -54,6 +54,12 @@ class CameraBase(BaseModel):
     retention_days: Optional[int] = None
     install_year: Optional[int] = None
     connectivity_status: ConnectivityStatus = ConnectivityStatus.active
+    # Model 2 additive fields — absent (null) for the vast majority of the
+    # registry, which has no live feed. analytics_capabilities is how Model 2
+    # discovers which cameras are ANPR-eligible via this same existing API.
+    rtsp_url: Optional[str] = None
+    onvif_url: Optional[str] = None
+    analytics_capabilities: Optional[str] = None
 
 
 class CameraCreate(CameraBase):
@@ -73,6 +79,9 @@ class CameraUpdate(BaseModel):
     retention_days: Optional[int] = None
     install_year: Optional[int] = None
     connectivity_status: Optional[ConnectivityStatus] = None
+    rtsp_url: Optional[str] = None
+    onvif_url: Optional[str] = None
+    analytics_capabilities: Optional[str] = None
 
 
 class CameraOut(CameraBase):
@@ -182,3 +191,98 @@ class DistrictCoverageStat(BaseModel):
     covered_area_km2: float
     gap_area_km2: float
     coverage_pct: float
+
+
+# ==================== Model 2 — feeds / ANPR search / tags / alerts ====================
+
+class FeedOut(BaseModel):
+    camera_id: str
+    district: str
+    department: str
+    nearest_station: Optional[str] = None
+    latitude: float
+    longitude: float
+    rtsp_url: str
+    # MediaMTX path name only — the browser builds the actual HLS/WebRTC URL
+    # against its own hostname (same convention as any other public port on
+    # this stack; the backend doesn't know the browser-facing hostname).
+    stream_path: str
+    analytics_capabilities: Optional[str] = None
+    stream_status: Optional[str] = None  # from ANPR_Standalone's /stream/status, best-effort
+
+
+class AnprEventOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    camera_id: str
+    event_type: str
+    timestamp: datetime.datetime
+    track_id: Optional[int] = None
+    vehicle_class: Optional[str] = None
+    vehicle_bbox: Optional[List[float]] = None
+    vehicle_confidence: Optional[float] = None
+    plate_no: Optional[str] = None
+    plate_confidence: Optional[float] = None
+    plate_bbox: Optional[List[float]] = None
+    created_at: datetime.datetime
+    # joined in from Camera, not stored on the event itself
+    district: Optional[str] = None
+    department: Optional[str] = None
+
+
+class AnprEventListResponse(BaseModel):
+    total: int
+    page: int
+    page_size: int
+    items: List[AnprEventOut]
+
+
+class VehicleHistoryPoint(BaseModel):
+    event_id: int
+    camera_id: str
+    district: Optional[str] = None
+    department: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    timestamp: datetime.datetime
+    plate_no: Optional[str] = None
+    plate_confidence: Optional[float] = None
+    track_id: Optional[int] = None
+
+
+class TaggedPlateCreate(BaseModel):
+    plate_no: str = Field(min_length=2, max_length=32)
+    reason: Optional[str] = None
+    department: Optional[str] = None  # None = global tag (super_admin only)
+
+
+class TaggedPlateOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    plate_no: str
+    reason: Optional[str] = None
+    department: Optional[str] = None
+    tagged_by: Optional[str] = None
+    is_active: bool
+    created_at: datetime.datetime
+    removed_at: Optional[datetime.datetime] = None
+
+
+class AnprAlertOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    event_id: int
+    camera_id: str
+    tagged_plate_id: int
+    plate_no: str
+    matched_reason: Optional[str] = None
+    created_at: datetime.datetime
+    district: Optional[str] = None
+    department: Optional[str] = None
+
+
+class AnprAlertListResponse(BaseModel):
+    total: int
+    page: int
+    page_size: int
+    items: List[AnprAlertOut]

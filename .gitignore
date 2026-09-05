@@ -6,3 +6,8 @@ frontend/dist/
 .env
 *.log
 .claude/settings.local.json
+
+# Model 2 — user-supplied mock feed footage, and any local anpr_events.jsonl
+# fallback file from running ANPR_Standalone standalone (no Kafka).
+media/*.mp4
+anpr_standalone/anpr_events.jsonl

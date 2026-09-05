@@ -1,0 +1,37 @@
+# MediaMTX config for Model 2's feed-aggregation layer.
+#
+# In this demo, one MediaMTX instance plays both roles documented in
+# MODEL2_ARCHITECTURE.md: it's the "departmental VMS" the two feed-loop
+# containers publish into (department_a / department_b), AND it's Model 2's
+# own aggregation relay serving that same footage out as HLS/WebRTC to the
+# browser and as RTSP to ANPR_Standalone's /stream/start. Model 1's Camera
+# rows for CAM-M2-001/002 store rtsp://mediamtx:8554/department_a|b as their
+# rtsp_url — everything downstream (HLS playback, ANPR ingestion) keys off
+# that one stored value, which is the point being demonstrated.
+
+logLevel: info
+
+# RTSP (publish target for feed-loop containers, pull source for ANPR_Standalone)
+rtspAddress: :8554
+
+# HLS output for the browser (hls.js). Low-latency HLS needs >=7 segments
+# (MediaMTX's documented minimum) plus a short source keyframe interval —
+# see feed-loop/publish.sh's `-g 30` — or segments stay several seconds long
+# regardless of this config.
+hls: yes
+hlsAddress: :8888
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+hlsAllowOrigin: "*"
+
+# WebRTC output (lower latency than HLS where the browser supports it)
+webrtc: yes
+webrtcAddress: :8889
+
+paths:
+  department_a:
+    source: publisher
+  department_b:
+    source: publisher

@@ -117,6 +117,9 @@ def cameras_geojson(
                     "is_synthetic": c.is_synthetic,
                     "age_years": camera_age_years(c.install_year),
                     "is_ageing": camera_is_ageing(c.install_year),
+                    "rtsp_url": c.rtsp_url,
+                    "onvif_url": c.onvif_url,
+                    "analytics_capabilities": c.analytics_capabilities,
                 },
             }
         )
@@ -231,6 +234,9 @@ def create_camera(
         retention_days=payload.retention_days,
         install_year=payload.install_year,
         connectivity_status=payload.connectivity_status,
+        rtsp_url=payload.rtsp_url,
+        onvif_url=payload.onvif_url,
+        analytics_capabilities=payload.analytics_capabilities,
         is_synthetic=False,
         created_by=user.email,
     )

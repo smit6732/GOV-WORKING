@@ -23,6 +23,13 @@ class Settings(BaseSettings):
 
     cors_origins: list[str] = ["*"]
 
+    # ---- Model 2 ----
+    kafka_bootstrap_servers: str = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092")
+    elasticsearch_url: str = os.getenv("ELASTICSEARCH_URL", "http://elasticsearch:9200")
+    es_index_events: str = "anpr_events"
+    anpr_service_url: str = os.getenv("ANPR_SERVICE_URL", "http://anpr:8090")
+    anpr_kafka_topic: str = "anpr.vehicle-events"
+
     class Config:
         env_file = ".env"
 

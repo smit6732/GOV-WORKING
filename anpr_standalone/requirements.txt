@@ -1,0 +1,22 @@
+# Core CV / detection
+opencv-python~=4.11.0.86
+numpy~=2.2.4
+ultralytics
+lap>=0.5.12          # needed by ultralytics' ByteTrack tracker (VehicleDetector.track)
+paddleocr
+paddlepaddle
+
+# torch/torchvision: install separately with the right backend for
+# your machine, see README.md "Setup" — CPU vs CUDA wheels come from
+# different index URLs and pip can't auto-pick the right one.
+# torch
+# torchvision
+
+# Microservice layer
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+
+# Model 2 wiring — Kafka sink (service/sinks.py KafkaSink)
+kafka-python-ng

@@ -11,6 +11,10 @@ import BulkUpload from './pages/BulkUpload.jsx'
 import Health from './pages/Health.jsx'
 import Coverage from './pages/Coverage.jsx'
 import AuditLogs from './pages/AuditLogs.jsx'
+import VideoWall from './pages/VideoWall.jsx'
+import VehicleSearch from './pages/VehicleSearch.jsx'
+import Tags from './pages/Tags.jsx'
+import Alerts from './pages/Alerts.jsx'
 
 const ADMIN_ROLES = ['super_admin', 'department_admin']
 
@@ -54,6 +58,17 @@ export default function App() {
             </RequireRole>
           }
         />
+        <Route path="/video-wall" element={<VideoWall />} />
+        <Route path="/vehicle-search" element={<VehicleSearch />} />
+        <Route
+          path="/tags"
+          element={
+            <RequireRole roles={ADMIN_ROLES}>
+              <Tags />
+            </RequireRole>
+          }
+        />
+        <Route path="/alerts" element={<Alerts />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

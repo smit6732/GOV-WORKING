@@ -25,11 +25,16 @@ services:
       DATABASE_URL: postgresql://cctv:cctv_pass@db:5432/cctv_registry
       JWT_SECRET: change-this-secret-in-production
       DATA_DIR: /app/data
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ANPR_SERVICE_URL: http://anpr:8090
     volumes:
       - ./data:/app/data:ro
     depends_on:
       db:
         condition: service_healthy
+      kafka:
+        condition: service_started
     ports:
       - "8000:8000"
 
@@ -42,5 +47,101 @@ services:
     ports:
       - "3000:80"
 
+  # ==================== Model 2 ====================
+
+  kafka:
+    image: apache/kafka:3.9.2
+    container_name: cctv_kafka
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: cctv-model2-kraft-cluster
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: cctv_elasticsearch
+    restart: unless-stopped
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: cctv_mediamtx
+    restart: unless-stopped
+    volumes:
+      - ./mediamtx/mediamtx.yml:/mediamtx.yml:ro
+    ports:
+      - "8554:8554"   # RTSP
+      - "8888:8888"   # HLS
+      - "8889:8889"   # WebRTC
+
+  feed-department-a:
+    build: ./feed-loop
+    container_name: cctv_feed_department_a
+    restart: unless-stopped
+    environment:
+      SOURCE_FILE: /media/department_a.mp4
+      RTSP_URL: rtsp://mediamtx:8554/department_a
+    volumes:
+      - ./media:/media:ro
+    depends_on:
+      - mediamtx
+
+  feed-department-b:
+    build: ./feed-loop
+    container_name: cctv_feed_department_b
+    restart: unless-stopped
+    environment:
+      SOURCE_FILE: /media/department_b.mp4
+      RTSP_URL: rtsp://mediamtx:8554/department_b
+    volumes:
+      - ./media:/media:ro
+    depends_on:
+      - mediamtx
+
+  anpr:
+    build: ./anpr_standalone
+    container_name: cctv_anpr
+    restart: unless-stopped
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+      - mediamtx
+    ports:
+      - "8090:8090"
+
+  consumer-es:
+    build: ./backend
+    container_name: cctv_consumer_es
+    restart: unless-stopped
+    command: ["python", "-m", "app.workers.consumer_es"]
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - kafka
+      - elasticsearch
+
 volumes:
   pgdata:
+  kafka_data:
+  es_data:

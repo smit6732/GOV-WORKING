@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>ANPR Demo</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; background:#0f1115; color:#e7e9ee; }
+  header { padding:16px 24px; border-bottom:1px solid #22252c; }
+  header h1 { margin:0; font-size:18px; font-weight:600; }
+  header p { margin:4px 0 0; color:#8a90a0; font-size:13px; }
+  main { display:flex; gap:24px; padding:24px; flex-wrap:wrap; }
+  .col { flex:1; min-width:360px; }
+  .tabs { display:flex; gap:8px; margin-bottom:16px; }
+  .tab-btn { background:#1b1e26; border:1px solid #2a2e38; color:#c7cbd6; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px; }
+  .tab-btn.active { background:#3468f0; border-color:#3468f0; color:#fff; }
+  .panel { display:none; }
+  .panel.active { display:block; }
+  .frame-wrap { position:relative; width:100%; max-width:640px; background:#000; border-radius:12px; overflow:hidden; border:1px solid #2a2e38; }
+  video, canvas.overlay, .still-canvas { display:block; width:100%; height:auto; }
+  canvas.overlay { position:absolute; top:0; left:0; }
+  .controls { margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  button { background:#3468f0; color:#fff; border:none; padding:9px 16px; border-radius:8px; cursor:pointer; font-size:14px; }
+  button.secondary { background:#2a2e38; }
+  button:disabled { opacity:0.5; cursor:not-allowed; }
+  input[type=file] { color:#c7cbd6; }
+  #status { font-size:13px; color:#8a90a0; margin-top:8px; }
+  .events { background:#15171d; border:1px solid #2a2e38; border-radius:12px; padding:16px; height:520px; overflow-y:auto; }
+  .events h2 { margin:0 0 12px; font-size:14px; color:#8a90a0; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  .event-card { background:#1b1e26; border:1px solid #2a2e38; border-radius:8px; padding:10px 12px; margin-bottom:8px; font-size:13px; }
+  .event-card .plate { font-size:18px; font-weight:700; letter-spacing:.03em; color:#5ee0a0; }
+  .event-card .plate.none { color:#666; font-weight:400; font-size:13px; }
+  .event-card .meta { color:#8a90a0; margin-top:4px; }
+  .badge { display:inline-block; background:#2a2e38; padding:2px 8px; border-radius:6px; font-size:11px; margin-right:6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🚗 ANPR Demo — Model 2</h1>
+  <p>Live webcam detection, or upload a photo of a vehicle / plate. Calls the local ANPR microservice directly.</p>
+</header>
+<main>
+  <div class="col">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="webcam">Live Webcam</button>
+      <button class="tab-btn" data-tab="upload">Upload Photo</button>
+    </div>
+
+    <div class="panel active" id="panel-webcam">
+      <div class="frame-wrap">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas class="overlay" id="webcam-overlay"></canvas>
+      </div>
+      <div class="controls">
+        <button id="start-btn">Start Webcam</button>
+        <button id="stop-btn" class="secondary" disabled>Stop</button>
+      </div>
+      <div id="status">Idle.</div>
+    </div>
+
+    <div class="panel" id="panel-upload">
+      <div class="frame-wrap">
+        <canvas class="still-canvas" id="upload-canvas" width="640" height="480"></canvas>
+      </div>
+      <div class="controls">
+        <input type="file" id="file-input" accept="image/*" />
+        <button id="detect-btn" disabled>Detect</button>
+      </div>
+      <div id="upload-status">Choose a photo of a vehicle or number plate.</div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="events">
+      <h2>Detections</h2>
+      <div id="event-list"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const API_BASE = ""; // same origin as this page (served by the FastAPI app)
+
+const eventList = document.getElementById("event-list");
+function addEvents(events) {
+  if (!events || events.length === 0) return;
+  for (const e of events.slice().reverse()) {
+    const card = document.createElement("div");
+    card.className = "event-card";
+    const plateHtml = e.plate_no
+      ? `<span class="plate">${e.plate_no}</span>`
+      : `<span class="plate none">no plate read</span>`;
+    card.innerHTML = `
+      <span class="badge">${e.event_type}</span>
+      ${e.vehicle_class ? `<span class="badge">${e.vehicle_class}</span>` : ""}
+      ${plateHtml}
+      <div class="meta">${new Date(e.timestamp).toLocaleTimeString()}${e.plate_confidence != null ? ` · conf ${(e.plate_confidence*100).toFixed(0)}%` : ""}</div>
+    `;
+    eventList.prepend(card);
+  }
+  while (eventList.children.length > 40) eventList.removeChild(eventList.lastChild);
+}
+
+function drawBoxes(ctx, events, scaleX, scaleY) {
+  ctx.lineWidth = 2;
+  ctx.font = "14px system-ui";
+  for (const e of events) {
+    if (e.vehicle_bbox) {
+      const [x1, y1, x2, y2] = e.vehicle_bbox;
+      ctx.strokeStyle = "#ff8c00";
+      ctx.strokeRect(x1*scaleX, y1*scaleY, (x2-x1)*scaleX, (y2-y1)*scaleY);
+      ctx.fillStyle = "#ff8c00";
+      ctx.fillText(e.vehicle_class || "vehicle", x1*scaleX, y1*scaleY - 6);
+    }
+    if (e.plate_bbox) {
+      const [x1, y1, x2, y2] = e.plate_bbox;
+      ctx.strokeStyle = "#5ee0a0";
+      ctx.strokeRect(x1*scaleX, y1*scaleY, (x2-x1)*scaleX, (y2-y1)*scaleY);
+      ctx.fillStyle = "#5ee0a0";
+      ctx.fillText(e.plate_no || "?", x1*scaleX, y2*scaleY + 16);
+    }
+  }
+}
+
+async function detectFrame(blob) {
+  const form = new FormData();
+  form.append("file", blob, "frame.jpg");
+  const res = await fetch(`${API_BASE}/detect/image`, { method: "POST", body: form });
+  if (!res.ok) throw new Error(`Server error ${res.status}`);
+  return (await res.json()).events;
+}
+
+/* ---------------- Webcam tab ---------------- */
+const video = document.getElementById("video");
+const webcamOverlay = document.getElementById("webcam-overlay");
+const webcamCtx = webcamOverlay.getContext("2d");
+const startBtn = document.getElementById("start-btn");
+const stopBtn = document.getElementById("stop-btn");
+const statusEl = document.getElementById("status");
+
+let stream = null;
+let loopHandle = null;
+const captureCanvas = document.createElement("canvas");
+
+async function startWebcam() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+  } catch (err) {
+    statusEl.textContent = "Could not access webcam: " + err.message;
+    return;
+  }
+  video.srcObject = stream;
+  await video.play();
+  webcamOverlay.width = video.videoWidth;
+  webcamOverlay.height = video.videoHeight;
+  captureCanvas.width = video.videoWidth;
+  captureCanvas.height = video.videoHeight;
+
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  statusEl.textContent = "Running — sampling ~1 frame/sec.";
+  captureLoop();
+}
+
+function stopWebcam() {
+  if (loopHandle) clearTimeout(loopHandle);
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  stream = null;
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+  statusEl.textContent = "Stopped.";
+  webcamCtx.clearRect(0, 0, webcamOverlay.width, webcamOverlay.height);
+}
+
+async function captureLoop() {
+  if (!stream) return;
+  const ctx = captureCanvas.getContext("2d");
+  ctx.drawImage(video, 0, 0, captureCanvas.width, captureCanvas.height);
+
+  captureCanvas.toBlob(async (blob) => {
+    try {
+      const events = await detectFrame(blob);
+      webcamCtx.clearRect(0, 0, webcamOverlay.width, webcamOverlay.height);
+      drawBoxes(webcamCtx, events, 1, 1);
+      addEvents(events);
+      statusEl.textContent = `Running — last check ${new Date().toLocaleTimeString()}, ${events.length} detection(s).`;
+    } catch (err) {
+      statusEl.textContent = "Detect call failed: " + err.message;
+    }
+    loopHandle = setTimeout(captureLoop, 1000);
+  }, "image/jpeg", 0.85);
+}
+
+startBtn.addEventListener("click", startWebcam);
+stopBtn.addEventListener("click", stopWebcam);
+
+/* ---------------- Upload tab ---------------- */
+const fileInput = document.getElementById("file-input");
+const detectBtn = document.getElementById("detect-btn");
+const uploadCanvas = document.getElementById("upload-canvas");
+const uploadCtx = uploadCanvas.getContext("2d");
+const uploadStatus = document.getElementById("upload-status");
+let uploadedImg = null;
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    uploadCanvas.width = img.width;
+    uploadCanvas.height = img.height;
+    uploadCtx.drawImage(img, 0, 0);
+    uploadedImg = img;
+    detectBtn.disabled = false;
+    uploadStatus.textContent = "Ready — click Detect.";
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+detectBtn.addEventListener("click", async () => {
+  if (!uploadedImg) return;
+  detectBtn.disabled = true;
+  uploadStatus.textContent = "Detecting...";
+  uploadCanvas.toBlob(async (blob) => {
+    try {
+      const events = await detectFrame(blob);
+      uploadCtx.drawImage(uploadedImg, 0, 0); // redraw clean, then overlay
+      drawBoxes(uploadCtx, events, 1, 1);
+      addEvents(events);
+      uploadStatus.textContent = events.length
+        ? `Found ${events.length} detection(s).`
+        : "No vehicle or plate detected in this image.";
+    } catch (err) {
+      uploadStatus.textContent = "Detect call failed: " + err.message;
+    }
+    detectBtn.disabled = false;
+  }, "image/jpeg", 0.92);
+});
+
+/* ---------------- Tabs ---------------- */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(`panel-${btn.dataset.tab}`).classList.add("active");
+    if (btn.dataset.tab !== "webcam") stopWebcam();
+  });
+});
+</script>
+</body>
+</html>

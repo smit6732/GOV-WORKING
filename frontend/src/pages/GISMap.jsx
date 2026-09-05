@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { MapContainer, TileLayer, CircleMarker, Popup, LayersControl } from 'react-leaflet'
+import { CircleMarker, Popup } from 'react-leaflet'
 import api from '../api.js'
 import { Card, StatusBadge, SyntheticBadge, ErrorBanner } from '../components/ui.jsx'
-
-const GUJARAT_CENTER = [22.6, 71.6]
+import MapBase from '../components/MapBase.jsx'
 
 const STATUS_COLORS = {
   Active: '#16a34a',
@@ -50,21 +49,7 @@ export default function GISMap() {
       </Card>
 
       <Card className="p-0 overflow-hidden" style={{ height: '70vh' }}>
-        <MapContainer center={GUJARAT_CENTER} zoom={7} style={{ height: '100%' }}>
-          <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="Streets">
-              <TileLayer
-                attribution='&copy; OpenStreetMap contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="Satellite">
-              <TileLayer
-                attribution="Tiles &copy; Esri"
-                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              />
-            </LayersControl.BaseLayer>
-          </LayersControl>
+        <MapBase height="100%">
           {features.map((f) => (
             <CircleMarker
               key={f.properties.id}
@@ -96,7 +81,7 @@ export default function GISMap() {
               </Popup>
             </CircleMarker>
           ))}
-        </MapContainer>
+        </MapBase>
       </Card>
 
       <div className="flex gap-4 text-xs text-slate-500">

@@ -149,6 +149,79 @@ def seed_cameras(db: Session):
     logger.info("Seeded %d cameras", count)
 
 
+# Model 2 demo cameras — carry rtsp_url/analytics_capabilities so the unified
+# viewer + ANPR pipeline have at least 2 real feeds to work against. One per
+# department so RBAC (department_admin scoping) is genuinely exercised.
+MODEL2_DEMO_CAMERAS = [
+    dict(
+        camera_id="CAM-M2-001",
+        district="Ahmedabad",
+        department="Home Department - Police",
+        nearest_station="Ahmedabad City Control Room",
+        camera_type="IP Bullet",
+        vendor="Hikvision",
+        ownership="Government",
+        latitude=23.0225,
+        longitude=72.5714,
+        storage_type="Cloud",
+        retention_days=30,
+        install_year=2023,
+        connectivity_status="Active",
+        rtsp_url="rtsp://mediamtx:8554/department_a",
+        analytics_capabilities="anpr",
+    ),
+    dict(
+        camera_id="CAM-M2-002",
+        district="Surat",
+        department="ACB",
+        nearest_station="Surat ACB Office",
+        camera_type="IP Dome",
+        vendor="Bosch",
+        ownership="Government",
+        latitude=21.1702,
+        longitude=72.8311,
+        storage_type="Local NVR",
+        retention_days=30,
+        install_year=2023,
+        connectivity_status="Active",
+        rtsp_url="rtsp://mediamtx:8554/department_b",
+        analytics_capabilities="anpr",
+    ),
+]
+
+
+def seed_model2_cameras(db: Session):
+    """Idempotent per-camera insert (not a blanket 'skip if table non-empty')
+    so this safely adds the 2 demo feed cameras even on a database that
+    already has the full CSV-seeded registry."""
+    for c in MODEL2_DEMO_CAMERAS:
+        if db.query(models.Camera).filter(models.Camera.camera_id == c["camera_id"]).first():
+            continue
+        camera = models.Camera(
+            camera_id=c["camera_id"],
+            district=c["district"],
+            department=c["department"],
+            nearest_station=c["nearest_station"],
+            camera_type=c["camera_type"],
+            vendor=c["vendor"],
+            ownership=c["ownership"],
+            latitude=c["latitude"],
+            longitude=c["longitude"],
+            geom=make_point(c["latitude"], c["longitude"]),
+            storage_type=c["storage_type"],
+            retention_days=c["retention_days"],
+            install_year=c["install_year"],
+            connectivity_status=c["connectivity_status"],
+            rtsp_url=c["rtsp_url"],
+            analytics_capabilities=c["analytics_capabilities"],
+            is_synthetic=True,
+            created_by="seed-script",
+        )
+        db.add(camera)
+    db.commit()
+    logger.info("Seeded Model 2 demo feed cameras (idempotent)")
+
+
 def run_seed():
     db = SessionLocal()
     try:
@@ -163,5 +236,6 @@ def run_seed():
         seed_users(db)
         seed_stations(db)
         seed_cameras(db)
+        seed_model2_cameras(db)
     finally:
         db.close()
