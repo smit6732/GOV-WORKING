@@ -27,6 +27,23 @@ logger = logging.getLogger("consumer_a")
 
 _task: asyncio.Task | None = None
 
+# How long a given (camera_id, track_id) pair is treated as "the same
+# vehicle pass" for dedup purposes. ByteTrack ids are only unique within
+# one continuous stream/session and get reused as the count wraps over a
+# long-running process, so this window keeps a stale, long-ago id from
+# being confused with a brand-new vehicle that happens to reuse the number.
+TRACK_DEDUP_WINDOW = datetime.timedelta(minutes=3)
+
+
+def _better_plate_reading(existing_conf, existing_plate, new_conf, new_plate) -> bool:
+    """True if the new reading should replace what's stored: a plate read
+    where there was none before, or a higher-confidence read of one."""
+    if not existing_plate:
+        return bool(new_plate)
+    if not new_plate:
+        return False
+    return (new_conf or 0) > (existing_conf or 0)
+
 
 def _parse_timestamp(raw) -> datetime.datetime:
     if isinstance(raw, str):
@@ -40,23 +57,66 @@ def _parse_timestamp(raw) -> datetime.datetime:
 async def _handle_event(db_session_factory, event: dict):
     db = db_session_factory()
     try:
-        row = models.AnprEvent(
-            camera_id=event.get("camera_id", "unknown"),
-            event_type=event.get("event_type", "vehicle_detection"),
-            timestamp=_parse_timestamp(event.get("timestamp")),
-            track_id=event.get("track_id"),
-            vehicle_class=event.get("vehicle_class"),
-            vehicle_bbox=json.dumps(event["vehicle_bbox"]) if event.get("vehicle_bbox") else None,
-            vehicle_confidence=event.get("vehicle_confidence"),
-            plate_no=normalize_plate(event.get("plate_no")),
-            plate_confidence=event.get("plate_confidence"),
-            plate_bbox=json.dumps(event["plate_bbox"]) if event.get("plate_bbox") else None,
-        )
-        db.add(row)
+        camera_id = event.get("camera_id", "unknown")
+        track_id = event.get("track_id")
+        timestamp = _parse_timestamp(event.get("timestamp"))
+        new_plate_no = normalize_plate(event.get("plate_no"))
+        new_plate_conf = event.get("plate_confidence")
+
+        # Dedup only applies to tracked vehicle detections — plate_only_detection
+        # events never carry a track_id, so there's no vehicle pass to
+        # associate them with; each inserts its own row as before.
+        existing = None
+        if track_id is not None:
+            existing = (
+                db.query(models.AnprEvent)
+                .filter(models.AnprEvent.camera_id == camera_id)
+                .filter(models.AnprEvent.track_id == track_id)
+                .filter(models.AnprEvent.timestamp >= timestamp - TRACK_DEDUP_WINDOW)
+                .order_by(models.AnprEvent.timestamp.desc())
+                .first()
+            )
+
+        is_new_row = existing is None
+        if existing is not None:
+            # Same vehicle pass already has a row — overwrite it with a
+            # strictly better plate reading instead of inserting a new row
+            # per frame this vehicle appears in (was: one row per frame).
+            row = existing
+            if _better_plate_reading(row.plate_confidence, row.plate_no, new_plate_conf, new_plate_no):
+                row.plate_no = new_plate_no
+                row.plate_confidence = new_plate_conf
+                if event.get("plate_bbox"):
+                    row.plate_bbox = json.dumps(event["plate_bbox"])
+            if event.get("vehicle_confidence") is not None:
+                row.vehicle_confidence = event["vehicle_confidence"]
+            if event.get("vehicle_bbox"):
+                row.vehicle_bbox = json.dumps(event["vehicle_bbox"])
+            row.timestamp = timestamp
+        else:
+            row = models.AnprEvent(
+                camera_id=camera_id,
+                event_type=event.get("event_type", "vehicle_detection"),
+                timestamp=timestamp,
+                track_id=track_id,
+                vehicle_class=event.get("vehicle_class"),
+                vehicle_bbox=json.dumps(event["vehicle_bbox"]) if event.get("vehicle_bbox") else None,
+                vehicle_confidence=event.get("vehicle_confidence"),
+                plate_no=new_plate_no,
+                plate_confidence=new_plate_conf,
+                plate_bbox=json.dumps(event["plate_bbox"]) if event.get("plate_bbox") else None,
+            )
+            db.add(row)
+
         db.commit()
         db.refresh(row)
 
         if not row.plate_no:
+            return row, None
+
+        # Don't re-alert on every later frame of a vehicle pass this row
+        # already produced an alert for.
+        if not is_new_row and db.query(models.AnprAlert).filter(models.AnprAlert.event_id == row.id).first():
             return row, None
 
         camera = db.query(models.Camera).filter(models.Camera.camera_id == row.camera_id).first()

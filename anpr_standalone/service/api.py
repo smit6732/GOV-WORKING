@@ -32,6 +32,14 @@ from pydantic import BaseModel
 from anpr.pipeline import ANPRPipeline
 from service.sinks import ConsoleSink, JSONLFileSink, KafkaSink, MultiSink
 
+# Force RTSP over TCP for every cv2.VideoCapture opened via the FFmpeg
+# backend in this process. Real camera infrastructure (as opposed to our
+# own local mock feeds) is commonly reached over networks where UDP RTSP
+# drops/reorders packets; TCP trades a little latency for reliability.
+# Must be set before any VideoCapture is created, so it's done at import
+# time here rather than per-call.
+os.environ.setdefault("OPENCV_FFMPEG_CAPTURE_OPTIONS", "rtsp_transport;tcp")
+
 app = FastAPI(title="ANPR Metadata Service")
 
 # The Live Demo Panel (in Model 2's unified viewer) calls this service
@@ -137,24 +145,64 @@ def stream_status():
         return {"active_streams": list(_active_streams.keys())}
 
 
+# Reconnect backoff bounds for a source that never opens or drops mid-stream.
+_RECONNECT_MIN_DELAY = 2.0
+_RECONNECT_MAX_DELAY = 30.0
+# A handful of consecutive failed reads is treated as a transient hiccup
+# (worth a short sleep and another try on the SAME capture); beyond that,
+# the capture is released and reopened with backoff — a genuinely dropped
+# connection usually never recovers just by keeps calling .read() on it.
+_CONSECUTIVE_FAILURE_LIMIT = 5
+
+
 def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPipeline, stop_flag: threading.Event):
-    """Background worker: reads frames, runs the pipeline, emits events to the sink."""
+    """Background worker: reads frames, runs the pipeline, emits events to the
+    sink. Reconnects with exponential backoff (2s -> 30s cap) whenever the
+    source never opens or drops mid-stream, instead of hanging forever or
+    giving up after one failed attempt — real camera infrastructure (unlike
+    our own always-on mock feeds) can be briefly unreachable at any time."""
     src = int(source) if source.isdigit() else source
-    cap = cv2.VideoCapture(src)
     interval = 1.0 / target_fps
     last = 0.0
-
-    if not cap.isOpened():
-        print(f"[anpr-service] Could not open source for camera '{camera_id}': {source}")
-        return
+    backoff = _RECONNECT_MIN_DELAY
+    consecutive_failures = 0
 
     print(f"[anpr-service] Streaming started for camera '{camera_id}' ({source})")
+    cap = cv2.VideoCapture(src)
     try:
         while not stop_flag.is_set():
+            if not cap.isOpened():
+                cap.release()
+                print(
+                    f"[anpr-service] Could not open source for camera '{camera_id}': "
+                    f"{source} — retrying in {backoff:.0f}s"
+                )
+                if stop_flag.wait(backoff):
+                    break
+                backoff = min(backoff * 2, _RECONNECT_MAX_DELAY)
+                cap = cv2.VideoCapture(src)
+                continue
+
             ret, frame = cap.read()
             if not ret:
-                time.sleep(0.5)
+                consecutive_failures += 1
+                if consecutive_failures < _CONSECUTIVE_FAILURE_LIMIT:
+                    time.sleep(0.5)
+                    continue
+                cap.release()
+                print(
+                    f"[anpr-service] Lost connection for camera '{camera_id}' "
+                    f"after {consecutive_failures} failed reads — reconnecting in {backoff:.0f}s"
+                )
+                if stop_flag.wait(backoff):
+                    break
+                backoff = min(backoff * 2, _RECONNECT_MAX_DELAY)
+                cap = cv2.VideoCapture(src)
+                consecutive_failures = 0
                 continue
+
+            consecutive_failures = 0
+            backoff = _RECONNECT_MIN_DELAY
 
             now = time.time()
             if now - last < interval:
