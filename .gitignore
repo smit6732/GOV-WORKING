@@ -3,6 +3,8 @@ backend/**/__pycache__/
 backend/**/*.pyc
 anpr_standalone/**/__pycache__/
 anpr_standalone/**/*.pyc
+scripts/**/__pycache__/
+scripts/**/*.pyc
 frontend/node_modules/
 frontend/dist/
 .env

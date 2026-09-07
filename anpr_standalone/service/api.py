@@ -154,6 +154,16 @@ _RECONNECT_MAX_DELAY = 30.0
 # connection usually never recovers just by keeps calling .read() on it.
 _CONSECUTIVE_FAILURE_LIMIT = 5
 
+# Sampling is timed off the stream's own presentation timestamp
+# (CAP_PROP_POS_MSEC), not wall-clock arrival time or CAP_PROP_FPS — real
+# feeds have non-uniform frame rates and gaps, so "one frame every N
+# wall-clock seconds" drifts against what the stream is actually doing.
+# Some RTSP/FFmpeg combinations never populate PTS for a *live* stream
+# (it stays at 0 read after read) — if that's detected, sampling falls
+# back to processing every frame rather than silently stalling forever
+# waiting for a timestamp that will never advance.
+_PTS_STALL_FRAME_LIMIT = 30
+
 
 def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPipeline, stop_flag: threading.Event):
     """Background worker: reads frames, runs the pipeline, emits events to the
@@ -162,10 +172,12 @@ def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPi
     giving up after one failed attempt — real camera infrastructure (unlike
     our own always-on mock feeds) can be briefly unreachable at any time."""
     src = int(source) if source.isdigit() else source
-    interval = 1.0 / target_fps
-    last = 0.0
+    interval_ms = 1000.0 / target_fps
     backoff = _RECONNECT_MIN_DELAY
     consecutive_failures = 0
+    last_seen_pts_ms = None       # every frame read, for PTS-stall detection
+    last_accepted_pts_ms = None   # only frames accepted for processing
+    pts_stall_count = 0
 
     print(f"[anpr-service] Streaming started for camera '{camera_id}' ({source})")
     cap = cv2.VideoCapture(src)
@@ -204,10 +216,21 @@ def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPi
             consecutive_failures = 0
             backoff = _RECONNECT_MIN_DELAY
 
-            now = time.time()
-            if now - last < interval:
-                continue
-            last = now
+            pts_ms = cap.get(cv2.CAP_PROP_POS_MSEC)
+            if last_seen_pts_ms is not None and pts_ms > last_seen_pts_ms:
+                pts_stall_count = 0
+            else:
+                pts_stall_count += 1
+            last_seen_pts_ms = pts_ms
+            pts_usable = pts_stall_count < _PTS_STALL_FRAME_LIMIT
+
+            if pts_usable:
+                if last_accepted_pts_ms is not None and (pts_ms - last_accepted_pts_ms) < interval_ms:
+                    continue
+                last_accepted_pts_ms = pts_ms
+            # else: PTS isn't advancing on this source — don't throttle,
+            # process every frame rather than skip forever waiting on a
+            # timestamp that will never move.
 
             for event in pipeline.process_frame(frame, track=True):
                 _sink.emit(event)
