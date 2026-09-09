@@ -21,6 +21,8 @@ when tracking (create one ANPRPipeline per camera instead).
 
 from datetime import datetime, timezone
 
+import cv2
+
 from .plate_recognizer import PlateRecognizer
 from .vehicle_detector import VehicleDetector
 
@@ -46,10 +48,102 @@ def _plate_inside_vehicle(plate_bbox, vehicle_bbox, min_overlap: float = 0.5) ->
 class ANPRPipeline:
     """One instance per camera/video source (tracking state is per-instance)."""
 
-    def __init__(self, camera_id: str = "unknown", vehicle_conf: float = 0.4, plate_conf: float = 0.45):
+    def __init__(
+        self,
+        camera_id: str = "unknown",
+        vehicle_conf: float = 0.4,
+        plate_conf: float = 0.45,
+        zoom_rescan: bool = True,
+        zoom_pad_frac: float = 0.15,
+        zoom_min_height: int = 300,
+        zoom_max_scale: float = 8.0,
+        zoom_rescan_conf_threshold: float = 0.7,
+    ):
         self.camera_id = camera_id
         self.vehicle_detector = VehicleDetector(conf_threshold=vehicle_conf)
         self.plate_recognizer = PlateRecognizer(conf_threshold=plate_conf)
+
+        # Second-pass "zoomed" plate re-detection: on a wide-angle camera a
+        # distant vehicle can be only a few dozen pixels tall, which is too
+        # little effective resolution for a single whole-frame plate-detector
+        # pass to pick up -- or the plate gets *found* but at low confidence
+        # with a misread. When the whole-frame pass either misses the
+        # vehicle's plate entirely, or found one but with no OCR read or
+        # confidence below zoom_rescan_conf_threshold, crop just that
+        # vehicle out of the ORIGINAL full-resolution frame, upscale the
+        # crop, and run plate detection again on it alone -- the same
+        # model, just given more pixels to work with for that one region.
+        # The better of the two results (prefer a non-null plate_no, then
+        # higher confidence) is kept. Real-data-driven: on the actual
+        # Sentinel grid footage, vehicle detection succeeds at moderate
+        # confidence but the plate detector almost never fires at all, and
+        # confirmed by direct testing: a whole-frame pass that DOES find a
+        # plate at low confidence can still misread it where the zoomed
+        # pass reads it correctly at much higher confidence -- so this
+        # can't be gated on "found nothing" alone.
+        self.zoom_rescan = zoom_rescan
+        self.zoom_pad_frac = zoom_pad_frac
+        self.zoom_min_height = zoom_min_height
+        self.zoom_max_scale = zoom_max_scale
+        self.zoom_rescan_conf_threshold = zoom_rescan_conf_threshold
+
+    @staticmethod
+    def _better_plate(a, b):
+        """Pick the better of two plate detections (either may be None):
+        prefer one with an actual OCR read over one without, then prefer
+        higher confidence."""
+        if a is None:
+            return b
+        if b is None:
+            return a
+        if bool(a.get("plate_no")) != bool(b.get("plate_no")):
+            return a if a.get("plate_no") else b
+        return a if a["confidence"] >= b["confidence"] else b
+
+    # ---------------------------------------------------------------
+    def _zoomed_plate_for_vehicle(self, frame, vehicle_bbox):
+        """Crop `vehicle_bbox` (+ padding) out of `frame`, upscale it, and
+        run the plate detector on just that crop. Returns a detection dict
+        with its bbox translated back into the ORIGINAL frame's coordinate
+        space (so callers/overlays don't need to know this happened), or
+        None if nothing was found."""
+        h, w = frame.shape[:2]
+        x1, y1, x2, y2 = vehicle_bbox
+        bw, bh = x2 - x1, y2 - y1
+        if bw <= 0 or bh <= 0:
+            return None
+
+        pad_x, pad_y = int(bw * self.zoom_pad_frac), int(bh * self.zoom_pad_frac)
+        cx1, cy1 = max(0, x1 - pad_x), max(0, y1 - pad_y)
+        cx2, cy2 = min(w, x2 + pad_x), min(h, y2 + pad_y)
+        if cx2 <= cx1 or cy2 <= cy1:
+            return None
+
+        crop = frame[cy1:cy2, cx1:cx2]
+        crop_h = crop.shape[0]
+        if crop_h == 0:
+            return None
+
+        scale = min(self.zoom_max_scale, max(1.0, self.zoom_min_height / crop_h))
+        if scale > 1.0:
+            crop = cv2.resize(crop, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
+
+        detections = self.plate_recognizer.predict(crop)["detections"]
+        if not detections:
+            return None
+
+        # Prefer a detection that actually has plate text over merely the
+        # highest-confidence box (a confident box with a failed OCR read
+        # is worth less than a slightly-less-confident box that read).
+        best = next((d for d in detections if d.get("plate_no")), detections[0])
+        bx1, by1, bx2, by2 = best["bbox"]
+        return {
+            **best,
+            "bbox": (
+                int(bx1 / scale) + cx1, int(by1 / scale) + cy1,
+                int(bx2 / scale) + cx1, int(by2 / scale) + cy1,
+            ),
+        }
 
     # ---------------------------------------------------------------
     def process_frame(self, frame, track: bool = False, frame_ts: str = None):
@@ -79,6 +173,20 @@ class ANPRPipeline:
             )
             if plate is not None:
                 matched.add(plates.index(plate))
+
+            needs_rescan = self.zoom_rescan and (
+                plate is None
+                or not plate.get("plate_no")
+                or plate["confidence"] < self.zoom_rescan_conf_threshold
+            )
+            if needs_rescan:
+                # Whole-frame pass either missed this vehicle's plate
+                # entirely, or found one with no OCR read / low confidence
+                # -- try again on a cropped, upscaled version of just its
+                # region, and keep whichever result is actually better
+                # rather than assuming the zoomed pass automatically wins.
+                zoomed = self._zoomed_plate_for_vehicle(frame, v["bbox"])
+                plate = self._better_plate(plate, zoomed)
 
             events.append({
                 "event_type": "vehicle_detection",
