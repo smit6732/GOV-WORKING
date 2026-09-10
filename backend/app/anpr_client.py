@@ -126,6 +126,26 @@ async def start_all_streams(db: Session):
                 await asyncio.sleep(_STREAM_START_STAGGER_SECONDS)
 
 
+async def stop_all_streams() -> dict:
+    """Stop every currently-tracked stream at once, via ANPR_Standalone's
+    bulk /stream/stop_all. Used by the Video Wall's live-grid/demo-mode
+    switch -- the one-shot /detect/image endpoint (webcam capture, photo
+    upload) shares this same CPU-only process with every background
+    camera, so a real camera grid running can starve it badly enough to
+    time out (confirmed directly: 30+ real streams -> a plain detect
+    call exceeding 20s). Freeing the background load entirely, rather
+    than just throttling it, is the only way to guarantee the one-shot
+    panel gets full CPU."""
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            resp = await client.post(f"{settings.anpr_service_url}/stream/stop_all")
+            resp.raise_for_status()
+            return resp.json()
+    except httpx.HTTPError as e:
+        logger.warning("Failed to stop all ANPR streams: %s", e)
+        return {"status": "error", "detail": str(e)}
+
+
 async def get_stream_status() -> list[str]:
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:

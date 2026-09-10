@@ -365,12 +365,71 @@ function UploadTile() {
   )
 }
 
+// ---------------- Live Grid / Demo Mode switch ----------------
+//
+// Background camera tracking (up to 30+ real cameras) and the one-shot
+// webcam/upload demo panel share ONE CPU-only ANPR process -- running a
+// full real grid can starve the demo panel badly enough to time out
+// (confirmed directly against real Sentinel Grid load). Rather than let
+// that show up as an unexplained hang, make the tradeoff an explicit
+// choice: only one of the two runs background inference at a time.
+
+function ModeGate({ active, message, children }) {
+  if (active) return children
+  return (
+    <div className="relative">
+      <div className="opacity-30 pointer-events-none">{children}</div>
+      <div className="absolute inset-0 flex items-center justify-center p-4">
+        <div className="bg-white/95 border border-slate-300 rounded px-3 py-2 text-xs text-slate-600 text-center shadow">
+          {message}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LiveGridSwitch({ running, pending, onToggle }) {
+  const label = running === null ? 'Checking…' : running ? 'Live Grid' : 'Demo Mode'
+  return (
+    <div className="flex items-center gap-3 bg-white border border-slate-200 rounded px-3 py-2">
+      <button
+        type="button"
+        role="switch"
+        aria-checked={!!running}
+        disabled={running === null || pending}
+        onClick={onToggle}
+        className={`relative w-11 h-6 rounded-full transition-colors disabled:opacity-50 ${
+          running ? 'bg-gujgov-700' : 'bg-slate-300'
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+            running ? 'translate-x-5' : ''
+          }`}
+        />
+      </button>
+      <div className="text-sm">
+        <div className="font-semibold">{label}</div>
+        <div className="text-xs text-slate-500">
+          {pending
+            ? 'Switching…'
+            : running
+            ? 'Processing all registry cameras. Webcam/Upload panel is paused.'
+            : 'Camera grid paused. Webcam/Upload panel has full CPU.'}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ---------------- Unified grid ----------------
 
 export default function VideoWall() {
   const [feeds, setFeeds] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [liveGridRunning, setLiveGridRunning] = useState(null) // null = not checked yet
+  const [switching, setSwitching] = useState(false)
 
   useEffect(() => {
     api
@@ -378,24 +437,72 @@ export default function VideoWall() {
       .then((res) => setFeeds(res.data))
       .catch((e) => setError(e.response?.data?.detail || 'Failed to load feeds'))
       .finally(() => setLoading(false))
+    refreshLiveGridStatus()
   }, [])
+
+  function refreshLiveGridStatus() {
+    api
+      .get('/feeds/live-grid/status')
+      .then((res) => setLiveGridRunning(res.data.running))
+      .catch(() => {}) // leave as "checking" rather than guessing
+  }
+
+  async function toggleLiveGrid() {
+    setSwitching(true)
+    try {
+      if (liveGridRunning) {
+        await api.post('/feeds/live-grid/stop')
+        setLiveGridRunning(false)
+      } else {
+        await api.post('/feeds/live-grid/start')
+        // Starting a full grid is staggered server-side and takes real
+        // time (~1.5s per camera) -- reflect "on" immediately (the
+        // switch itself did succeed), individual tile status will catch
+        // up as streams actually connect.
+        setLiveGridRunning(true)
+      }
+    } catch (e) {
+      setError(e.response?.data?.detail || 'Failed to switch live grid mode')
+    } finally {
+      setSwitching(false)
+    }
+  }
 
   return (
     <div className="space-y-3">
       <ErrorBanner message={error} />
-      <div className="text-sm text-slate-500">
-        {feeds.length} analytics-capable camera{feeds.length === 1 ? '' : 's'} from Model 1's registry, plus
-        the live ANPR demo panel (webcam / photo upload) below.
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="text-sm text-slate-500">
+          {feeds.length} analytics-capable camera{feeds.length === 1 ? '' : 's'} from Model 1's registry, plus
+          the live ANPR demo panel (webcam / photo upload) below. Only one runs background detection at a time.
+        </div>
+        <LiveGridSwitch running={liveGridRunning} pending={switching} onToggle={toggleLiveGrid} />
       </div>
       {loading ? (
         <Spinner />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {feeds.map((f) => (
-            <CameraTile key={f.camera_id} feed={f} />
+            <ModeGate
+              key={f.camera_id}
+              active={liveGridRunning !== false}
+              message="Live Grid is paused (Demo Mode active) — switch back to view cameras."
+            >
+              <CameraTile feed={f} />
+            </ModeGate>
           ))}
-          <WebcamTile />
-          <UploadTile />
+          <ModeGate
+            active={liveGridRunning !== true}
+            message="Switch to Demo Mode to use your webcam here."
+          >
+            <WebcamTile />
+          </ModeGate>
+          <ModeGate
+            active={liveGridRunning !== true}
+            message="Switch to Demo Mode to upload a photo here."
+          >
+            <UploadTile />
+          </ModeGate>
         </div>
       )}
     </div>
