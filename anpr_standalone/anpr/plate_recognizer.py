@@ -15,7 +15,6 @@ import os
 import threading
 
 import cv2
-import numpy as np
 import torch
 from paddleocr import PaddleOCR
 from ultralytics import YOLO
@@ -81,7 +80,23 @@ class PlateRecognizer(metaclass=SingletonType):
 
     # ---------------------------------------------------------------
     def _preprocess_plate(self, crop):
-        """Enhance a cropped plate image for better OCR accuracy."""
+        """Upscale a small plate crop; otherwise hand PaddleOCR the crop as-is.
+
+        Previously this also ran grayscale -> bilateral filter -> CLAHE ->
+        sharpen -> adaptive-threshold binarization here. Confirmed via
+        direct debug instrumentation (dumping PaddleOCR's raw result) that
+        this pipeline made PP-OCRv6's text-DETECTION stage return zero
+        regions (`dt_polys: []`) even on clear, well-lit, in-focus crops a
+        human reads immediately — no exception, no warning, just a
+        structurally valid empty result, which is why it never showed up
+        as an error anywhere. PP-OCRv6 is trained on natural images; full
+        binarization destroys the gradient/edge information its detector
+        relies on to find text at all. Removing it restored correct
+        detection and reading immediately across every re-tested photo,
+        including a gold-standard close-up that had regressed to reading
+        nothing despite the plate detector finding a tight 79-85%-confidence
+        box around the plate every time.
+        """
         if crop is None or crop.size == 0:
             return None
 
@@ -94,32 +109,7 @@ class PlateRecognizer(metaclass=SingletonType):
             new_w = int(w * scale)
             crop = cv2.resize(crop, (new_w, target_height), interpolation=cv2.INTER_CUBIC)
 
-        gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
-
-        # Reduce noise while keeping edges.
-        filtered = cv2.bilateralFilter(gray, 9, 75, 75)
-
-        # Improve local contrast.
-        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
-        enhanced = clahe.apply(filtered)
-
-        # Sharpen.
-        kernel_sharpen = np.array([[-1, -1, -1],
-                                    [-1, 9, -1],
-                                    [-1, -1, -1]])
-        sharpened = cv2.filter2D(enhanced, -1, kernel_sharpen)
-
-        # Adaptive threshold to a clean binary image.
-        binary = cv2.adaptiveThreshold(
-            sharpened, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-            cv2.THRESH_BINARY, 11, 2
-        )
-
-        # Normalize to dark-text-on-light-background.
-        if np.mean(binary) < 127:
-            binary = cv2.bitwise_not(binary)
-
-        return cv2.cvtColor(binary, cv2.COLOR_GRAY2BGR)
+        return crop
 
     # ---------------------------------------------------------------
     @staticmethod
