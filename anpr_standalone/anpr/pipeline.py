@@ -19,6 +19,7 @@ mix frames from different cameras into one ANPRPipeline instance
 when tracking (create one ANPRPipeline per camera instead).
 """
 
+from collections import defaultdict
 from datetime import datetime, timezone
 
 import cv2
@@ -87,6 +88,28 @@ class ANPRPipeline:
         self.zoom_max_scale = zoom_max_scale
         self.zoom_rescan_conf_threshold = zoom_rescan_conf_threshold
 
+        # Real-data finding (Sentinel Grid, 2026-09-10): a meaningful share
+        # of plate detections are static scene elements re-detected every
+        # frame at the exact same fixed pixel location -- burned-in
+        # timestamp overlays, business/phone-number decals, camera-
+        # housing fixtures -- not real vehicle plates. Cross-checked
+        # directly against our own DB: OCR output on some of the
+        # "successful" reads included things like a phone number and what
+        # reads as a burned-in HH:MM:SS timestamp -- text that is real,
+        # but is not a plate. Worse, one such static false positive
+        # (misread as "GJ11CH2") ended up attached to over a dozen
+        # different tracked vehicles, because it happened to sit inside
+        # whichever vehicle's box was passing by -- so this isn't only an
+        # "orphaned detection" problem. A genuine moving vehicle's plate
+        # changes screen position frame to frame; a static false positive
+        # doesn't. Track how many times each (quantized) screen location
+        # has produced a plate detection and stop reporting it once it's
+        # clearly not attached to anything that moves, instead of
+        # reporting the same non-plate object forever.
+        self._static_location_hits = defaultdict(int)
+        self._STATIC_LOCATION_GRID = 20  # px bucket size for "same" location
+        self._STATIC_LOCATION_SUPPRESS_AFTER = 4
+
     @staticmethod
     def _better_plate(a, b):
         """Pick the better of two plate detections (either may be None):
@@ -146,6 +169,29 @@ class ANPRPipeline:
         }
 
     # ---------------------------------------------------------------
+    def _drop_static_locations(self, plates):
+        """Filter out plate detections at a screen location that keeps
+        firing frame after frame — scene clutter (a burned-in timestamp
+        overlay, a business/phone-number decal, a camera-housing fixture),
+        not a real vehicle's plate. Applied to the whole-frame detection
+        list BEFORE vehicle-matching, so a static false positive that
+        happens to sit inside a passing vehicle's box (observed on real
+        footage: the same fixed-location misread attached to over a dozen
+        different tracked vehicles) gets caught too, not just the
+        unmatched/orphaned case."""
+        kept = []
+        for p in plates:
+            bx1, by1, bx2, by2 = p["bbox"]
+            loc_key = (
+                ((bx1 + bx2) // 2) // self._STATIC_LOCATION_GRID,
+                ((by1 + by2) // 2) // self._STATIC_LOCATION_GRID,
+            )
+            self._static_location_hits[loc_key] += 1
+            if self._static_location_hits[loc_key] <= self._STATIC_LOCATION_SUPPRESS_AFTER:
+                kept.append(p)
+        return kept
+
+    # ---------------------------------------------------------------
     def process_frame(self, frame, track: bool = False, frame_ts: str = None):
         """
         Run vehicle + plate detection on one frame and return a list
@@ -160,7 +206,7 @@ class ANPRPipeline:
             self.vehicle_detector.track(frame) if track
             else self.vehicle_detector.predict(frame)
         )
-        plates = self.plate_recognizer.predict(frame)["detections"]
+        plates = self._drop_static_locations(self.plate_recognizer.predict(frame)["detections"])
 
         events = []
         matched = set()
@@ -203,7 +249,9 @@ class ANPRPipeline:
 
         # Plates the vehicle detector didn't have a matching box for
         # (missed detection, tight crop, two-wheeler edge case, etc.)
-        # — still worth reporting rather than silently dropping.
+        # — still worth reporting rather than silently dropping (static
+        # scene clutter at a fixed location was already filtered out of
+        # `plates` above, for both this loop and the vehicle-matched one).
         for i, p in enumerate(plates):
             if i in matched:
                 continue

@@ -30,6 +30,16 @@ from ultralytics import YOLO
 # commercial plates) that don't fit this pattern.
 _STANDARD_PLATE_RE = re.compile(r"^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$")
 
+# When a plate REGION is detected (the YOLO stage succeeds) but no plate_no
+# ends up on the event, the cause could be any of: PaddleOCR's own text
+# detector finding zero regions in the crop, empty rec_texts on a
+# non-empty result, or real OCR text that _clean_plate_text() rejects.
+# These are very different problems (crop quality vs. our own validation
+# being too strict) and were previously indistinguishable from outside —
+# _apply_ocr just returned None for all three. Gated behind an env var so
+# it's opt-in diagnostic noise, not a permanent production log spam.
+_OCR_DEBUG = os.environ.get("ANPR_OCR_DEBUG", "0") == "1"
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_YOLO_PATH = os.path.join(BASE_DIR, "..", "weights", "ANPR_YOLO.pt")
 
@@ -166,13 +176,22 @@ class PlateRecognizer(metaclass=SingletonType):
             processed = self._preprocess_plate(crop)
             if processed is None:
                 return None
+            crop_dim = f"{processed.shape[1]}x{processed.shape[0]}"
 
             result = self.ocr.ocr(processed)
             if not result or not result[0]:
+                if _OCR_DEBUG:
+                    print(f"[ocr-debug] crop={crop_dim} -> PaddleOCR returned no result at all")
                 return None
 
             rec_texts = result[0].get("rec_texts")
             if not rec_texts:
+                if _OCR_DEBUG:
+                    dt_polys = result[0].get("dt_polys")
+                    print(
+                        f"[ocr-debug] crop={crop_dim} -> text DETECTOR found "
+                        f"{len(dt_polys) if dt_polys is not None else 0} region(s), 0 recognized"
+                    )
                 return None
 
             rec_boxes = result[0].get("rec_boxes")
@@ -185,7 +204,10 @@ class PlateRecognizer(metaclass=SingletonType):
             else:
                 combined = rec_texts[0]
 
-            return self._clean_plate_text(combined)
+            cleaned = self._clean_plate_text(combined)
+            if _OCR_DEBUG and cleaned is None:
+                print(f"[ocr-debug] crop={crop_dim} -> raw OCR text='{combined}' REJECTED by cleaning")
+            return cleaned
         except Exception as e:
             print(f"[WARN] OCR failed: {e}")
             return None

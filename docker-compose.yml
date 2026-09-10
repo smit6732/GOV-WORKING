@@ -123,6 +123,12 @@ services:
     restart: unless-stopped
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      # Set to "1" to log why a detected plate region produced no text --
+      # distinguishes "OCR's own text detector found nothing" from "OCR
+      # found text but our validation rejected it" from a genuine read.
+      # Off by default: useful for accuracy investigations, noisy for
+      # normal operation.
+      ANPR_OCR_DEBUG: "0"
     depends_on:
       - kafka
       - mediamtx
