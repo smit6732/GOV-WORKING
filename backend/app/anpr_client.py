@@ -27,6 +27,46 @@ logger = logging.getLogger("anpr_client")
 # server when many are registered.
 _STREAM_START_STAGGER_SECONDS = 1.5
 
+# ANPR_Standalone loads YOLOv8 + PaddleOCR at import time, before its
+# uvicorn server starts accepting requests -- this can take well over a
+# minute. The backend has no docker-compose `depends_on` ordering against
+# it (compose's own health-check-gated depends_on can't express "and the
+# app inside has finished loading its models" anyway), so on a fresh
+# `docker compose up` or a backend-only restart, start_all_streams() can
+# run before ANPR_Standalone is reachable at all. Observed directly this
+# session: "ANPR service unreachable" on every camera right after an anpr
+# container restart. Previously this just logged a warning and gave up
+# for that boot -- streams only started at all if someone noticed and
+# restarted the backend again. Poll /health first instead.
+_ANPR_READY_POLL_INTERVAL_SECONDS = 2.0
+_ANPR_READY_MAX_WAIT_SECONDS = 90.0
+
+
+async def _wait_for_anpr_ready() -> bool:
+    """Poll ANPR_Standalone's /health until it responds, up to a bounded
+    timeout. Returns True once ready, False if the timeout is hit (caller
+    proceeds anyway -- the per-camera calls will just log their own
+    per-camera warnings same as before, rather than blocking startup
+    forever on a genuinely-down service)."""
+    deadline = asyncio.get_event_loop().time() + _ANPR_READY_MAX_WAIT_SECONDS
+    async with httpx.AsyncClient(timeout=3.0) as client:
+        while True:
+            try:
+                resp = await client.get(f"{settings.anpr_service_url}/health")
+                if resp.status_code == 200:
+                    return True
+            except httpx.HTTPError:
+                pass
+
+            if asyncio.get_event_loop().time() >= deadline:
+                logger.warning(
+                    "ANPR service still not reachable after %.0fs -- proceeding "
+                    "anyway, individual stream starts may fail",
+                    _ANPR_READY_MAX_WAIT_SECONDS,
+                )
+                return False
+            await asyncio.sleep(_ANPR_READY_POLL_INTERVAL_SECONDS)
+
 
 def _analytics_capable_cameras(db: Session):
     return (
@@ -43,6 +83,11 @@ async def start_all_streams(db: Session):
     if not cameras:
         logger.info("No analytics-capable cameras found; nothing to start on ANPR_Standalone")
         return
+
+    ready = await _wait_for_anpr_ready()
+    if ready:
+        logger.info("ANPR service is up -- starting streams for %d camera(s)", len(cameras))
+
     async with httpx.AsyncClient(timeout=10.0) as client:
         for i, cam in enumerate(cameras):
             try:
