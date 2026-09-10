@@ -214,7 +214,6 @@ class PlateRecognizer(metaclass=SingletonType):
 
         detections = []
         h, w = frame.shape[:2]
-        pad = 8
 
         for box in boxes:
             conf = float(box.conf[0])
@@ -222,8 +221,23 @@ class PlateRecognizer(metaclass=SingletonType):
                 continue
 
             x1, y1, x2, y2 = map(int, box.xyxy[0])
-            y1_pad, y2_pad = max(0, y1 - pad), min(h, y2 + pad)
-            x1_pad, x2_pad = max(0, x1 - pad), min(w, x2 + pad)
+
+            # Padding scales with the box's own size, not a fixed pixel
+            # count. A flat 8px margin is fine for a small/distant plate,
+            # but for a large close-up plate an angled tilt can put real
+            # plate content well outside a merely-8px-larger box, clipping
+            # a corner before OCR ever sees it. Confirmed against a real
+            # failure: an angled plate read as a 7-character fragment
+            # missing both the leading state-code letters and part of the
+            # trailing digits -- both ends cut, the signature of a
+            # too-tight crop, not random OCR noise. 15% of the box's own
+            # width/height (8px floor for tiny boxes) gives an angled
+            # plate more room without dragging in excessive background
+            # for a straight-on one.
+            box_w, box_h = x2 - x1, y2 - y1
+            pad_x, pad_y = max(8, int(0.15 * box_w)), max(8, int(0.15 * box_h))
+            y1_pad, y2_pad = max(0, y1 - pad_y), min(h, y2 + pad_y)
+            x1_pad, x2_pad = max(0, x1 - pad_x), min(w, x2 + pad_x)
 
             crop = frame[y1_pad:y2_pad, x1_pad:x2_pad]
             if crop.size == 0:
