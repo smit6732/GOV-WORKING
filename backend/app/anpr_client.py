@@ -58,3 +58,18 @@ async def get_stream_status() -> list[str]:
             return resp.json().get("active_streams", [])
     except httpx.HTTPError:
         return []
+
+
+async def get_stream_health() -> dict:
+    """Real per-camera connectivity (is video actually flowing right now),
+    not just 'a background thread is assigned and trying' -- a stream
+    stuck in reconnect-backoff still shows up in get_stream_status()'s
+    plain list, but connected=False here. Returns {} (treated as unknown)
+    if the ANPR service itself is unreachable."""
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get(f"{settings.anpr_service_url}/streams/health")
+            resp.raise_for_status()
+            return resp.json()
+    except httpx.HTTPError:
+        return {}

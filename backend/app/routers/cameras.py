@@ -120,6 +120,7 @@ def cameras_geojson(
                     "rtsp_url": c.rtsp_url,
                     "onvif_url": c.onvif_url,
                     "analytics_capabilities": c.analytics_capabilities,
+                    "hls_url": c.hls_url,
                 },
             }
         )
@@ -237,6 +238,7 @@ def create_camera(
         rtsp_url=payload.rtsp_url,
         onvif_url=payload.onvif_url,
         analytics_capabilities=payload.analytics_capabilities,
+        hls_url=payload.hls_url,
         is_synthetic=False,
         created_by=user.email,
     )

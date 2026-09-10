@@ -52,7 +52,10 @@ function CameraTile({ feed }) {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const url = `http://${window.location.hostname}:${HLS_PORT}/${feed.stream_path}/index.m3u8`
+    // A camera with its own ready-to-use hls_url (e.g. an external
+    // provider's CDN-served .m3u8) is played directly; otherwise fall
+    // back to assuming it's relayed through our own MediaMTX.
+    const url = feed.hls_url || `http://${window.location.hostname}:${HLS_PORT}/${feed.stream_path}/index.m3u8`
     const video = videoRef.current
     let hls
     if (Hls.isSupported()) {
@@ -68,7 +71,7 @@ function CameraTile({ feed }) {
       setError('HLS not supported in this browser')
     }
     return () => hls && hls.destroy()
-  }, [feed.stream_path])
+  }, [feed.stream_path, feed.hls_url])
 
   return (
     <Card className="p-0 overflow-hidden">
@@ -79,8 +82,20 @@ function CameraTile({ feed }) {
         <div className="font-semibold">{feed.camera_id}</div>
         <div className="text-slate-500">{feed.district} · {feed.department}</div>
         <div className="flex items-center gap-1.5">
-          <span className={`w-2 h-2 rounded-full ${feed.stream_status === 'active' ? 'bg-green-500' : 'bg-slate-300'}`} />
-          <span className="text-slate-400">ANPR tracking {feed.stream_status}</span>
+          <span
+            className={`w-2 h-2 rounded-full ${
+              feed.stream_status === 'connected'
+                ? 'bg-green-500'
+                : feed.stream_status === 'connecting'
+                ? 'bg-amber-500 animate-pulse'
+                : 'bg-slate-300'
+            }`}
+          />
+          <span className="text-slate-400">
+            {feed.stream_status === 'connected' && 'ANPR tracking — receiving frames'}
+            {feed.stream_status === 'connecting' && 'ANPR tracking — reconnecting…'}
+            {feed.stream_status === 'inactive' && 'ANPR tracking inactive'}
+          </span>
         </div>
         {error && <div className="text-red-600">{error}</div>}
       </div>

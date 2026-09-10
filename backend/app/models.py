@@ -89,6 +89,10 @@ class Camera(Base):
     rtsp_url = Column(String(512), nullable=True)
     onvif_url = Column(String(512), nullable=True)
     analytics_capabilities = Column(String(128), nullable=True)
+    # Optional override: a ready-to-use external HLS URL, used as-is by
+    # the Video Wall instead of assuming every camera streams through our
+    # own MediaMTX. Null for the vast majority of cameras.
+    hls_url = Column(String(512), nullable=True)
 
     created_by = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)

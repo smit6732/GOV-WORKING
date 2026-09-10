@@ -57,9 +57,40 @@ app.add_middleware(
 # the full Model 2 unified-viewer frontend.
 app.mount("/demo", StaticFiles(directory="service/static", html=True), name="demo")
 
-# camera_id -> {"thread": Thread, "stop_flag": threading.Event, "pipeline": ANPRPipeline}
+# camera_id -> {"thread": Thread, "stop_flag": threading.Event,
+#               "pipeline": ANPRPipeline, "connected": bool,
+#               "last_frame_at": float | None (epoch seconds)}
+# "connected" is the REAL observed state -- distinct from merely being a
+# key in this dict, which only means a background thread is assigned and
+# trying. A stream stuck in reconnect-backoff (source unreachable) is
+# still "active" in that sense, but not actually connected; callers that
+# want genuine health should check "connected", not just presence here.
 _active_streams = {}
 _streams_lock = threading.Lock()
+
+
+def _set_stream_connected(camera_id: str, connected: bool):
+    with _streams_lock:
+        entry = _active_streams.get(camera_id)
+        if entry is not None:
+            entry["connected"] = connected
+            if connected:
+                entry["last_frame_at"] = time.time()
+
+
+def _stream_status_snapshot():
+    with _streams_lock:
+        now = time.time()
+        return {
+            camera_id: {
+                "connected": entry["connected"],
+                "last_frame_at": entry["last_frame_at"],
+                "seconds_since_last_frame": (
+                    round(now - entry["last_frame_at"], 1) if entry["last_frame_at"] else None
+                ),
+            }
+            for camera_id, entry in _active_streams.items()
+        }
 
 # Model 2 wiring: when KAFKA_BOOTSTRAP_SERVERS is set (i.e. running inside
 # the full stack), events also go to Kafka; the console/file sinks stay on
@@ -86,6 +117,13 @@ def health():
     with _streams_lock:
         active = list(_active_streams.keys())
     return {"status": "ok", "active_streams": active}
+
+
+@app.get("/streams/health")
+def streams_health():
+    """Real per-stream connectivity, not just 'a thread is assigned'. See
+    /stream/status for the simpler, backward-compatible list form."""
+    return _stream_status_snapshot()
 
 
 @app.post("/detect/image")
@@ -119,7 +157,10 @@ def start_stream(req: StartStreamRequest):
             args=(req.camera_id, req.source, req.target_fps, pipeline, stop_flag),
             daemon=True,
         )
-        _active_streams[req.camera_id] = {"thread": thread, "stop_flag": stop_flag, "pipeline": pipeline}
+        _active_streams[req.camera_id] = {
+            "thread": thread, "stop_flag": stop_flag, "pipeline": pipeline,
+            "connected": False, "last_frame_at": None,
+        }
         thread.start()
 
     return {"status": "started", "camera_id": req.camera_id}
@@ -185,6 +226,7 @@ def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPi
         while not stop_flag.is_set():
             if not cap.isOpened():
                 cap.release()
+                _set_stream_connected(camera_id, False)
                 print(
                     f"[anpr-service] Could not open source for camera '{camera_id}': "
                     f"{source} — retrying in {backoff:.0f}s"
@@ -202,6 +244,7 @@ def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPi
                     time.sleep(0.5)
                     continue
                 cap.release()
+                _set_stream_connected(camera_id, False)
                 print(
                     f"[anpr-service] Lost connection for camera '{camera_id}' "
                     f"after {consecutive_failures} failed reads — reconnecting in {backoff:.0f}s"
@@ -215,6 +258,10 @@ def _run_stream(camera_id: str, source: str, target_fps: float, pipeline: ANPRPi
 
             consecutive_failures = 0
             backoff = _RECONNECT_MIN_DELAY
+            # A genuine frame arrived -- this reflects real connectivity,
+            # independent of whether it gets past the sampling throttle
+            # below.
+            _set_stream_connected(camera_id, True)
 
             pts_ms = cap.get(cv2.CAP_PROP_POS_MSEC)
             if last_seen_pts_ms is not None and pts_ms > last_seen_pts_ms:

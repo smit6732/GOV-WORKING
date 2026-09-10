@@ -60,6 +60,12 @@ class CameraBase(BaseModel):
     rtsp_url: Optional[str] = None
     onvif_url: Optional[str] = None
     analytics_capabilities: Optional[str] = None
+    # Optional override: a ready-to-use, already-playable HLS URL for this
+    # camera (e.g. an external provider's own CDN-served .m3u8), used
+    # as-is by the Video Wall instead of assuming every camera's HLS is
+    # served through our own MediaMTX. Most cameras leave this null and
+    # get the MediaMTX-derived URL, same as before.
+    hls_url: Optional[str] = None
 
 
 class CameraCreate(CameraBase):
@@ -82,6 +88,7 @@ class CameraUpdate(BaseModel):
     rtsp_url: Optional[str] = None
     onvif_url: Optional[str] = None
     analytics_capabilities: Optional[str] = None
+    hls_url: Optional[str] = None
 
 
 class CameraOut(CameraBase):
@@ -206,7 +213,13 @@ class FeedOut(BaseModel):
     # MediaMTX path name only — the browser builds the actual HLS/WebRTC URL
     # against its own hostname (same convention as any other public port on
     # this stack; the backend doesn't know the browser-facing hostname).
+    # Used only when hls_url below is absent.
     stream_path: str
+    # A ready-to-use, absolute HLS URL, when the camera has one set
+    # (e.g. an external provider's own CDN-served .m3u8) — the Video Wall
+    # uses this directly instead of assuming MediaMTX. Null for cameras
+    # relying on our own MediaMTX relay (the common case).
+    hls_url: Optional[str] = None
     analytics_capabilities: Optional[str] = None
     stream_status: Optional[str] = None  # from ANPR_Standalone's /stream/status, best-effort
 
