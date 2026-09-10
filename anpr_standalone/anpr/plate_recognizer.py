@@ -12,12 +12,23 @@ vehicle_detector.py if you also want vehicle bounding boxes.
 """
 
 import os
+import re
 import threading
 
 import cv2
 import torch
 from paddleocr import PaddleOCR
 from ultralytics import YOLO
+
+# Standard Indian plate shape: 2 letters (state) + 2 digits (RTO code) +
+# 1-2 letters (series) + 4 digits (unique number), e.g. GJ01AB1234. Used
+# only to catch a common OCR confusion -- a digit misread as a
+# similar-looking letter, or vice versa (e.g. "GJ32AG2B83", B instead of
+# 8) -- in reads that are clearly attempting this exact shape. Deliberately
+# scoped to length 9-10 only, so it never rejects other legitimate formats
+# this pipeline also needs to accept (BH-series, military, short
+# commercial plates) that don't fit this pattern.
+_STANDARD_PLATE_RE = re.compile(r"^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_YOLO_PATH = os.path.join(BASE_DIR, "..", "weights", "ANPR_YOLO.pt")
@@ -124,6 +135,15 @@ class PlateRecognizer(metaclass=SingletonType):
         if len(text) < 4 or len(text) > 15:
             return None
         if not any(c.isdigit() for c in text):
+            return None
+
+        # A read that's exactly the length of a standard-format plate
+        # must actually match that shape -- catches the common OCR
+        # confusion of a digit misread as a similar-looking letter (or
+        # vice versa) in the numeric positions. Other lengths (BH-series,
+        # military, short commercial plates) intentionally skip this and
+        # fall through to acceptance above.
+        if len(text) in (9, 10) and not _STANDARD_PLATE_RE.match(text):
             return None
 
         return text

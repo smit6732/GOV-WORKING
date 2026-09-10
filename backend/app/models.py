@@ -135,6 +135,12 @@ class AnprEvent(Base):
     plate_no = Column(String(32), index=True, nullable=True)
     plate_confidence = Column(Float, nullable=True)
     plate_bbox = Column(Text, nullable=True)  # JSON [x1,y1,x2,y2]
+    # Running per-track vote tally across this vehicle's whole pass, JSON
+    # {plate_no: {"count": N, "max_conf": X}} -- plate_no above is always
+    # whichever key currently has the most votes (ties broken by highest
+    # peak confidence), not just whichever single frame scored highest.
+    # See workers/consumer_a.py's _tally_vote/_winning_plate.
+    plate_no_votes = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow, index=True)
 
 

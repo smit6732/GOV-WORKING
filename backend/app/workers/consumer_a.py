@@ -35,14 +35,30 @@ _task: asyncio.Task | None = None
 TRACK_DEDUP_WINDOW = datetime.timedelta(minutes=3)
 
 
-def _better_plate_reading(existing_conf, existing_plate, new_conf, new_plate) -> bool:
-    """True if the new reading should replace what's stored: a plate read
-    where there was none before, or a higher-confidence read of one."""
-    if not existing_plate:
-        return bool(new_plate)
-    if not new_plate:
-        return False
-    return (new_conf or 0) > (existing_conf or 0)
+def _tally_vote(votes: dict, plate_no, confidence) -> dict:
+    """Add one reading to the running per-track vote tally. A no-read
+    (plate_no is None/empty) casts no vote -- it neither wins nor drags
+    down an already-established reading."""
+    if not plate_no:
+        return votes
+    entry = votes.get(plate_no, {"count": 0, "max_conf": 0.0})
+    entry["count"] += 1
+    entry["max_conf"] = max(entry["max_conf"], confidence or 0.0)
+    votes[plate_no] = entry
+    return votes
+
+
+def _winning_plate(votes: dict):
+    """Pick whichever plate_no has the most votes across a vehicle's
+    whole pass so far, tie-broken by highest peak confidence. More
+    robust than trusting whichever single frame scored highest: real
+    per-frame reads on the same vehicle are noisy (e.g. GJ32AG2883 x4,
+    GJ32AG2B83 x1), and a single confidently-wrong frame can otherwise
+    beat several frames that actually agree with each other."""
+    if not votes:
+        return None, None
+    plate_no = max(votes, key=lambda p: (votes[p]["count"], votes[p]["max_conf"]))
+    return plate_no, votes[plate_no]["max_conf"]
 
 
 def _parse_timestamp(raw) -> datetime.datetime:
@@ -79,21 +95,29 @@ async def _handle_event(db_session_factory, event: dict):
 
         is_new_row = existing is None
         if existing is not None:
-            # Same vehicle pass already has a row — overwrite it with a
-            # strictly better plate reading instead of inserting a new row
-            # per frame this vehicle appears in (was: one row per frame).
+            # Same vehicle pass already has a row — add this frame's
+            # reading to its running vote tally instead of inserting a
+            # new row per frame (was: one row per frame; then: keep
+            # whichever single frame scored highest, which one
+            # confidently-wrong outlier frame could still win).
             row = existing
-            if _better_plate_reading(row.plate_confidence, row.plate_no, new_plate_conf, new_plate_no):
-                row.plate_no = new_plate_no
-                row.plate_confidence = new_plate_conf
-                if event.get("plate_bbox"):
-                    row.plate_bbox = json.dumps(event["plate_bbox"])
+            votes = json.loads(row.plate_no_votes) if row.plate_no_votes else {}
+            votes = _tally_vote(votes, new_plate_no, new_plate_conf)
+            winner, winner_conf = _winning_plate(votes)
+
+            row.plate_no_votes = json.dumps(votes) if votes else None
+            row.plate_no = winner
+            row.plate_confidence = winner_conf
+            if event.get("plate_bbox") and new_plate_no == winner:
+                row.plate_bbox = json.dumps(event["plate_bbox"])
             if event.get("vehicle_confidence") is not None:
                 row.vehicle_confidence = event["vehicle_confidence"]
             if event.get("vehicle_bbox"):
                 row.vehicle_bbox = json.dumps(event["vehicle_bbox"])
             row.timestamp = timestamp
         else:
+            votes = _tally_vote({}, new_plate_no, new_plate_conf)
+            winner, winner_conf = _winning_plate(votes)
             row = models.AnprEvent(
                 camera_id=camera_id,
                 event_type=event.get("event_type", "vehicle_detection"),
@@ -102,9 +126,10 @@ async def _handle_event(db_session_factory, event: dict):
                 vehicle_class=event.get("vehicle_class"),
                 vehicle_bbox=json.dumps(event["vehicle_bbox"]) if event.get("vehicle_bbox") else None,
                 vehicle_confidence=event.get("vehicle_confidence"),
-                plate_no=new_plate_no,
-                plate_confidence=new_plate_conf,
+                plate_no=winner,
+                plate_confidence=winner_conf,
                 plate_bbox=json.dumps(event["plate_bbox"]) if event.get("plate_bbox") else None,
+                plate_no_votes=json.dumps(votes) if votes else None,
             )
             db.add(row)
 
