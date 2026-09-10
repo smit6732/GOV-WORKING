@@ -37,12 +37,35 @@ function drawBoxes(ctx, events, scaleX, scaleY) {
   }
 }
 
+// The ANPR service is one CPU-only process shared by this one-shot demo
+// endpoint AND every background camera it's currently tracking -- with a
+// full real-world camera grid running, a plain request here can be starved
+// for a long time (directly reproduced: 30+ seconds against 32 concurrent
+// streams). fetch() has no timeout of its own, so without this the UI used
+// to just sit on "Detecting..." forever with no error at all. Fail loudly
+// and specifically instead.
+const DETECT_TIMEOUT_MS = 20000
+
 async function detectFrame(blob) {
   const form = new FormData()
   form.append('file', blob, 'frame.jpg')
-  const res = await fetch(`${anprBase()}/detect/image`, { method: 'POST', body: form })
-  if (!res.ok) throw new Error(`ANPR service error ${res.status}`)
-  return (await res.json()).events
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), DETECT_TIMEOUT_MS)
+  try {
+    const res = await fetch(`${anprBase()}/detect/image`, { method: 'POST', body: form, signal: controller.signal })
+    if (!res.ok) throw new Error(`ANPR service error ${res.status}`)
+    return (await res.json()).events
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error(
+        `No response after ${DETECT_TIMEOUT_MS / 1000}s -- the ANPR service is likely busy `
+        + 'processing live camera feeds right now. Try again in a moment.'
+      )
+    }
+    throw err
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 // ---------------- Real camera tile (RTSP -> MediaMTX -> HLS) ----------------

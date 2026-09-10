@@ -27,6 +27,21 @@ logger = logging.getLogger("anpr_client")
 # server when many are registered.
 _STREAM_START_STAGGER_SECONDS = 1.5
 
+# Per-camera inference rate for background stream tracking. This is CPU-only
+# YOLOv8 + PaddleOCR inference sharing ONE process with every other camera
+# AND the one-shot /detect/image demo endpoint. Directly reproduced the
+# consequence of the old 2.0 value with a real 32-camera grid running (30
+# Sentinel Grid cameras + 2 local demo feeds): up to 64 inference passes/sec
+# demanded of one CPU-only process, which starved /detect/image so badly a
+# plain request timed out after 30+ seconds -- from the browser, the "My
+# Webcam"/"Upload Photo" Live Demo Panel just sat on "Detecting..." forever
+# with no error (that fetch call has no timeout of its own either -- see
+# VideoWall.jsx). A handful of cameras at 2.0 fps was never the problem;
+# a full real-world grid was. Lower default so a full grid leaves the demo
+# endpoint responsive; a small demo (1-2 cameras) barely notices the
+# difference at either value.
+_DEFAULT_TARGET_FPS = 0.5
+
 # ANPR_Standalone loads YOLOv8 + PaddleOCR at import time, before its
 # uvicorn server starts accepting requests -- this can take well over a
 # minute. The backend has no docker-compose `depends_on` ordering against
@@ -93,7 +108,7 @@ async def start_all_streams(db: Session):
             try:
                 resp = await client.post(
                     f"{settings.anpr_service_url}/stream/start",
-                    json={"camera_id": cam.camera_id, "source": cam.rtsp_url, "target_fps": 2.0},
+                    json={"camera_id": cam.camera_id, "source": cam.rtsp_url, "target_fps": _DEFAULT_TARGET_FPS},
                 )
                 if resp.status_code == 409:
                     logger.info("ANPR stream already running for %s", cam.camera_id)
