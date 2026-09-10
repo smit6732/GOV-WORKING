@@ -4,6 +4,7 @@ Panel calls ANPR_Standalone's /detect/image directly on its exposed port;
 this module is purely server-side "run /stream/start against each
 analytics-capable camera" wiring."""
 
+import asyncio
 import logging
 
 import httpx
@@ -13,6 +14,18 @@ from . import models
 from .config import settings
 
 logger = logging.getLogger("anpr_client")
+
+# Delay between successive /stream/start calls when bringing up many cameras
+# at once (e.g. backend startup with a full 30-camera grid registered). Each
+# call triggers ANPR_Standalone to open a real RTSP connection almost
+# immediately in its background thread, so firing all of them in a tight
+# loop opens dozens of concurrent connections against one real server at
+# once -- exactly what the Sentinel Grid integration spec says not to do,
+# and observed in practice to cause later cameras in the loop to fail to
+# open at all while earlier ones succeed. A small stagger costs nothing for
+# the common case of a couple of demo cameras and avoids hammering a real
+# server when many are registered.
+_STREAM_START_STAGGER_SECONDS = 1.5
 
 
 def _analytics_capable_cameras(db: Session):
@@ -31,7 +44,7 @@ async def start_all_streams(db: Session):
         logger.info("No analytics-capable cameras found; nothing to start on ANPR_Standalone")
         return
     async with httpx.AsyncClient(timeout=10.0) as client:
-        for cam in cameras:
+        for i, cam in enumerate(cameras):
             try:
                 resp = await client.post(
                     f"{settings.anpr_service_url}/stream/start",
@@ -48,6 +61,9 @@ async def start_all_streams(db: Session):
                     logger.info("Started ANPR stream for %s (%s)", cam.camera_id, cam.rtsp_url)
             except httpx.HTTPError as e:
                 logger.warning("ANPR service unreachable while starting %s: %s", cam.camera_id, e)
+
+            if i < len(cameras) - 1:
+                await asyncio.sleep(_STREAM_START_STAGGER_SECONDS)
 
 
 async def get_stream_status() -> list[str]:
