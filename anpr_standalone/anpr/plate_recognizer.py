@@ -25,10 +25,91 @@ from ultralytics import YOLO
 # only to catch a common OCR confusion -- a digit misread as a
 # similar-looking letter, or vice versa (e.g. "GJ32AG2B83", B instead of
 # 8) -- in reads that are clearly attempting this exact shape. Deliberately
-# scoped to length 9-10 only, so it never rejects other legitimate formats
-# this pipeline also needs to accept (BH-series, military, short
-# commercial plates) that don't fit this pattern.
+# scoped to length 9-10-11 only (see _LENGTH_GATED below), so it never
+# rejects other legitimate formats this pipeline also needs to accept
+# (BH-series, military, short commercial plates) that don't fit this
+# pattern.
+#
+# Kept intentionally STRICT (exactly 2 digits for the RTO code, 1-2
+# letters for the series) -- a real-data-driven looser variant
+# ([0-9]{1,2} / [A-Z]{1,3}) was tried and directly confirmed via testing
+# to RE-ACCEPT "GJ0THR1079", one of the original garbled reads this
+# validation exists to reject in the first place. Strictness is the
+# point here, not permissiveness.
 _STANDARD_PLATE_RE = re.compile(r"^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$")
+
+# This pattern can only ever match a 9 or 10 character string (2+2+[1,2]+4).
+# The validation used to only run AT length 9/10 -- meaning an 11-character
+# garbled read (e.g. OCR inserting one spurious character) skipped the
+# check entirely and passed through as if it were fine. Confirmed directly
+# on real Sentinel Grid data: "FGUD1AA6035", "FGUO1AK6035", "F0101AH5035"
+# -- three different 11-character non-plate reads from the same real
+# vehicle within 4 seconds, none caught. Adding 11 to this tuple is safe
+# specifically BECAUSE the pattern above mathematically cannot match
+# length 11 -- every 11-char string gets rejected, with no risk of
+# accidentally loosening what counts as a valid 9/10-length plate.
+_LENGTH_GATED = (9, 10, 11)
+
+# Classic OCR letter/digit look-alike confusions. Used only to CORRECT a
+# read that's already the right LENGTH for the standard shape but fails
+# the strict match by exactly this kind of confusion in one or two
+# positions -- not to rescue arbitrary garbage. A length-11 read is never
+# correctable this way (that's an extra/missing character, not a
+# lookalike substitution) and isn't attempted.
+_LETTER_TO_DIGIT = {"O": "0", "I": "1", "S": "5", "B": "8", "Z": "2"}
+_DIGIT_TO_LETTER = {v: k for k, v in _LETTER_TO_DIGIT.items()}
+# More than this many substitutions in one read is far more likely to be
+# genuine noise than a couple of unlucky character misreads -- don't
+# force-fit real garbage into a plate shape.
+_MAX_CORRECTIONS = 2
+
+
+def _expected_position_types(length):
+    """'L'/'D' per position for the standard plate shape at this length
+    (9 = 1-letter series "LLDDLDDDD", 10 = 2-letter series
+    "LLDDLLDDDD"). None for any other length -- the standard shape only
+    exists at 9 or 10 characters."""
+    if length == 9:
+        return "LLDDLDDDD"
+    if length == 10:
+        return "LLDDLLDDDD"
+    return None
+
+
+def _try_correct_plate(text):
+    """Given a read that _STANDARD_PLATE_RE already rejected, try fixing
+    it via known OCR look-alike confusions in the positions that are the
+    wrong type (a letter where a digit is expected, or vice versa).
+    Returns the corrected string if it now cleanly matches the standard
+    shape within _MAX_CORRECTIONS substitutions, else None (falls back to
+    outright rejection, same as before this existed)."""
+    expected = _expected_position_types(len(text))
+    if expected is None:
+        return None
+
+    corrected = list(text)
+    corrections = 0
+    for i, (ch, want) in enumerate(zip(text, expected)):
+        if want == "L" and not ch.isalpha():
+            if ch not in _DIGIT_TO_LETTER:
+                return None
+            corrected[i] = _DIGIT_TO_LETTER[ch]
+            corrections += 1
+        elif want == "D" and ch.isalpha():
+            if ch not in _LETTER_TO_DIGIT:
+                return None
+            corrected[i] = _LETTER_TO_DIGIT[ch]
+            corrections += 1
+
+    if corrections == 0 or corrections > _MAX_CORRECTIONS:
+        # 0 corrections would mean the original already matched the
+        # standard shape, which means _STANDARD_PLATE_RE would already
+        # have accepted it -- this function is only called after that
+        # check failed, so this is just a defensive no-op guard.
+        return None
+
+    result = "".join(corrected)
+    return result if _STANDARD_PLATE_RE.match(result) else None
 
 # When a plate REGION is detected (the YOLO stage succeeds) but no plate_no
 # ends up on the event, the cause could be any of: PaddleOCR's own text
@@ -99,6 +180,30 @@ class PlateRecognizer(metaclass=SingletonType):
             use_doc_unwarping=False,
         )
 
+        # A second, more accurate but slower OCR instance, used ONLY for
+        # the zoom-rescan pass (pipeline.py's _zoomed_plate_for_vehicle) --
+        # not the routine per-frame pass. PP-OCRv6 (above) tops out at its
+        # "medium" tier; there is no PP-OCRv6 "server" tier. PP-OCRv5 does
+        # have one, and it's a genuinely more capable model, confirmed via
+        # a controlled side-by-side test on identical synthetic input:
+        # v6_medium misread "GJ01AB1234" as "GJO1AB1234" (0/O confusion)
+        # in 0.39s; v5_server read it perfectly correct in 0.90s (~2.3x
+        # slower). Given real, hard-won CPU-contention problems this
+        # session (32 concurrent streams starving even trivial requests),
+        # unconditionally swapping every OCR call to the slower model
+        # isn't worth the risk -- but the zoom-rescan pass already only
+        # runs on crops the fast pass struggled with (missing/low-
+        # confidence/blurry), a small fraction of total frames, which is
+        # exactly where paying more for a better read is worth it.
+        self.ocr_precise = PaddleOCR(
+            use_textline_orientation=True,
+            text_detection_model_name="PP-OCRv5_server_det",
+            text_recognition_model_name="PP-OCRv5_server_rec",
+            enable_mkldnn=False,
+            use_doc_orientation_classify=False,
+            use_doc_unwarping=False,
+        )
+
     # ---------------------------------------------------------------
     def _preprocess_plate(self, crop):
         """Upscale a small plate crop; otherwise hand PaddleOCR the crop as-is.
@@ -141,25 +246,43 @@ class PlateRecognizer(metaclass=SingletonType):
 
         text = text.strip().replace(" ", "").replace("-", "").replace("_", "").upper()
 
+        # A real plate is only ever A-Z/0-9 -- unlike the length-specific
+        # format checks below (which intentionally skip non-standard
+        # lengths to avoid rejecting BH-series/military/commercial
+        # plates), this rule holds at EVERY length and every known
+        # format, so it's safe to apply unconditionally. Confirmed
+        # directly on real Sentinel Grid data: a garbled OCR read
+        # containing a literal "⊙" symbol was passing straight through
+        # (length 8, outside the 9/10/11 format-checked range).
+        if not re.fullmatch(r"[A-Z0-9]+", text):
+            return None
+
         # Plates are typically 4-15 characters; must contain a digit.
         if len(text) < 4 or len(text) > 15:
             return None
         if not any(c.isdigit() for c in text):
             return None
 
-        # A read that's exactly the length of a standard-format plate
-        # must actually match that shape -- catches the common OCR
-        # confusion of a digit misread as a similar-looking letter (or
-        # vice versa) in the numeric positions. Other lengths (BH-series,
-        # military, short commercial plates) intentionally skip this and
-        # fall through to acceptance above.
-        if len(text) in (9, 10) and not _STANDARD_PLATE_RE.match(text):
-            return None
+        # A read at a length the standard format could plausibly produce
+        # must actually match that shape -- catches both a digit/letter
+        # OCR confusion within a 9/10-length read AND a spurious extra
+        # character making it 11 (see _LENGTH_GATED above -- 11 is
+        # unconditionally rejected, since the pattern can never match
+        # that length anyway). Other lengths (BH-series, military, short
+        # commercial plates) intentionally skip this and fall through to
+        # acceptance above.
+        if len(text) in _LENGTH_GATED and not _STANDARD_PLATE_RE.match(text):
+            corrected = _try_correct_plate(text)
+            if corrected is None:
+                return None
+            if _OCR_DEBUG:
+                print(f"[ocr-debug] corrected '{text}' -> '{corrected}' (lookalike-character fix)")
+            text = corrected
 
         return text
 
     # ---------------------------------------------------------------
-    def _apply_ocr(self, crop):
+    def _apply_ocr(self, crop, precise: bool = False):
         """Run OCR on a plate crop and return the cleaned plate text (or None).
 
         Indian plates are sometimes two-line (motorcycles especially: e.g.
@@ -168,6 +291,10 @@ class PlateRecognizer(metaclass=SingletonType):
         detection box and join them, rather than keeping only the first
         fragment, so a two-line plate reads as one string instead of
         silently losing every row but one.
+
+        precise=True uses the slower, more accurate PP-OCRv5_server model
+        (self.ocr_precise) instead of the routine PP-OCRv6_medium one --
+        only the zoom-rescan pass sets this, not the per-frame default.
         """
         if crop is None or crop.size == 0:
             return None
@@ -178,7 +305,8 @@ class PlateRecognizer(metaclass=SingletonType):
                 return None
             crop_dim = f"{processed.shape[1]}x{processed.shape[0]}"
 
-            result = self.ocr.ocr(processed)
+            ocr_engine = self.ocr_precise if precise else self.ocr
+            result = ocr_engine.ocr(processed)
             if not result or not result[0]:
                 if _OCR_DEBUG:
                     print(f"[ocr-debug] crop={crop_dim} -> PaddleOCR returned no result at all")
@@ -213,9 +341,14 @@ class PlateRecognizer(metaclass=SingletonType):
             return None
 
     # ---------------------------------------------------------------
-    def predict(self, frame):
+    def predict(self, frame, precise: bool = False):
         """
         Detect every plate in `frame` and OCR each one.
+
+        precise=True uses the slower, more accurate OCR model for every
+        detection found -- intended for the zoom-rescan pass (a small
+        cropped/upscaled region, not a full frame), not the routine
+        per-frame call.
 
         Returns:
             {
@@ -265,7 +398,7 @@ class PlateRecognizer(metaclass=SingletonType):
             if crop.size == 0:
                 continue
 
-            plate_no = self._apply_ocr(crop)
+            plate_no = self._apply_ocr(crop, precise=precise)
             class_id = int(box.cls[0])
 
             detections.append({

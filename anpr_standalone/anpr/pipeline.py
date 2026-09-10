@@ -151,7 +151,11 @@ class ANPRPipeline:
         if scale > 1.0:
             crop = cv2.resize(crop, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
 
-        detections = self.plate_recognizer.predict(crop)["detections"]
+        # precise=True: this is already the "spend extra effort" pass --
+        # a small fraction of total frames, exactly where the slower but
+        # more accurate OCR model (see plate_recognizer.py's ocr_precise)
+        # is worth its cost.
+        detections = self.plate_recognizer.predict(crop, precise=True)["detections"]
         if not detections:
             return None
 
