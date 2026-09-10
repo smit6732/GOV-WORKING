@@ -103,6 +103,9 @@ function CameraTile({ feed }) {
       </div>
       <div className="p-2 text-xs space-y-1">
         <div className="font-semibold">{feed.camera_id}</div>
+        {feed.nearest_station && (
+          <div className="text-slate-600 truncate" title={feed.nearest_station}>{feed.nearest_station}</div>
+        )}
         <div className="text-slate-500">{feed.district} · {feed.department}</div>
         <div className="flex items-center gap-1.5">
           <span
