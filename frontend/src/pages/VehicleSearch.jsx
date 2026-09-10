@@ -52,8 +52,8 @@ export default function VehicleSearch() {
     }
   }
 
-  const points = (history || []).filter((h) => h.latitude != null && h.longitude != null)
-  const polyline = points.map((p) => [p.latitude, p.longitude])
+  const points = (history?.points || []).filter((h) => h.latitude != null && h.longitude != null)
+  const segments = history?.segments || []
 
   return (
     <div className="space-y-3">
@@ -138,12 +138,38 @@ export default function VehicleSearch() {
 
       {activePlate && (
         <Card className="p-0 overflow-hidden" style={{ height: '60vh' }}>
-          <div className="p-2 text-sm font-semibold border-b">
-            Movement history — {activePlate} ({points.length} located detection{points.length === 1 ? '' : 's'})
+          <div className="p-2 border-b flex flex-wrap items-center justify-between gap-2 bg-slate-50">
+            <div className="text-sm font-semibold">
+              Movement history — {activePlate} ({points.length} located detection{points.length === 1 ? '' : 's'})
+            </div>
+            {segments.length > 0 && (
+              <span
+                className="text-xs bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded font-medium cursor-help"
+                title="Calculated using a public road-routing service; the actual path the vehicle took between camera checkpoints may vary."
+              >
+                📍 Suggested probable route between detections
+              </span>
+            )}
           </div>
-          <div style={{ height: 'calc(100% - 36px)' }}>
+          <div style={{ height: 'calc(100% - 42px)' }}>
             <MapBase height="100%">
-              {polyline.length > 1 && <Polyline positions={polyline} pathOptions={{ color: '#2563eb', weight: 3 }} />}
+              {segments.map((seg, i) => (
+                <Polyline
+                  key={i}
+                  positions={seg.coordinates}
+                  pathOptions={
+                    seg.route_type === 'road_path'
+                      ? { color: '#2563eb', weight: 4, opacity: 0.85 }
+                      : { color: '#64748b', weight: 3, dashArray: '6, 8', opacity: 0.7 }
+                  }
+                />
+              ))}
+              {segments.length === 0 && points.length > 1 && (
+                <Polyline
+                  positions={points.map((p) => [p.latitude, p.longitude])}
+                  pathOptions={{ color: '#2563eb', weight: 3, opacity: 0.85 }}
+                />
+              )}
               {points.map((p, i) => (
                 <CircleMarker
                   key={p.event_id}

@@ -250,6 +250,21 @@ class VehicleHistoryPoint(BaseModel):
     track_id: Optional[int] = None
 
 
+class RouteSegment(BaseModel):
+    from_camera_id: str
+    to_camera_id: str
+    route_type: str  # "road_path" (real routing) or "straight_fallback"
+    coordinates: List[List[float]]  # [lat, lon] pairs, ready for a Leaflet Polyline
+    distance_meters: Optional[float] = None
+    duration_seconds: Optional[float] = None
+
+
+class VehicleHistoryResponse(BaseModel):
+    plate_no: str
+    points: List[VehicleHistoryPoint]
+    segments: List[RouteSegment]
+
+
 class TaggedPlateCreate(BaseModel):
     plate_no: str = Field(min_length=2, max_length=32)
     reason: Optional[str] = None
