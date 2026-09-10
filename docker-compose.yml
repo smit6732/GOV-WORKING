@@ -129,6 +129,8 @@ services:
       # Off by default: useful for accuracy investigations, noisy for
       # normal operation.
       ANPR_OCR_DEBUG: "0"
+    volumes:
+      - ./test_data:/app/test_data
     depends_on:
       - kafka
       - mediamtx

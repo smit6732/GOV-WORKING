@@ -15,3 +15,13 @@ frontend/dist/
 # fallback file from running ANPR_Standalone standalone (no Kafka).
 media/*.mp4
 anpr_standalone/anpr_events.jsonl
+
+# Local batch-accuracy-test images/videos (see test_data/README.md)
+test_data/*.jpg
+test_data/*.jpeg
+test_data/*.png
+test_data/*.bmp
+test_data/*.mp4
+test_data/*.avi
+test_data/*.mkv
+test_data/*.mov
