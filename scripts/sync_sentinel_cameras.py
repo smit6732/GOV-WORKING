@@ -134,19 +134,38 @@ def fetch_catalogue() -> list:
     return cameras
 
 
+def _clean_location_name(raw: str) -> str:
+    """Confirmed real shape from /cameras.json (a lighter UI-list helper,
+    not necessarily the same endpoint as /api/ingest): {"id": "cam01",
+    "name": "01 Chiman bhai Bridge"} -- strip the leading ordinal number
+    Sentinel prefixes onto its own display name, we don't need it."""
+    parts = raw.strip().split(" ", 1)
+    if len(parts) == 2 and parts[0].isdigit():
+        return parts[1]
+    return raw.strip()
+
+
 def map_camera(record: dict):
     """Maps one Sentinel catalogue record into our CameraCreate/update
-    shape. *** Adjust the _first(...) key guesses below once --discover
-    has shown a real record. ***"""
-    cam_id = _first(record, "id", "camera_id", "stream_id", "streamId")
-    if not cam_id:
+    shape. Confirmed real minimal shape (from /cameras.json): just
+    {"id", "name"} -- no coordinates, live status, codec, or URLs. The
+    _first(...) guesses below are kept in case /api/ingest specifically
+    (the endpoint the resource page actually documents) turns out to
+    return the richer shape it promises; if not, we fall back to
+    constructing URLs from the documented pattern."""
+    url_id = _first(record, "id", "camera_id", "stream_id", "streamId")
+    if not url_id:
         print(f"[sentinel-sync] Skipping record with no id -- raw: {record}")
         return None
+    url_id = str(url_id)  # ORIGINAL case -- URL paths are case-sensitive, keep as-is here.
 
-    # The resource page documents the URL shapes even where the exact
-    # JSON key names aren't published -- fall back to constructing them
-    # from cam_id if the catalogue doesn't hand back a ready URL under
-    # any of the guessed keys.
+    # Confirmed real catalogue ids are lowercase ("cam01"), but our
+    # already-registered cameras use uppercase ("SENTINEL-CAM01", set by
+    # register_sentinel_cameras.py). Only OUR camera_id gets normalized;
+    # url_id (above) stays whatever case the catalogue actually uses, so
+    # constructed URLs still point at the real path.
+    cam_id = url_id.upper()
+
     rtsp_url = _first(record, "rtsp_url", "rtsp", "rtspUrl")
     if not rtsp_url and isinstance(record.get("urls"), dict):
         rtsp_url = record["urls"].get("rtsp")
@@ -155,7 +174,8 @@ def map_camera(record: dict):
     if not hls_url and isinstance(record.get("urls"), dict):
         hls_url = record["urls"].get("hls")
     if not hls_url and SENTINEL_BASE_URL:
-        hls_url = f"{SENTINEL_BASE_URL}/live/stream/{cam_id}/index.m3u8"
+        # Documented pattern from the resource page's protocol table.
+        hls_url = f"{SENTINEL_BASE_URL}/live/stream/{url_id}/index.m3u8"
 
     whep_url = _first(record, "whep_url", "whep", "webrtc_url")
     if not whep_url and isinstance(record.get("urls"), dict):
@@ -163,7 +183,8 @@ def map_camera(record: dict):
 
     lat = _first(record, "latitude", "lat")
     lon = _first(record, "longitude", "lon", "lng")
-    location = _first(record, "location", "name", "label", default="")
+    raw_name = _first(record, "location", "name", "label", default="")
+    location = _clean_location_name(str(raw_name)) if raw_name else ""
     codec = _first(record, "codec", "video_codec", default="")
     live = _is_live(_first(record, "live", "live_status", "status"))
 
@@ -171,7 +192,7 @@ def map_camera(record: dict):
         "camera_id": f"{CAMERA_ID_PREFIX}{cam_id}",
         "district": DEFAULT_DISTRICT,
         "department": DEFAULT_DEPARTMENT,
-        "nearest_station": str(location)[:255] if location else "Sentinel Grid",
+        "nearest_station": location[:255] if location else "Sentinel Grid",
         "camera_type": DEFAULT_CAMERA_TYPE,
         "vendor": "Sentinel Sandbox",
         "ownership": "Government",
@@ -222,9 +243,12 @@ def register_camera(token: str, payload: dict) -> bool:
     return False
 
 
-def update_camera_hls(token: str, existing_id: int, camera_id: str, hls_url: str) -> bool:
+GENERIC_STATION_PLACEHOLDER = "Sentinel Grid"  # what register_sentinel_cameras.py sets by default
+
+
+def update_camera_fields(token: str, existing_id: int, camera_id: str, fields: dict) -> bool:
     resp = httpx.put(
-        f"{MODEL1_API_URL}/cameras/{existing_id}", json={"hls_url": hls_url},
+        f"{MODEL1_API_URL}/cameras/{existing_id}", json=fields,
         headers={"Authorization": f"Bearer {token}"}, timeout=15.0,
     )
     if resp.status_code == 200:
@@ -272,11 +296,22 @@ def main():
                 registered += 1
             continue
 
-        # Already registered -- only fill in hls_url if it's currently
-        # empty, and only if the catalogue actually gave us one. Never
-        # touch rtsp_url here: ours is already proven working.
+        # Already registered -- fill in hls_url if currently empty, and
+        # replace the generic "Sentinel Grid" nearest_station placeholder
+        # with the catalogue's real location name if we have one better.
+        # Never touch rtsp_url here: ours is already proven working.
+        update_fields = {}
         if not existing_row.get("hls_url") and payload.get("hls_url"):
-            if update_camera_hls(token, existing_row["id"], cam_id, payload["hls_url"]):
+            update_fields["hls_url"] = payload["hls_url"]
+        if (
+            existing_row.get("nearest_station") == GENERIC_STATION_PLACEHOLDER
+            and payload.get("nearest_station")
+            and payload["nearest_station"] != GENERIC_STATION_PLACEHOLDER
+        ):
+            update_fields["nearest_station"] = payload["nearest_station"]
+
+        if update_fields:
+            if update_camera_fields(token, existing_row["id"], cam_id, update_fields):
                 updated += 1
                 continue
         skipped += 1
