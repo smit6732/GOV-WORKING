@@ -180,6 +180,20 @@ def stop_stream(req: StopStreamRequest):
     return {"status": "stopping", "camera_id": req.camera_id}
 
 
+@app.post("/stream/stop_all")
+def stop_all_streams():
+    """Stop every currently-tracked stream at once — daily-testing
+    convenience so stopping doesn't mean calling /stream/stop once per
+    camera by hand (there was previously no bulk-stop capability at all,
+    only this one-at-a-time endpoint)."""
+    with _streams_lock:
+        entries = dict(_active_streams)
+        _active_streams.clear()
+    for entry in entries.values():
+        entry["stop_flag"].set()
+    return {"status": "stopping", "camera_ids": list(entries.keys()), "count": len(entries)}
+
+
 @app.get("/stream/status")
 def stream_status():
     with _streams_lock:
